@@ -1,392 +1,331 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-// 导入默认头像
-import defaultAvatar from '../../assets/images/default-avatar.png';
-import './PersonalSpace.css'; // 确保引入样式文件
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import './PersonalSpace.css';
 
-// Emby 服务器配置
-const EMBY_SERVER = 'http://192.168.3.100:8096';
-const EMBY_API_KEY = 'f879cbe6802545268f1d0cba84dfe8e7';
-
-// Emby 服务
-const embyService = {
-  // 获取电影列表
-  getMovies: async () => {
-    try {
-      const response = await axios.get(`${EMBY_SERVER}/Items`, {
-        params: {
-          IncludeItemTypes: 'Movie',
-          Recursive: true,
-          Fields: 'Overview,Path,MediaSources',
-          api_key: EMBY_API_KEY
-        }
-      });
-
-      return response.data.Items.map(movie => ({
-        id: movie.Id,
-        title: movie.Name,
-        cover: `${EMBY_SERVER}/Items/${movie.Id}/Images/Primary?api_key=${EMBY_API_KEY}`,
-        description: movie.Overview || '暂无简介',
-        videoUrl: `${EMBY_SERVER}/Videos/${movie.Id}/stream?api_key=${EMBY_API_KEY}&Static=true`,
-        duration: movie.RunTimeTicks ? movie.RunTimeTicks / 10000000 : 7200
-      }));
-    } catch (error) {
-      console.error('Error fetching Emby movies:', error);
-      return [];
-    }
-  }
-};
-
-const PersonalSpace = () => {
-  const { user } = useSelector((state) => state.auth);
-  const [currentMovie, setCurrentMovie] = useState(null);
-  const [nextMovie, setNextMovie] = useState(null);
-  const [showingTime, setShowingTime] = useState('');
-  const [moviesList, setMoviesList] = useState([]);
-  const [schedule, setSchedule] = useState([]);
-  const videoRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
+// 将放映室提取为独立组件
+const VideoPlayer = ({ videos, currentVideoIndex, setCurrentVideoIndex, isPlaying, setIsPlaying, handleVideoEnd }) => {
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [volume, setVolume] = useState(0);
-  const [isMuted, setIsMuted] = useState(true);
-  const containerRef = useRef(null);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef(null);
+  const playerRef = useRef(null);
 
-  // 获取电影列表
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const movies = await embyService.getMovies();
-        setMoviesList(movies);
-        if (movies.length > 0) {
-          const scheduleList = generateSchedule(movies);
-          setSchedule(scheduleList);
-          
-          const currentSchedule = scheduleList.find(item => item.isCurrentlyPlaying);
-          if (currentSchedule) {
-            setCurrentMovie(currentSchedule.movie);
-            const nextSchedule = scheduleList[scheduleList.indexOf(currentSchedule) + 1] || scheduleList[0];
-            setNextMovie(nextSchedule.movie);
-            setShowingTime(`${currentSchedule.startTime.toLocaleTimeString()} - ${currentSchedule.endTime.toLocaleTimeString()}`);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to fetch movies:', error);
-      }
-    };
-    fetchMovies();
-  }, []);
-
-  // 视频播放控制
-  useEffect(() => {
-    if (!currentMovie || !videoRef.current) return;
-
-    const video = videoRef.current;
-    
-    // 添加 timestamp 参数来避免浏览器缓存
-    const videoUrl = new URL(currentMovie.videoUrl);
-    videoUrl.searchParams.append('_t', Date.now());
-    
-    video.src = videoUrl.toString();
-    video.load();
-
-    const handleMetadata = () => {
-      const currentScheduleItem = schedule.find(item => item.isCurrentlyPlaying);
-      if (currentScheduleItem) {
-        const now = new Date();
-        const progress = (now - currentScheduleItem.startTime) / 
-                       (currentScheduleItem.endTime - currentScheduleItem.startTime);
-        video.currentTime = video.duration * progress;
-      }
-      
-      // 检查视频是否已经在播放
-      if (video.paused) {
-        video.play().catch(error => {
-          console.error('Playback error:', error);
-        });
-      }
-    };
-
-    video.addEventListener('loadedmetadata', handleMetadata);
-
-    return () => {
-      video.removeEventListener('loadedmetadata', handleMetadata);
-      video.pause();
-      video.removeAttribute('src');
-      video.load();
-    };
-  }, [currentMovie, schedule]);
-
-  // 更新页面标题，避免显示加载状态
-  useEffect(() => {
-    const originalTitle = document.title;
-    const observer = new MutationObserver(() => {
-      if (document.title !== originalTitle) {
-        document.title = originalTitle;
-      }
-    });
-
-    observer.observe(document.querySelector('title'), {
-      childList: true,
-      characterData: true,
-      subtree: true
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  // 添加自动点击取消加载的逻辑
-  useEffect(() => {
-    const cancelLoading = () => {
-      // 模拟点击 ESC 键
-      const escKeyEvent = new KeyboardEvent('keydown', {
-        key: 'Escape',
-        code: 'Escape',
-        keyCode: 27,
-        which: 27,
-        bubbles: true,
-        cancelable: true
-      });
-      document.dispatchEvent(escKeyEvent);
-    };
-
-    // 定期检查并取消加载状态
-    const intervalId = setInterval(cancelLoading, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  // 生成排片表
-  const generateSchedule = (movies) => {
-    if (!movies.length) return [];
-    
-    const scheduleList = [];
-    const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    let currentTime = startOfDay;
-    let movieIndex = 0;
-    
-    while (currentTime < new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000)) {
-      const movie = movies[movieIndex];
-      const endTime = new Date(currentTime.getTime() + movie.duration * 1000);
-      
-      scheduleList.push({
-        movie,
-        startTime: new Date(currentTime),
-        endTime,
-        isCurrentlyPlaying: now >= currentTime && now < endTime
-      });
-      
-      currentTime = endTime;
-      movieIndex = (movieIndex + 1) % movies.length;
-    }
-    
-    return scheduleList;
-  };
-
-  // 添加全屏处理函数
-  const handleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen().catch(err => {
-        console.error(`全屏错误: ${err.message}`);
-      });
-    } else {
-      document.exitFullscreen();
-    }
-  };
-
-  // 监听全屏状态变化
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-  }, []);
-
-  // 处理音量变化
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
     if (videoRef.current) {
       videoRef.current.volume = newVolume;
-      setIsMuted(newVolume === 0);
-      videoRef.current.muted = newVolume === 0;
     }
+    setIsMuted(newVolume === 0);
   };
 
-  // 处理静音切换
-  const handleMuteToggle = () => {
+  const toggleMute = () => {
     if (videoRef.current) {
       const newMutedState = !isMuted;
       setIsMuted(newMutedState);
-      videoRef.current.muted = newMutedState;
-      if (!newMutedState && volume === 0) {
-        const newVolume = 0.5;
-        setVolume(newVolume);
-        videoRef.current.volume = newVolume;
-      }
+      videoRef.current.volume = newMutedState ? 0 : volume;
     }
   };
 
-  // 初始化音量状态
-  useEffect(() => {
-    if (videoRef.current) {
-      setVolume(videoRef.current.volume);
-      setIsMuted(videoRef.current.muted);
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      playerRef.current.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
     }
-  }, []);
-
-  // 格式化时间的辅助函数
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
   return (
-    <div className="container">
-      <div className="profile-section">
-        <h2>个人信息</h2>
-        <div className="profile-info">
-          <img 
-            src={user?.avatar || defaultAvatar} 
-            alt="头像" 
-            className="avatar"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = defaultAvatar;
+    <div className="video-player" ref={playerRef}>
+      <video
+        ref={videoRef}
+        src={videos[currentVideoIndex].url}
+        className="video-element"
+        autoPlay={isPlaying}
+        onEnded={handleVideoEnd}
+      />
+      <div className="video-controls">
+        <div className="controls-left">
+          <button className="control-btn play-btn" onClick={() => setIsPlaying(!isPlaying)}>
+            {isPlaying ? '⏸' : '▶'}
+          </button>
+        </div>
+        
+        <div className="controls-center">
+          <button 
+            className="control-btn prev-btn"
+            onClick={() => {
+              setCurrentVideoIndex((prev) => 
+                prev === 0 ? videos.length - 1 : prev - 1
+              );
             }}
-          />
-          <div className="info">
-            <p>用户名：{user?.username || '访客'}</p>
-            <p>邮箱：{user?.email || '未设置'}</p>
+          >
+            ⏮
+          </button>
+          <button 
+            className="control-btn next-btn"
+            onClick={() => {
+              setCurrentVideoIndex((prev) => 
+                (prev + 1) % videos.length
+              );
+            }}
+          >
+            ⏭
+          </button>
+        </div>
+
+        <div className="controls-right">
+          <div className="volume-control">
+            <button className="control-btn volume-btn" onClick={toggleMute}>
+              {isMuted ? '🔇' : volume <= 0.3 ? '🔈' : volume <= 0.7 ? '🔉' : '🔊'}
+            </button>
+            <input
+              type="range"
+              className="volume-slider"
+              min="0"
+              max="1"
+              step="0.1"
+              value={isMuted ? 0 : volume}
+              onChange={handleVolumeChange}
+            />
           </div>
+          <button className="control-btn fullscreen-btn" onClick={toggleFullscreen}>
+            {isFullscreen ? '⊙' : '⛶'}
+          </button>
         </div>
       </div>
+    </div>
+  );
+};
 
-      <div className="movie-section">
-        <h2>放映室</h2>
-        {currentMovie && (
-          <>
-            <div className="current-movie">
-              <h3>正在播放：{currentMovie.title}</h3>
-              <p>放映时间：{showingTime}</p>
-            </div>
-            <div 
-              className="projector-container" 
-              onMouseEnter={() => setIsHovered(true)} 
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              <video
-                ref={videoRef}
-                className="video-player"
-                playsInline
-                autoPlay
-                muted
-                controlsList="nodownload noremoteplayback"
-                onTimeUpdate={(e) => {
-                  const video = e.target;
-                  const currentScheduleItem = schedule.find(item => item.isCurrentlyPlaying);
-                  if (currentScheduleItem) {
-                    const now = new Date();
-                    const progress = (now - currentScheduleItem.startTime) / 
-                                   (currentScheduleItem.endTime - currentScheduleItem.startTime);
-                    const expectedTime = video.duration * progress;
-                    
-                    if (Math.abs(video.currentTime - expectedTime) > 5) {
-                      video.currentTime = expectedTime;
-                    }
-                    
-                    setProgress((video.currentTime / video.duration) * 100);
-                    setCurrentTime(video.currentTime);
-                  }
-                }}
-                onLoadedMetadata={(e) => {
-                  setDuration(e.target.duration);
-                }}
-                onPause={(e) => {
-                  e.preventDefault();
-                  e.target.play();
-                }}
-                onVolumeChange={(e) => {
-                  const video = e.target;
-                  setVolume(video.volume);
-                  setIsMuted(video.muted);
-                }}
-              />
-              <div className="custom-controls">
-                <div className="controls-row">
-                  <div className="volume-control">
-                    <button 
-                      className={`control-button volume-button ${isMuted ? 'muted' : ''}`}
-                      onClick={handleMuteToggle}
-                      title={isMuted ? '取消静音' : '静音'}
-                    />
-                    <div className="volume-slider-wrapper">
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        value={volume}
-                        onChange={handleVolumeChange}
-                        className="volume-slider"
-                        title="音量"
-                        orient="vertical"
-                      />
-                    </div>
-                  </div>
-                  <div className="time-display">
-                    {formatTime(currentTime)} / {formatTime(duration)}
-                  </div>
-                  <button 
-                    className="control-button fullscreen-button"
-                    onClick={handleFullscreen}
-                    title={isFullscreen ? '退出全屏' : '全屏'}
-                  />
-                </div>
-                <div className={`custom-progress ${isHovered ? 'visible' : ''}`}>
-                  <div 
-                    className="progress-bar"
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
+const PersonalSpace = () => {
+  const [weather, setWeather] = useState('sunny');
+  const [timeOfDay, setTimeOfDay] = useState('day');
+  const [particles, setParticles] = useState([]);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // 生成粒子效果
+  const generateParticles = useCallback(() => {
+    const newParticles = Array(50).fill(null).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      speed: Math.random() * 2 + 1
+    }));
+    setParticles(newParticles);
+  }, []);
+
+  useEffect(() => {
+    generateParticles();
+    const interval = setInterval(generateParticles, 3000);
+    return () => clearInterval(interval);
+  }, [generateParticles]);
+
+  // 视频列表
+  const videos = [
+    { id: 1, url: "video1.mp4", title: "回忆1" },
+    { id: 2, url: "video2.mp4", title: "回忆2" },
+    { id: 3, url: "video3.mp4", title: "回忆3" },
+    // ... 更多视频
+  ];
+
+  // 处理视频结束
+  const handleVideoEnd = useCallback(() => {
+    setCurrentVideoIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % videos.length;
+      return nextIndex;
+    });
+    setIsPlaying(true); // 确保下一个视频自动播放
+  }, [videos.length]);
+
+  return (
+    <div className={`personal-space ${weather} ${timeOfDay}`}>
+      <div className="scene-wrapper">
+        {/* 粒子效果 */}
+        <div className="particles-container">
+          {particles.map(particle => (
+            <div
+              key={particle.id}
+              className="particle"
+              style={{
+                '--x': `${particle.x}%`,
+                '--y': `${particle.y}%`,
+                '--size': `${particle.size}px`,
+                '--speed': `${particle.speed}s`
+              }}
+            />
+          ))}
+        </div>
+
+        {/* 天空层 */}
+        <div className="sky-container">
+          <div className="celestial-body">
+            {timeOfDay === 'night' ? (
+              <div className="moon">
+                <div className="moon-crater" />
+                <div className="moon-crater" />
+                <div className="moon-crater" />
               </div>
+            ) : (
+              <div className="sun">
+                <div className="sun-rays" />
+              </div>
+            )}
+          </div>
+          
+          {/* 改进的天气效果 */}
+          {weather === 'rainy' && (
+            <div className="rain-container">
+              {Array(20).fill(null).map((_, i) => (
+                <div key={i} className="raindrop" style={{ '--delay': `${i * 0.1}s` }} />
+              ))}
             </div>
-          </>
-        )}
-        
-        <div className="schedule-section">
-          <h3>今日排片表</h3>
-          <div className="schedule-list">
-            {schedule.map((item, index) => (
-              <div 
-                key={`${item.movie.id}-${index}`} 
-                className={`schedule-item ${item.isCurrentlyPlaying ? 'playing' : ''}`}
-              >
-                <img 
-                  src={item.movie.cover} 
-                  alt={item.movie.title} 
-                  className="schedule-movie-cover"
+          )}
+          {weather === 'snowy' && (
+            <div className="snow-container">
+              {Array(30).fill(null).map((_, i) => (
+                <div key={i} className="snowflake" style={{ '--delay': `${i * 0.2}s` }} />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* 魔法树 */}
+        <div className="magical-tree-container">
+          <svg className="tree-svg" viewBox="0 0 400 600">
+            {/* 树干纹理 */}
+            <defs>
+              <pattern id="barkPattern" patternUnits="userSpaceOnUse" width="20" height="20">
+                <path d="M0 0 Q10 10 20 0 Q10 20 0 20" fill="none" stroke="#4a3728" strokeWidth="1" />
+              </pattern>
+            </defs>
+            
+            {/* 主干 */}
+            <path 
+              className="tree-trunk"
+              d="M180 550 C200 400 220 300 200 150"
+              fill="url(#barkPattern)"
+              stroke="#5d3a1a"
+              strokeWidth="40"
+            />
+            
+            {/* 树枝系统 */}
+            {Array(8).fill(null).map((_, i) => (
+              <path
+                key={i}
+                className={`tree-branch branch-${i}`}
+                d={`M${200 + Math.cos(i * Math.PI / 4) * 50} ${300 - i * 30} 
+                   Q${200 + Math.cos(i * Math.PI / 4) * 100} ${280 - i * 30} 
+                   ${200 + Math.cos(i * Math.PI / 4) * 150} ${300 - i * 20}`}
+                fill="none"
+                stroke="#8b4513"
+                strokeWidth={15 - i}
+              />
+            ))}
+            
+            {/* 树叶群 */}
+            <g className="tree-leaves">
+              {Array(12).fill(null).map((_, i) => (
+                <circle
+                  key={i}
+                  className={`leaf-cluster-${i}`}
+                  cx={200 + Math.cos(i * Math.PI / 6) * 80}
+                  cy={150 + Math.sin(i * Math.PI / 6) * 80}
+                  r={40 + Math.random() * 20}
+                  fill={`hsl(${110 + Math.random() * 20}, ${60 + Math.random() * 20}%, ${30 + Math.random() * 20}%)`}
                 />
-                <div className="schedule-info">
-                  <h4>{item.movie.title}</h4>
-                  <p className="schedule-time">
-                    {item.startTime.toLocaleTimeString()} - {item.endTime.toLocaleTimeString()}
-                  </p>
-                  {item.isCurrentlyPlaying && (
-                    <span className="now-playing-badge">正在放映</span>
-                  )}
+              ))}
+            </g>
+          </svg>
+          
+          {/* 果实容器 */}
+          <div className="fruits-container">
+            {[
+              { 
+                id: 'photo-album', 
+                icon: '📸', 
+                label: '时光相册', 
+                color: '#ff6b6b',
+                content: (
+                  <VideoPlayer
+                    videos={videos}
+                    currentVideoIndex={currentVideoIndex}
+                    setCurrentVideoIndex={setCurrentVideoIndex}
+                    isPlaying={isPlaying}
+                    setIsPlaying={setIsPlaying}
+                    handleVideoEnd={handleVideoEnd}
+                  />
+                )
+              },
+              { id: 'timeline', icon: '⏳', label: '时光轴', color: '#4ecdc4' },
+              { id: 'collections', icon: '⭐', label: '收藏夹', color: '#ffe66d' },
+              { id: 'creations', icon: '✍️', label: '创作', color: '#6c5ce7' },
+              { id: 'knowledge', icon: '📚', label: '知识库', color: '#a8e6cf' }
+            ].map((feature, index) => (
+              <div 
+                key={feature.id}
+                className={`feature-fruit ${feature.id}`}
+                style={{
+                  '--index': index,
+                  '--total': 5,
+                  '--fruit-color': feature.color
+                }}
+              >
+                <div className="fruit-inner">
+                  <div className="fruit-glow" />
+                  <div className="fruit-content">
+                    <div className="fruit-icon">{feature.icon}</div>
+                    <span className="fruit-label">{feature.label}</span>
+                    {feature.content} {/* 渲染放映室内容 */}
+                  </div>
+                  <div className="fruit-particles">
+                    {Array(5).fill(null).map((_, i) => (
+                      <div 
+                        key={i} 
+                        className="fruit-particle"
+                        style={{ '--particle-delay': `${i * 0.2}s` }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* 草地 */}
+        <div className="grass-field">
+          <svg className="grass-svg" viewBox="0 0 1000 200">
+            <defs>
+              <linearGradient id="grassGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#4a8505" />
+                <stop offset="100%" stopColor="#2d5a27" />
+              </linearGradient>
+            </defs>
+            <path 
+              className="grass-base"
+              d="M0 200 L1000 200 L1000 100 Q500 0 0 100 Z"
+              fill="url(#grassGradient)"
+            />
+            <g className="grass-details">
+              {Array(40).fill(null).map((_, i) => (
+                <path
+                  key={i}
+                  className="grass-blade"
+                  style={{ '--index': i }}
+                  d={`M${i * 25} 150 
+                     Q${i * 25 + 10} ${100 + Math.random() * 30} 
+                     ${i * 25 + 20} 150`}
+                  stroke="#3a8d2f"
+                  strokeWidth="2"
+                  fill="none"
+                />
+              ))}
+            </g>
+          </svg>
         </div>
       </div>
     </div>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+  <!-- 树干 -->
+  <path d="M380 800 Q400 400 420 200" 
+        fill="none" stroke="#5d3a1a" stroke-width="40"/>
+  
+  <!-- 主要树枝 -->
+  <path d="M400 400 Q300 350 200 400" 
+        fill="none" stroke="#8b4513" stroke-width="20"/>
+  <path d="M400 400 Q500 350 600 400" 
+        fill="none" stroke="#8b4513" stroke-width="20"/>
+  
+  <!-- 树叶群 -->
+  <g class="leaves">
+    <circle cx="400" cy="200" r="150" fill="#2d5a27"/>
+    <circle cx="250" cy="350" r="100" fill="#3a8d2f"/>
+    <circle cx="550" cy="350" r="100" fill="#3a8d2f"/>
+  </g>
+</svg> 

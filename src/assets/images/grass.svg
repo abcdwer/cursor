@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 200 L1000 200 L1000 100 Q500 0 0 100 Z" 
+        fill="#3a8d2f"/>
+  <!-- 草的纹理 -->
+  <g class="grass-texture">
+    <path d="M100 150 Q120 100 140 150" 
+          stroke="#2d5a27" stroke-width="2" fill="none"/>
+    <path d="M300 150 Q320 90 340 150" 
+          stroke="#2d5a27" stroke-width="2" fill="none"/>
+    <path d="M500 150 Q520 80 540 150" 
+          stroke="#2d5a27" stroke-width="2" fill="none"/>
+    <path d="M700 150 Q720 100 740 150" 
+          stroke="#2d5a27" stroke-width="2" fill="none"/>
+    <path d="M900 150 Q920 95 940 150" 
+          stroke="#2d5a27" stroke-width="2" fill="none"/>
+  </g>
+</svg> 
