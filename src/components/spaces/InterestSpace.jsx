@@ -91,7 +91,7 @@ const InterestSpace = () => {
   const containerRef = useRef(null);
   const [currentMovie, setCurrentMovie] = useState(null);
   const [progress, setProgress] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [volume, setVolume] = useState(0.5);
 
   // 添加 Emby 相关状态
@@ -102,6 +102,16 @@ const InterestSpace = () => {
 
   // 添加一个状态记录上次的分类
   const [lastCategory, setLastCategory] = useState(null);
+
+  // 添加一个 state 来保存推荐影单
+  const [recommendations, setRecommendations] = useState([]);
+
+  // 在组件中添加新的状态
+  const [movieStats, setMovieStats] = useState({
+    viewers: Math.floor(Math.random() * 100) + 20,
+    likes: Math.floor(Math.random() * 50) + 10,
+    comments: Math.floor(Math.random() * 30) + 5
+  });
 
   const categories = [
     { id: 'photography', name: '摄影', icon: '📸' },
@@ -139,6 +149,10 @@ const InterestSpace = () => {
       setSchedule(scheduleList);
       setScreeningList(movies);
       
+      // 生成推荐影单并保存
+      const shuffledMovies = [...movies].sort(() => Math.random() - 0.5);
+      setRecommendations(shuffledMovies.slice(0, 8));
+      
       const now = new Date();
       const currentSlot = scheduleList.find(slot => 
         now >= slot.startTime && now < slot.endTime
@@ -154,6 +168,7 @@ const InterestSpace = () => {
     } catch (error) {
       console.error('获取 Emby 电影列表失败:', error);
       setScreeningList([]);
+      setRecommendations([]);
     } finally {
       setIsLoading(false);
     }
@@ -193,6 +208,14 @@ const InterestSpace = () => {
   const handleCategoryChange = (categoryId) => {
     setLastCategory(activeCategory);
     setActiveCategory(categoryId);
+    
+    // 切换到影视分类时确保静音
+    if (categoryId === 'movie') {
+      setIsMuted(true);
+      if (videoRef.current) {
+        videoRef.current.muted = true;
+      }
+    }
   };
 
   // 添加一个 useEffect 来处理影视分类的重新进入
@@ -221,9 +244,9 @@ const InterestSpace = () => {
     videoUrl.searchParams.append('_t', Date.now());
     video.src = videoUrl.toString();
     
-    // 设置初始音量状态
+    // 确保初始状态为静音
+    video.muted = true;
     video.volume = volume;
-    video.muted = isMuted;
 
     const handlePlay = async () => {
       try {
@@ -306,29 +329,48 @@ const InterestSpace = () => {
   // 修改排片表显示
   const renderScheduleList = () => {
     return (
-      <div className="schedule-list">
-        {schedule.map((slot) => (
-          <div 
-            key={`${slot.movie.id}-${slot.startTime}`}
-            className={`schedule-item ${slot === currentSchedule ? 'playing' : ''}`}
-          >
-            <img src={slot.movie.cover} alt={slot.movie.title} />
-            <div className="schedule-info">
-              <h5>{slot.movie.title}</h5>
-              <p>{slot.startTime.toLocaleTimeString([], { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-              })} - {slot.endTime.toLocaleTimeString([], { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-              })}</p>
-              {slot === currentSchedule && (
-                <span className="now-playing">正在放映</span>
-              )}
+      <>
+        <div className="schedule-list">
+          {schedule.map((slot) => (
+            <div 
+              key={`${slot.movie.id}-${slot.startTime}`}
+              className={`schedule-item ${slot === currentSchedule ? 'playing' : ''}`}
+            >
+              <img src={slot.movie.cover} alt={slot.movie.title} />
+              <div className="schedule-info">
+                <h5>{slot.movie.title}</h5>
+                <p>{slot.startTime.toLocaleTimeString([], { 
+                  hour: '2-digit', 
+                  minute: '2-digit' 
+                })} - {slot.endTime.toLocaleTimeString([], { 
+                  hour: '2-digit', 
+                  minute: '2-digit' 
+                })}</p>
+                {slot === currentSchedule && (
+                  <span className="now-playing">正在放映</span>
+                )}
+              </div>
             </div>
+          ))}
+        </div>
+        <div className="movie-stats">
+          <div className="stat-item">
+            <span className="stat-icon">👥</span>
+            <span className="stat-value">{movieStats.viewers}</span>
+            <span className="stat-label">在看</span>
           </div>
-        ))}
-      </div>
+          <div className="stat-item">
+            <span className="stat-icon">❤️</span>
+            <span className="stat-value">{movieStats.likes}</span>
+            <span className="stat-label">喜欢</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-icon">💬</span>
+            <span className="stat-value">{movieStats.comments}</span>
+            <span className="stat-label">评论</span>
+          </div>
+        </div>
+      </>
     );
   };
 
@@ -357,6 +399,76 @@ const InterestSpace = () => {
       setCurrentMovie(schedule[nextIndex].movie);
     }
   };
+
+  // 修改推荐影单渲染函数
+  const renderRecommendations = () => {
+    return (
+      <div className="movie-recommendations">
+        {recommendations.map(movie => (
+          <div key={movie.id} className="movie-card">
+            <div className="movie-poster">
+              <img src={movie.cover} alt={movie.title} loading="lazy" />
+              <div className="movie-info-overlay">
+                <h4 className="movie-title">{movie.title}</h4>
+                <div className="movie-meta">
+                  <span className="movie-duration">
+                    {Math.floor(movie.duration / 60)}分钟
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // 添加刷新推荐的函数
+  const refreshRecommendations = () => {
+    const shuffledMovies = [...screeningList].sort(() => Math.random() - 0.5);
+    setRecommendations(shuffledMovies.slice(0, 8));
+  };
+
+  // 定义动态类型数据
+  const activityTypes = [
+    {
+      type: 'playlist',
+      icon: '📋',
+      template: '创建了一个影单',
+      content: {
+        title: '年度必看科幻片单',
+        count: '12部影片',
+        description: '精选2024最值得观看的科幻电影...'
+      }
+    },
+    {
+      type: 'recommend',
+      icon: '🎬',
+      template: '推荐了一部电影',
+      content: {
+        rating: 9.2,
+        comment: '这部电影的视觉效果令人震撼，剧情紧凑，节奏把控完美...'
+      }
+    },
+    {
+      type: 'review',
+      icon: '✍️',
+      template: '发表了影评',
+      content: {
+        title: '深度解析：电影的叙事结构与主题表达',
+        excerpt: '本片通过独特的叙事手法展现了...'
+      }
+    },
+    {
+      type: 'share',
+      icon: '💫',
+      template: '分享了观影心得',
+      content: {
+        mood: '震撼',
+        tags: ['视效震撼', '剧情烧脑', '演技在线']
+      }
+    }
+  ];
 
   const renderCategoryContent = () => {
     switch (activeCategory) {
@@ -473,17 +585,159 @@ const InterestSpace = () => {
             </div>
 
             {/* 底部其他内容 */}
-            <div className="movie-bottom">
-              <div className="movie-collection-section">
-                <h3>观影记录</h3>
-                <div className="movie-collection">
-                  {/* 观看过的电影列表 */}
+            <div className="movie-sections">
+              <div className="movie-recommendations-section">
+                <div className="recommendations-header">
+                  <h3>推荐影单</h3>
+                  <button 
+                    className="refresh-button"
+                    onClick={refreshRecommendations}
+                    title="换一批"
+                  >
+                    <span className="refresh-icon">🔄</span>
+                  </button>
+                </div>
+                {renderRecommendations()}
+              </div>
+              
+              <div className="movie-ranking-section">
+                <h3>影视排行</h3>
+                <div className="ranking-tabs">
+                  <button className="ranking-tab active">动漫排行</button>
+                  <button className="ranking-tab">电影排行</button>
+                  <button className="ranking-tab">剧集排行</button>
+                </div>
+                <div className="ranking-list">
+                  {screeningList.slice(0, 5).map((movie, index) => (
+                    <div key={movie.id} className="ranking-item">
+                      <span className="ranking-number">{index + 1}</span>
+                      <img src={movie.cover} alt={movie.title} />
+                      <div className="ranking-info">
+                        <h4>{movie.title}</h4>
+                        <div className="ranking-stats">
+                          <span>评分 9.{Math.floor(Math.random() * 10)}</span>
+                          <span>{Math.floor(Math.random() * 10000)}人看过</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className="movie-recommendations-section">
-                <h3>推荐影单</h3>
-                <div className="movie-recommendations">
-                  {/* 电影推荐列表 */}
+              
+              <div className="movie-cards-section">
+                <h3>名片卡牌</h3>
+                <div className="cards-grid">
+                  {screeningList.slice(0, 6).map(movie => (
+                    <div key={movie.id} className="movie-card-item">
+                      <div className="card-poster">
+                        <img src={movie.cover} alt={movie.title} />
+                        <div className="card-overlay">
+                          <span className="card-type">电影</span>
+                          <span className="card-year">2024</span>
+                        </div>
+                      </div>
+                      <div className="card-info">
+                        <div className="card-title">{movie.title}</div>
+                        <div className="card-stats">
+                          <span className="card-rating">
+                            <span className="star">⭐</span> 
+                            {(Math.random() * 2 + 8).toFixed(1)}
+                          </span>
+                          <span className="card-views">
+                            {Math.floor(Math.random() * 9000 + 1000)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="movie-discussion-section">
+                <h3>影视动态</h3>
+                <div className="discussion-list">
+                  {[...Array(4)].map((_, i) => {
+                    const activity = activityTypes[i];
+                    const movie = screeningList[i];
+                    return (
+                      <div key={i} className="discussion-item">
+                        <div className="discussion-avatar">👤</div>
+                        <div className="discussion-content">
+                          <div className="discussion-header">
+                            <div className="user-info">
+                              <span className="user-name">用户{i + 1}</span>
+                              <span className="activity-type">
+                                {activity.icon} {activity.template}
+                              </span>
+                            </div>
+                            <span className="post-time">42分钟前</span>
+                          </div>
+                          
+                          <div className="share-content">
+                            {activity.type === 'playlist' && (
+                              <div className="playlist-share">
+                                <h4>{activity.content.title}</h4>
+                                <p>{activity.content.description}</p>
+                                <div className="playlist-preview">
+                                  <span className="playlist-count">{activity.content.count}</span>
+                                  <div className="playlist-covers">
+                                    {screeningList.slice(0, 3).map((m, idx) => (
+                                      <img key={idx} src={m.cover} alt={m.title} />
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            
+                            {(activity.type === 'recommend' || activity.type === 'review' || activity.type === 'share') && (
+                              <div className="movie-share">
+                                <div className="share-movie">
+                                  <img src={movie?.cover} alt={movie?.title} />
+                                  <div className="share-movie-info">
+                                    <h4>{movie?.title}</h4>
+                                    {activity.type === 'recommend' && (
+                                      <div className="movie-rating">
+                                        <span className="rating-score">⭐ {activity.content.rating}</span>
+                                        <p className="rating-comment">{activity.content.comment}</p>
+                                      </div>
+                                    )}
+                                    {activity.type === 'review' && (
+                                      <div className="movie-review">
+                                        <h5>{activity.content.title}</h5>
+                                        <p>{activity.content.excerpt}</p>
+                                      </div>
+                                    )}
+                                    {activity.type === 'share' && (
+                                      <div className="movie-feeling">
+                                        <span className="feeling-mood">感觉{activity.content.mood}</span>
+                                        <div className="feeling-tags">
+                                          {activity.content.tags.map((tag, idx) => (
+                                            <span key={idx} className="tag">#{tag}</span>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          
+                          <div className="discussion-actions">
+                            <button className="action-btn">
+                              <span>👍</span> {Math.floor(Math.random() * 200 + 100)}
+                            </button>
+                            <button className="action-btn">
+                              <span>💬</span> {Math.floor(Math.random() * 100 + 50)}
+                            </button>
+                            <button className="action-btn">
+                              <span>🔁</span> {Math.floor(Math.random() * 50 + 20)}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
