@@ -1,0 +1,1247 @@
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  position: absolute;
+  left: 0;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input.error {
+  border-color: #dc3545;
+}
+
+.profile-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-info {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.activity-item span {
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .profile-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.auth-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 更新导航栏相关样式 */
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-logo a {
+  color: #1a73e8;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-logo a:hover {
+  color: #1557b0;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.nav-menu li {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu a {
+  color: #5f6368;
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 100%;
+  cursor: pointer;
+}
+
+.nav-menu a:hover {
+  color: #1a73e8;
+  background-color: rgba(26, 115, 232, 0.1);
+}
+
+.nav-menu li.active a {
+  color: #1a73e8;
+  background-color: rgba(26, 115, 232, 0.1);
+  font-weight: 500;
+}
+
+.nav-menu i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.nav-menu span {
+  white-space: nowrap;
+}
+
+.logout-btn {
+  color: #dc3545 !important;
+  margin-left: 0.5rem;
+}
+
+.logout-btn:hover {
+  color: #fff !important;
+  background-color: #dc3545 !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 10px;
+  }
+
+  .nav-menu {
+    gap: 0;
+  }
+
+  .nav-menu a {
+    padding: 0.5rem;
+  }
+
+  .nav-menu span {
+    display: none;
+  }
+
+  .nav-menu i {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+  
+  .nav-logo {
+    font-size: 1.2rem;
+  }
+}
+
+/* 容器样式 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 主内容区域样式 */
+main {
+  min-height: calc(100vh - 64px);
+  background-color: #f8f9fa;
+  padding-top: 1rem;
+}
+
+/* 在现有样式中添加以下电影播放器相关样式 */
+
+.movie-section {
+  margin: 2rem 0;
+}
+
+.movie-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  margin: 20px 0;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.movie-info {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(26, 115, 232, 0.05);
+  border-radius: 8px;
+}
+
+.movie-cover {
+  width: 200px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.movie-details {
+  flex: 1;
+}
+
+.movie-details h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.movie-details p {
+  color: #666;
+  line-height: 1.5;
+}
+
+.movie-progress {
+  margin-top: 0.5rem;
+  font-family: monospace;
+  color: #1a73e8;
+}
+
+/* 视频播放器容器样式 */
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 宽高比 */
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.video-container .video-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 确保只有一个播放器实例 */
+.video-js:not(:first-child) {
+  display: none;
+}
+
+/* 播放按钮样式 */
+.random-movie-btn {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.random-movie-btn:hover {
+  background: #1557b0;
+}
+
+/* 视频控件样式 */
+.video-js .vjs-big-play-button {
+  background-color: rgba(26, 115, 232, 0.8);
+  border-color: white;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  margin-left: -30px;
+  margin-top: -30px;
+}
+
+.video-js:hover .vjs-big-play-button {
+  background-color: #1a73e8;
+}
+
+.video-js .vjs-control-bar {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .movie-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .movie-cover {
+    width: 160px;
+    height: 240px;
+  }
+}
+
+/* 在现有样式中添加或更新以下样式 */
+
+.movie-time {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #1a73e8;
+  margin-top: 1rem;
+  background: rgba(26, 115, 232, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.movie-info {
+  background: rgba(26, 115, 232, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* 添加 DPlayer 相关样式 */
+.player-container {
+  width: 100%;
+  margin: 1rem 0;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dplayer {
+  width: 100%;
+  height: 100%;
+}
+
+.dplayer-video-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 更新播放器相关样式 */
+.player-wrapper {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 宽高比 */
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bilibili-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.movie-notice {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 4px;
+  color: #856404;
+}
+
+.movie-notice p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.tencent-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+/* 添加自定义播放按钮样式 */
+.custom-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px 32px;
+  background: rgba(26, 115, 232, 0.9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 2;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-play-button:hover {
+  background: rgba(26, 115, 232, 1);
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 添加取消静音按钮样式 */
+.custom-unmute-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  background: rgba(26, 115, 232, 0.8);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 2;
+  transition: background-color 0.2s;
+}
+
+.custom-unmute-button:hover {
+  background: rgba(26, 115, 232, 1);
+}
+
+.showing-time {
+  margin-top: 10px;
+  padding: 8px;
+  background: rgba(26, 115, 232, 0.1);
+  border-radius: 4px;
+  color: #1a73e8;
+  font-weight: bold;
+}
+
+.next-movie {
+  margin-top: 10px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  color: #666;
+}
+
+/* 显示进度条但禁用交互 */
+.video-player::-webkit-media-controls-timeline,
+.video-player::-webkit-media-controls-progress-bar,
+.video-player::-webkit-media-controls-time-remaining-display,
+.video-player::-webkit-media-controls-current-time-display {
+  display: flex !important;
+  pointer-events: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 隐藏不需要的控件 */
+.video-player::-webkit-media-controls-fullscreen-button,
+.video-player::-webkit-media-controls-play-button,
+.video-player::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+}
+
+/* 显示音量控制 */
+.video-player::-webkit-media-controls-volume-slider,
+.video-player::-webkit-media-controls-mute-button {
+  display: block !important;
+}
+
+/* 自定义播放器样式 */
+.movie-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  margin: 20px 0;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 确保控制栏可见 */
+.video-player::-webkit-media-controls-panel {
+  display: flex !important;
+  opacity: var(--video-controls-opacity) !important;
+}
+
+/* 显示进度条 */
+.video-player::-webkit-media-controls-timeline {
+  display: block !important;
+  pointer-events: none !important;
+}
+
+/* 自定义播放器样式 */
+.vjs-cinema-mode {
+  --primary-color: #1a73e8;
+  --secondary-color: #666;
+}
+
+.vjs-cinema-mode .vjs-control-bar {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 4em;
+}
+
+.vjs-cinema-mode .vjs-progress-control {
+  position: absolute;
+  top: -1em;
+  height: 1em;
+  width: 100%;
+}
+
+.vjs-cinema-mode .vjs-progress-control .vjs-progress-holder {
+  margin: 0;
+  height: 0.3em;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.vjs-cinema-mode .vjs-play-progress {
+  background-color: var(--primary-color);
+}
+
+.vjs-cinema-mode .vjs-slider-bar {
+  background-color: var(--primary-color);
+}
+
+/* 禁用鼠标指针样式 */
+.vjs-cinema-mode .vjs-progress-control {
+  cursor: default !important;
+}
+
+.vjs-cinema-mode .vjs-progress-holder {
+  cursor: default !important;
+}
+
+/* 隐藏大播放按钮 */
+.vjs-cinema-mode .vjs-big-play-button {
+  display: none !important;
+}
+
+/* 时间显示样式 */
+.vjs-cinema-mode .vjs-current-time,
+.vjs-cinema-mode .vjs-duration,
+.vjs-cinema-mode .vjs-time-divider {
+  color: #fff;
+  font-size: 1.2em;
+  line-height: 4em;
+}
+
+.schedule-section {
+  margin: 20px 0;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.schedule-item.playing {
+  background: rgba(26, 115, 232, 0.1);
+  border: 1px solid rgba(26, 115, 232, 0.3);
+}
+
+.schedule-movie-cover {
+  width: 80px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 15px;
+}
+
+.schedule-info {
+  flex: 1;
+  position: relative;
+}
+
+.schedule-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.schedule-time {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.now-playing-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #1a73e8;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* 滚动条样式 */
+.schedule-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.schedule-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.schedule-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.schedule-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 隐藏全屏按钮 */
+.video-player::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
+/* 显示音量控制 */
+.video-player::-webkit-media-controls-volume-slider,
+.video-player::-webkit-media-controls-mute-button {
+  display: block !important;
+}
+
+/* 确保控制栏可见 */
+.video-player::-webkit-media-controls-panel {
+  display: flex !important;
+  opacity: var(--video-controls-opacity) !important;
+}
+
+/* 隐藏所有不需要的控件 */
+.video-player::-webkit-media-controls-timeline,
+.video-player::-webkit-media-controls-current-time-display,
+.video-player::-webkit-media-controls-time-remaining-display,
+.video-player::-webkit-media-controls-fullscreen-button,
+.video-player::-webkit-media-controls-play-button,
+.video-player::-webkit-media-controls-overlay-play-button,
+.video-player::-webkit-media-controls-toggle-closed-captions-button,
+.video-player::-webkit-media-controls-rewind-button,
+.video-player::-webkit-media-controls-seek-back-button,
+.video-player::-webkit-media-controls-seek-forward-button,
+.video-player::-webkit-media-controls-playback-button,
+.video-player::-webkit-media-controls-play-button {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+}
+
+/* 只显示音量控制 */
+.video-player::-webkit-media-controls-volume-slider,
+.video-player::-webkit-media-controls-mute-button {
+  display: block !important;
+}
+
+/* 自定义播放器样式 */
+.movie-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  margin: 20px 0;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 自定义进度条样式 */
+.custom-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 1;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #ff0000;
+  transition: width 0.1s linear;
+}
+
+/* 全屏按钮样式 */
+.fullscreen-button {
+  background: transparent;
+  border: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.2s;
+  position: relative;
+  margin-right: 8px;
+}
+
+.fullscreen-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.fullscreen-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* 移除原生控件中的全屏按钮 */
+.video-player::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
+/* 确保控制栏可见 */
+.video-player::-webkit-media-controls-panel {
+  display: flex !important;
+  opacity: var(--video-controls-opacity) !important;
+}
+
+/* 视频控件容器 */
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px;
+  z-index: 2;
+}
+
+/* 移除默认控件 */
+.video-player::-webkit-media-controls {
+  display: none !important;
+}
+
+/* 视频容器 */
+.movie-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  margin: 20px 0;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 控件容器 */
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  z-index: 2;
+}
+
+/* 进度条 */
+.custom-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: default;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #ff0000;
+  transition: width 0.1s linear;
+}
+
+/* 控制栏 */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  height: 36px;
+}
+
+/* 音量控制 */
+.volume-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+}
+
+/* 通用按钮样式 */
+.control-button {
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  margin-bottom: 8px;
+}
+
+.control-button:hover {
+  opacity: 1;
+}
+
+/* 确保进度条在最底部 */
+.custom-progress {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  cursor: default;
+}
+
+.progress-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #ff0000;
+  transition: width 0.1s linear;
+}
+
+/* 调整控制栏布局 */
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+
+/* 音量滑块容器 */
+.volume-slider-container {
+  padding: 0 16px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 左对齐 */
+}
+
+/* 音量滑块 */
+.volume-slider {
+  width: 120px; /* 固定宽度 */
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none; /* 添加标准属性以实现兼容性 */
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  outline: none;
+  margin-left: 16px; /* 与左边保持一定距离 */
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  margin-top: -4px;
+  transition: transform 0.2s;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* 全屏按钮样式 */
+.fullscreen-button {
+  background: transparent;
+  border: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.2s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullscreen-button::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 统一的按钮悬停效果 */
+.volume-button:hover,
+.fullscreen-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* 移除默认控件 */
+.video-player::-webkit-media-controls {
+  display: none !important;
+}
+
+/* 视频容器 */
+.movie-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  margin: 20px 0;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 自定义控件 */
+.custom-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  height: 32px;
+}
+
+.left-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.control-button {
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.volume-slider {
+  width: 120px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none; /* 添加标准属性以实现兼容性 */
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  margin-top: -4px;
+  transition: transform 0.2s;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* 按钮图标 */
+.volume-button {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+}
+
+.volume-button.muted {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z'/%3E%3C/svg%3E");
+}
+
+.fullscreen-button {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+}
+
+.control-button:hover {
+  opacity: 1;
+}
+
+/* 进度条样式 */
+.custom-progress {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  cursor: default;
+}
+
+.progress-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #ff0000;
+  transition: width 0.1s linear;
+}
+
+.volume-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.volume-slider-wrapper {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(28, 28, 28, 0.9);
+  border-radius: 4px;
+  padding: 12px 6px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.volume-control:hover .volume-slider-wrapper {
+  opacity: 1;
+  visibility: visible;
+}
+
+.volume-slider {
+  width: 4px;
+  height: 84px;
+  -webkit-appearance: none;
+  appearance: none; /* 添加标准属性以实现兼容性 */
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  outline: none;
+  writing-mode: bt-lr;
+  -webkit-appearance: slider-vertical;
+  margin: 0;
+  padding: 0;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  margin: 0;
+  transition: transform 0.2s;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.volume-slider-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(28, 28, 28, 0.9);
+}
+
+.time-display {
+  color: white;
+  font-size: 14px;
+  opacity: 0.9;
+  font-family: monospace;
+  margin: 0 16px;
+}
+
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  margin-bottom: 4px;
+} 

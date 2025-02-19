@@ -1,0 +1,52 @@
+.navbar {
+  display: flex; /* 确保导航栏使用 flexbox 布局 */
+  justify-content: space-between; /* 使 logo 和菜单分开 */
+  align-items: center; /* 垂直居中对齐 */
+  padding: 15px 30px; /* 增加内边距 */
+  background-color: #ffffff; /* 设置背景色为白色 */
+  border-bottom: 1px solid #dcdcdc; /* 添加底部边框 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 添加更柔和的阴影效果 */
+}
+
+.nav-logo {
+  flex: 1; /* 使 logo 占据可用空间 */
+}
+
+.social-space-title {
+  font-size: 30px; /* 设置标题字体大小 */
+  font-weight: bold; /* 设置标题字体加粗 */
+  color: #333; /* 设置标题颜色为深色 */
+  font-family: 'Pacifico', cursive; /* 使用更具艺术感的字体 */
+  text-align: center; /* 居中对齐 */
+  letter-spacing: 1px; /* 增加字母间距 */
+  margin-right: 50px; /* 增加右边距以与菜单保持距离 */
+}
+
+.nav-menu {
+  display: flex; /* 使用 flexbox 布局 */
+  list-style: none; /* 移除列表样式 */
+}
+
+.nav-menu li {
+  margin: 0 15px; /* 增加导航项之间的间距 */
+}
+
+.nav-menu a {
+  text-decoration: none; /* 移除下划线 */
+  color: #555; /* 设置文本颜色为深灰色 */
+  padding: 10px 15px; /* 增加内边距 */
+  border-radius: 5px; /* 添加圆角 */
+  transition: background-color 0.3s, color 0.3s; /* 添加过渡效果 */
+}
+
+.nav-menu a:hover {
+  background-color: #f0f0f0; /* 悬停时的背景色 */
+  color: #00796b; /* 悬停时的文本颜色 */
+}
+
+.nav-menu a.active {
+  background-color: #e0f7fa !important; /* 选中状态的背景色，使用柔和的淡蓝色 */
+  color: #00796b !important; /* 选中状态的文本颜色，使用深绿色 */
+  font-weight: bold; /* 选中状态加粗 */
+  box-shadow: none; /* 移除阴影效果 */
+} 

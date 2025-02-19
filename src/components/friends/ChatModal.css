@@ -1,0 +1,150 @@
+.chat-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 确保在最上层 */
+}
+
+.chat-modal {
+  background-color: #ffffff; /* 白色背景 */
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.chat-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #f0f2f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888888;
+  transition: color 0.3s;
+}
+
+.close-button:hover {
+  color: #333333;
+}
+
+@media (max-width: 768px) {
+  .chat-modal {
+    width: 90%;
+    height: 90%;
+  }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
+    width: 500px; /* 设置模态框宽度 */
+    height: 600px; /* 设置模态框高度 */
+    display: flex;
+    flex-direction: column; /* 垂直排列内容 */
+    overflow: hidden; /* 防止内容溢出 */
+}
+
+.modal-content .friend-avatar {
+    width: 80px; /* 调整头像大小 */
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 15px; /* 居中并增加底部间距 */
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* 允许聊天框占满剩余空间 */
+    overflow-y: auto; /* 允许垂直滚动 */
+    margin-bottom: 15px; /* 增加底部间距 */
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 左对齐 */
+    flex: 1; /* 允许消息容器占满剩余空间 */
+    overflow-y: auto; /* 允许垂直滚动 */
+}
+
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    max-width: 70%; /* 限制消息宽度 */
+    word-wrap: break-word; /* 允许长单词换行 */
+}
+
+.message.me {
+    background-color: #dcf8c6; /* 发送的消息背景色 */
+    align-self: flex-end; /* 右对齐 */
+}
+
+.input-area {
+    display: flex;
+    margin-top: 10px;
+}
+
+.input-area input {
+    flex: 1;
+    padding: 14px; /* 增加内边距 */
+    border: 1px solid #cccccc;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-right: 10px; /* 增加右边距 */
+    height: 50px; /* 设置固定高度 */
+    outline: none; /* 移除默认的蓝色选中线条 */
+}
+
+.input-area input:focus {
+    border-color: #4caf50; /* 设置聚焦时的边框颜色 */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* 添加聚焦时的阴影效果 */
+}
+
+.send-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 12px; /* 调整按钮内边距 */
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px; /* 设置按钮字体大小 */
+    align-self: flex-end; /* 右对齐 */
+    margin-top: 10px; /* 增加顶部间距 */
+}
+
+.send-button:hover {
+    background-color: #45a049;
+} 

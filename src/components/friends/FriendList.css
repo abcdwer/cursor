@@ -1,0 +1,83 @@
+.friend-list {
+  width: 250px;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  background-color: #fafafa;
+}
+
+.friend-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #ffffff;
+}
+
+.friend-list-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.add-friend-button {
+  background: none;
+  border: none;
+  color: #4caf50;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.add-friend-button:hover {
+  color: #45a049;
+  transform: scale(1.1);
+}
+
+.add-friend-button:active {
+  transform: scale(0.95);
+}
+
+.friends {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.placeholder {
+  text-align: center;
+  color: #888888;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.friend-item:hover {
+  background-color: #f1f1f1;
+}
+
+.friend-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  background-color: #e0e0e0;
+}
+
+.friend-name {
+  font-size: 16px;
+  color: #333333;
+} 

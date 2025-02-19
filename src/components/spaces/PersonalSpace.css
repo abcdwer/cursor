@@ -1,0 +1,19 @@
+.projector-container {
+  position: relative; /* 确保子元素可以绝对定位 */
+}
+
+.projector-time-progress {
+  opacity: 0; /* 默认隐藏 */
+  transition: opacity 0.3s ease; /* 添加过渡效果 */
+  position: absolute; /* 确保可以在画面上定位 */
+  bottom: 10px; /* 根据需要调整位置 */
+  left: 10px; /* 根据需要调整位置 */
+  background-color: rgba(0, 0, 0, 0.7); /* 背景色 */
+  color: white; /* 字体颜色 */
+  padding: 5px 10px; /* 内边距 */
+  border-radius: 5px; /* 圆角 */
+}
+
+.projector-time-progress.visible {
+  opacity: 1; /* 鼠标悬停时显示 */
+}
