@@ -85,6 +85,14 @@ const generateSchedule = (movies) => {
   return scheduleList;
 };
 
+// 在组件顶部添加过滤函数
+const filterMoviesOnly = (items) => {
+  return items.filter(item => 
+    item.Type === 'Movie' || // 如果API返回Type字段
+    !item.title.match(/S\d+E\d+/) // 排除包含SxxExx格式的剧集
+  );
+};
+
 const InterestSpace = () => {
   const [activeCategory, setActiveCategory] = useState('photography');
   const videoRef = useRef(null);
@@ -112,6 +120,9 @@ const InterestSpace = () => {
     likes: Math.floor(Math.random() * 50) + 10,
     comments: Math.floor(Math.random() * 30) + 5
   });
+
+  // 在组件顶部添加 isFullscreen 状态
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const categories = [
     { id: 'photography', name: '摄影', icon: '📸' },
@@ -317,14 +328,28 @@ const InterestSpace = () => {
     }
   };
 
-  // 切换全屏
+  // 修改 toggleFullscreen 函数
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       containerRef.current.requestFullscreen();
+      setIsFullscreen(true);
     } else {
       document.exitFullscreen();
+      setIsFullscreen(false);
     }
   };
+
+  // 添加全屏变化事件监听
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
 
   // 修改排片表显示
   const renderScheduleList = () => {
@@ -519,50 +544,17 @@ const InterestSpace = () => {
                                 key={currentMovie.id}
                                 className="theater-video"
                                 playsInline
-                                muted={isMuted}
+                                controls
+                                controlsList="nodownload noremoteplayback noplaybackrate"
                                 onTimeUpdate={handleTimeUpdate}
                                 onEnded={handleMovieEnd}
-                                onVolumeChange={(e) => {
-                                  const video = e.target;
-                                  setVolume(video.volume);
-                                  setIsMuted(video.muted);
-                                }}
-                                onError={(e) => {
-                                  console.error('视频加载错误:', e);
-                                  if (videoRef.current) {
-                                    videoRef.current.load();
-                                  }
-                                }}
+                                onClick={(e) => e.preventDefault()}
                               />
                               <div className="theater-controls">
                                 <div className="progress-bar">
                                   <div 
                                     className="progress-filled"
                                     style={{ width: `${progress}%` }}
-                                  />
-                                </div>
-                                <div className="control-buttons">
-                                  <div className="volume-control">
-                                    <button 
-                                      className={`control-button volume-button ${isMuted ? 'muted' : volume <= 0.5 ? 'low' : 'high'}`}
-                                      onClick={toggleMute}
-                                      title={isMuted ? '取消静音' : '静音'}
-                                    />
-                                    <div className="volume-slider-container">
-                                      <input
-                                        type="range"
-                                        min="0"
-                                        max="1"
-                                        step="0.1"
-                                        value={isMuted ? 0 : volume}
-                                        onChange={handleVolumeChange}
-                                        className="volume-slider"
-                                      />
-                                    </div>
-                                  </div>
-                                  <button 
-                                    className="control-button fullscreen-button"
-                                    onClick={toggleFullscreen}
                                   />
                                 </div>
                               </div>
@@ -625,9 +617,22 @@ const InterestSpace = () => {
               </div>
               
               <div className="movie-cards-section">
-                <h3>名片卡牌</h3>
+                <div className="section-header">
+                  <h3>名片卡牌</h3>
+                  <button 
+                    className="refresh-button"
+                    onClick={() => {
+                      const moviesOnly = filterMoviesOnly(screeningList);
+                      const shuffled = [...moviesOnly].sort(() => Math.random() - 0.5);
+                      setScreeningList(shuffled);
+                    }}
+                    title="换一批"
+                  >
+                    <span className="refresh-icon">🔄</span>
+                  </button>
+                </div>
                 <div className="cards-grid">
-                  {screeningList.slice(0, 6).map(movie => (
+                  {filterMoviesOnly(screeningList).slice(0, 6).map(movie => (
                     <div key={movie.id} className="movie-card-item">
                       <div className="card-poster">
                         <img src={movie.cover} alt={movie.title} />

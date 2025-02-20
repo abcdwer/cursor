@@ -7,6 +7,11 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: 20px;
+  min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding-top: 60px; /* 为顶部导航栏留出空间 */
 }
 
 /* 分类标签栏样式 */
@@ -271,13 +276,13 @@
   background: #000;
 }
 
-/* 播放器控件样式优化 */
+/* 自定义控件容器 */
 .theater-controls {
   position: absolute;
-  bottom: 0;
+  bottom: 40px; /* 增加底部间距，给原生控件留出空间 */
   left: 0;
   right: 0;
-  padding: 12px 16px; /* 减小内边距 */
+  padding: 12px 16px;
   background: linear-gradient(to top, 
     rgba(0, 0, 0, 0.9) 0%,
     rgba(0, 0, 0, 0.7) 40%,
@@ -286,10 +291,26 @@
   opacity: 0;
   transition: opacity 0.3s;
   z-index: 2;
-  height: 72px; /* 固定高度 */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  pointer-events: none;
+}
+
+/* 原生控件样式调整 */
+.theater-video::-webkit-media-controls-panel {
+  display: flex !important;
+  justify-content: flex-end; /* 将控件靠右对齐 */
+  padding-right: 16px; /* 添加右侧内边距 */
+}
+
+/* 进度条容器 */
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 0; /* 移除底部间距 */
+  pointer-events: auto;
 }
 
 .theater-player:hover .theater-controls {
@@ -471,218 +492,9 @@
   background: #1557b0;
 }
 
-/* 优化音量控制样式 */
-.volume-control {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-/* 音量滑块容器 */
-.volume-slider-container {
-  position: absolute;
-  bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  padding: 8px 4px;
-  border-radius: 6px;
-  display: none;
-  height: 70px; /* 减小高度 */
-  width: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.volume-control:hover .volume-slider-container {
-  display: flex;
-}
-
-/* 音量滑块样式 */
-.volume-slider {
-  width: 60px; /* 减小宽度 */
-  height: 3px; /* 减小高度 */
-  margin: 24px 0; /* 调整边距 */
-}
-
-/* 滑块轨道样式 */
-.volume-slider::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  cursor: pointer;
-}
-
-.volume-slider::-moz-range-track {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  cursor: pointer;
-}
-
-/* 滑块圆点样式 */
-.volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #1a73e8;
-  cursor: pointer;
-  margin-top: -4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.volume-slider::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #1a73e8;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-/* 移除音量值显示 */
-.volume-value {
-  display: none;
-}
-
-/* 音量控制容器 */
-.volume-control {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.volume-control button {
-  width: 36px;
-  height: 36px;
-  padding: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: all 0.2s;
-  border-radius: 50%;
-}
-
-.volume-control button:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* 音量图标 */
-.volume-button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.volume-button::before {
-  content: '';
-  display: block;
-  width: 20px;
-  height: 20px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  filter: invert(1);
-  transition: transform 0.2s;
-}
-
-.volume-button:hover::before {
-  transform: scale(1.1);
-}
-
-.volume-button.high::before {
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>');
-}
-
-.volume-button.low::before {
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>');
-}
-
-.volume-button.muted::before {
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>');
-}
-
-/* 控制按钮容器 */
-.control-buttons {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 16px;
-  margin-top: 8px; /* 减小顶部间距 */
-  height: 36px; /* 固定高度 */
-}
-
-/* 全屏按钮 */
-.fullscreen-button {
-  width: 36px;
-  height: 36px;
-  padding: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: all 0.2s;
-  border-radius: 50%;
-}
-
-.fullscreen-button:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.fullscreen-button::before {
-  content: '';
-  display: block;
-  width: 20px;
-  height: 20px;
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: transform 0.2s;
-}
-
-.fullscreen-button:hover::before {
-  transform: scale(1.1);
-}
-
-/* 进度条样式优化 */
-.progress-bar {
-  width: 100%;
-  height: 3px; /* 减小进度条高度 */
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  cursor: pointer;
-  position: relative;
-  margin-bottom: 8px; /* 添加底部间距 */
-}
-
-.progress-filled {
-  height: 100%;
-  background: #1a73e8;
-  border-radius: 2px;
-  transition: width 0.1s linear;
-}
-
-.progress-bar:hover {
-  height: 5px; /* 减小悬停时的高度 */
-}
-
-.progress-bar:hover .progress-filled {
-  background: #2196f3;
-}
-
-/* 底部区域样式优化 */
-.movie-bottom {
-  display: flex;
-  padding: 0 4px;
+/* 移除所有自定义音量控制和全屏按钮的样式 */
+.projector-controls {
+  display: none; /* 隐藏自定义控件 */
 }
 
 /* 推荐影单区域样式优化 */
@@ -1275,4 +1087,283 @@
   color: #666;
   border-radius: 20px;
   font-size: 12px;
+}
+
+/* 添加区域标题样式 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* 刷新按钮样式统一 */
+.refresh-button {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.refresh-button:hover {
+  background: rgba(26, 115, 232, 0.1);
+  transform: rotate(180deg);
+}
+
+.refresh-icon {
+  font-size: 18px;
+}
+
+/* 内容区域约束 */
+.interest-content {
+  width: 100%;
+  max-width: calc(100vw - 300px);
+  margin-left: 300px;
+  padding: 24px;
+  padding-top: 80px; /* 增加顶部内边距 */
+  box-sizing: border-box;
+  overflow-x: hidden;
+  min-height: calc(100vh - 60px); /* 减去导航栏高度 */
+}
+
+/* 添加滚动渐变遮罩 */
+.interest-content::before {
+  content: '';
+  position: fixed;
+  top: 60px; /* 与导航栏底部对齐 */
+  right: 0;
+  left: 300px;
+  height: 80px;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 42, 1) 0%,
+    rgba(10, 10, 42, 0.8) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 90;
+}
+
+/* 夜间模式遮罩适配 */
+.night .interest-content::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 42, 1) 0%,
+    rgba(10, 10, 42, 0.8) 60%,
+    transparent 100%
+  );
+}
+
+/* 白天模式遮罩适配 */
+.day .interest-content::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(137, 247, 254, 1) 0%,
+    rgba(137, 247, 254, 0.8) 60%,
+    transparent 100%
+  );
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .interest-content {
+    max-width: calc(100vw - 240px);
+    margin-left: 240px;
+  }
+  
+  .interest-content::before {
+    left: 240px;
+  }
+}
+
+/* 放映室音量控制样式 */
+.projector-controls .volume-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 8px;
+}
+
+/* 音量控制容器 */
+.projector-controls .control-buttons .volume-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 音量滑块容器 */
+.projector-controls .control-buttons .volume-slider-container {
+  position: absolute;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  padding: 12px;
+  border-radius: 8px;
+  width: 24px;
+  height: 100px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.projector-controls .control-buttons .volume-control:hover .volume-slider-container {
+  display: flex;
+}
+
+/* 音量滑块 */
+.projector-controls .control-buttons .volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  transform: rotate(-90deg) translateX(-50%);
+  transform-origin: center;
+  position: absolute;
+  left: 50%;
+  cursor: pointer;
+}
+
+/* 音量滑块轨道 */
+.projector-controls .control-buttons .volume-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* 音量滑块圆点 */
+.projector-controls .control-buttons .volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Firefox 样式 */
+.projector-controls .control-buttons .volume-slider::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: transparent;
+}
+
+.projector-controls .control-buttons .volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  margin-top: -4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 音量按钮 */
+.projector-controls .control-buttons .volume-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* 移除之前的控件相关样式 */
+.theater-video::-webkit-media-controls-panel {
+  display: flex !important;
+}
+
+/* 隐藏播放/暂停按钮和时间显示 */
+.theater-video::-webkit-media-controls-play-button,
+.theater-video::-webkit-media-controls-timeline,
+.theater-video::-webkit-media-controls-current-time-display,
+.theater-video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+}
+
+/* 保留并显示音量和全屏按钮 */
+.theater-video::-webkit-media-controls-volume-slider,
+.theater-video::-webkit-media-controls-mute-button,
+.theater-video::-webkit-media-controls-fullscreen-button {
+  display: flex !important;
+}
+
+/* 视频容器样式 */
+.theater-player {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+/* 视频元素样式 */
+.theater-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* 自定义控件容器 */
+.theater-controls {
+  position: absolute;
+  bottom: 40px; /* 增加底部间距，给原生控件留出空间 */
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  background: linear-gradient(to top, 
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.7) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 原生控件样式调整 */
+.theater-video::-webkit-media-controls-panel {
+  display: flex !important;
+  justify-content: flex-end; /* 将控件靠右对齐 */
+  padding-right: 16px; /* 添加右侧内边距 */
+}
+
+/* 进度条容器 */
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 0; /* 移除底部间距 */
+  pointer-events: auto;
+}
+
+.theater-player:hover .theater-controls {
+  opacity: 1;
 } 
