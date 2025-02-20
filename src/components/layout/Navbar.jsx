@@ -23,7 +23,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="nav-container">
         <div className="nav-logo">
-          <Link to="/personal" className="social-space-title">社交空间</Link>
+          <div className="social-space-title">社交空间</div>
         </div>
         <ul className="nav-menu">
           <li className={location.pathname === '/personal' ? 'active' : ''}>

@@ -4,46 +4,258 @@ html, body {
 }
 
 .friends-space {
-  display: flex; /* 使用 Flexbox 布局 */
-  height: 100vh; /* 高度为视口高度 */
-  padding: 20px; /* 内边距 */
-  background-color: #f9f9f9; /* 背景色 */
-  border-radius: 8px; /* 圆角 */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  min-height: 100vh;
+  /* 使用柔和的粉紫色渐变背景 */
+  background: linear-gradient(135deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 50%,
+    var(--bg-tertiary) 100%
+  );
+  position: relative; /* 改为相对定位 */
+  padding-top: 80px;
+  overflow-y: auto; /* 允许整个页面滚动 */
+  color: var(--text-primary);
 }
 
+/* 移除樱花相关样式，添加阳光射线容器 */
+.sunlight-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* 阳光射线效果 */
+.sunray {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  width: 1px;
+  height: 200%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 123, 0, 0.8) 0%,
+    rgba(255, 154, 68, 0.4) 50%,
+    transparent 100%
+  );
+  transform-origin: top;
+  animation: sunrayRotate 8s linear infinite;
+}
+
+/* 阳光射线旋转动画 */
+@keyframes sunrayRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 太阳光晕效果 */
+.sun {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 123, 0, 0.9) 0%,
+    rgba(255, 154, 68, 0.6) 50%,
+    transparent 70%
+  );
+  box-shadow: 
+    0 0 60px rgba(255, 123, 0, 0.8),
+    0 0 120px rgba(255, 154, 68, 0.6),
+    0 0 180px rgba(255, 179, 71, 0.4);
+  animation: sunPulse 4s ease-in-out infinite;
+}
+
+/* 太阳脉动动画 */
+@keyframes sunPulse {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* 生成多条光线 */
+.sunray:nth-child(1) { animation-delay: 0s; }
+.sunray:nth-child(2) { animation-delay: 0.5s; }
+.sunray:nth-child(3) { animation-delay: 1s; }
+.sunray:nth-child(4) { animation-delay: 1.5s; }
+.sunray:nth-child(5) { animation-delay: 2s; }
+.sunray:nth-child(6) { animation-delay: 2.5s; }
+.sunray:nth-child(7) { animation-delay: 3s; }
+.sunray:nth-child(8) { animation-delay: 3.5s; }
+.sunray:nth-child(9) { animation-delay: 4s; }
+.sunray:nth-child(10) { animation-delay: 4.5s; }
+.sunray:nth-child(11) { animation-delay: 5s; }
+.sunray:nth-child(12) { animation-delay: 5.5s; }
+
 .tab-container {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  right: 20px;
   display: flex;
-  flex-direction: column; /* 垂直排列 */
-  margin-right: 20px; /* 按钮与面板之间的间距 */
+  gap: 10px;
+  padding: 15px;
+  border-radius: 16px;
+  z-index: 100;
+  background: rgba(40, 40, 40, 0.8);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+}
+
+/* 导航栏背景遮罩 */
+.tab-container::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: -20px;
+  right: -20px;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--bg-primary) 95%,
+    var(--bg-secondary) 97%,
+    transparent 100%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* 添加CSS变量用于背景渐变 */
+:root {
+  /* 背景色 */
+  --bg-primary: #1a1a1a;      /* 深邃黑 */
+  --bg-secondary: #242424;    /* 石墨黑 */
+  --bg-tertiary: #2c2c2c;     /* 星空黑 */
+  
+  /* 主题色 */
+  --theme-primary: #00f3ff;   /* 霓虹蓝 */
+  --theme-secondary: #40f7ff; /* 浅霓虹蓝 */
+  --theme-accent: #bf00ff;    /* 霓虹紫 */
+  
+  /* 面板颜色 */
+  --panel-bg: rgba(40, 40, 40, 0.95);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --panel-shadow: rgba(0, 0, 0, 0.3);
+  
+  /* 文字颜色 */
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-light: rgba(255, 255, 255, 0.5);
+  --text-white: #ffffff;      /* 白色文本 */
 }
 
 .tab-button {
-  padding: 10px; /* 按钮内边距 */
-  border: none; /* 移除边框 */
-  border-radius: 5px; /* 圆角 */
-  background-color: #e0e0e0; /* 默认背景色 */
-  cursor: pointer; /* 鼠标悬停时显示手型 */
-  transition: background-color 0.3s; /* 添加过渡效果 */
-  margin-bottom: 10px; /* 按钮之间的间距 */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  background: rgba(60, 60, 60, 0.8);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.tab-button i {
+  font-size: 18px;
+}
+
+.tab-button:hover {
+  background: rgba(80, 80, 80, 0.8);
+  color: var(--theme-primary);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
 }
 
 .tab-button.active {
-  background-color: #4caf50; /* 激活状态的背景色 */
-  color: white; /* 激活状态的文本颜色 */
+  background: var(--theme-primary);
+  color: var(--bg-primary);
+  box-shadow: 
+    0 0 20px rgba(0, 243, 255, 0.3),
+    inset 0 0 10px rgba(0, 243, 255, 0.5);
 }
 
-.panel {
-  flex: 1; /* 使面板内容占据剩余空间 */
-  padding: 20px; /* 面板内边距 */
-  background-color: white; /* 面板背景色 */
-  border-radius: 5px; /* 圆角 */
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* 面板阴影效果 */
-  overflow-y: auto; /* 允许垂直滚动 */
+.friends-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.dynamics-panel, .friends-panel, .find-friends-panel {
-  /* 各个面板的样式 */
+.friends-panel li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.friends-panel li:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateX(5px);
+}
+
+.friend-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.friend-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friend-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.latest-message {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.dynamics-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dynamics-panel li {
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.dynamics-panel li:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateX(5px);
 }
 
 .friend-list-container {
@@ -220,7 +432,11 @@ html, body {
 }
 
 h3 {
-  color: #333333;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(100, 181, 246, 0.2);
 }
 
 .friend-item {
@@ -262,13 +478,6 @@ h3 {
 
 .friend-card:hover {
   background-color: #f0f0f0;
-}
-
-.friend-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
 }
 
 .button-container {
@@ -339,20 +548,6 @@ h3 {
 
 .chat-records-container li:hover {
   background-color: #f0f0f0;
-}
-
-.friend-info {
-  display: flex;
-  align-items: center;
-}
-
-.friend-name {
-  font-size: 16px;
-}
-
-.latest-message {
-  color: #888;
-  font-size: 14px;
 }
 
 .friend-list-modal ul {
@@ -460,4 +655,623 @@ h1.social-space-title, h2.social-space-title, h3.social-space-title {
   font-family: 'Brush Script MT', cursive;
   text-align: center;
   letter-spacing: 2px;
+}
+
+/* 内容区域容器 */
+.friends-content {
+  padding: 160px 20px 20px;
+  min-height: calc(100vh - 80px);
+  position: relative;
+  z-index: 2; /* 调整层级，确保在樱花雨之上 */
+}
+
+/* 面板样式 */
+.panel {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* 美化滚动条 */
+.friends-space::-webkit-scrollbar {
+  width: 8px;
+}
+
+.friends-space::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.friends-space::-webkit-scrollbar-thumb {
+  background: rgba(166, 124, 82, 0.2);
+  border-radius: 4px;
+}
+
+.friends-space::-webkit-scrollbar-thumb:hover {
+  background: rgba(166, 124, 82, 0.3);
+}
+
+/* 添加好友弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 确保在最上层 */
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  width: 400px;
+  max-width: 90%;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  color: var(--primary-color);
+  transform: rotate(90deg);
+}
+
+/* 搜索框样式 */
+.search-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.search-btn {
+  padding: 10px 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* 关系圈模块 */
+.relationships-panel {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.circle-map {
+  background: var(--panel-bg);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px var(--panel-shadow);
+  min-height: 400px;
+}
+
+.relationship-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 心动态模块 */
+.moments-panel {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 24px;
+}
+
+.moments-create {
+  background: linear-gradient(135deg, 
+    var(--theme-primary) 0%,
+    var(--theme-secondary) 100%
+  );
+  color: var(--text-white);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.moments-feed {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* 心画像模块 */
+.portrait-panel {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 24px;
+}
+
+.personality-tags {
+  background: var(--panel-bg);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.tag {
+  background: rgba(60, 60, 60, 0.8);
+  border: 1px solid var(--panel-border);
+  color: var(--text-secondary);
+  border-radius: 20px;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+}
+
+.tag.active {
+  background: var(--theme-primary);
+  color: var(--bg-primary);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+/* 心扮演模块 */
+.roleplay-panel {
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  gap: 24px;
+}
+
+.role-card {
+  background: linear-gradient(135deg,
+    rgba(139, 115, 85, 0.05) 0%,
+    rgba(139, 115, 85, 0.1) 100%
+  );
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--panel-shadow);
+}
+
+/* 心缘分模块 */
+.destiny-panel {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+}
+
+.match-card {
+  background: var(--panel-bg);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.match-info {
+  flex: 1;
+}
+
+/* 通用按钮样式 */
+.primary-btn {
+  background: var(--theme-primary);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 24px;
+  transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 243, 255, 0.2);
+}
+
+/* 面板通用样式 */
+.panel-card {
+  background: var(--panel-bg);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px var(--panel-shadow);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.panel-card:hover {
+  border-color: var(--theme-primary);
+  box-shadow: 
+    0 0 20px rgba(0, 243, 255, 0.2),
+    inset 0 0 30px rgba(0, 243, 255, 0.1);
+}
+
+/* 标题样式 */
+.section-title {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+}
+
+/* 落叶动画效果 */
+.leaf {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg,
+    rgba(139, 115, 85, 0.3) 0%,
+    rgba(139, 115, 85, 0.1) 100%
+  );
+  border-radius: 50% 0 50% 50%;
+  animation: leafFall 3s ease-in-out infinite;
+}
+
+@keyframes leafFall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* 适配移动端 */
+@media (max-width: 768px) {
+  .destiny-panel {
+    height: calc(100vh - 180px);
+  }
+
+  .activity-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .activity-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .join-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .tab-container {
+    left: 10px;
+    right: 10px;
+    padding: 10px;
+  }
+
+  .tab-container::before {
+    left: -10px;
+    right: -10px;
+  }
+
+  .friends-content {
+    padding: 140px 10px 10px;
+  }
+}
+
+/* 美化滚动条 */
+.panel-card {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 243, 255, 0.2) transparent;
+}
+
+.panel-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.panel-card::-webkit-scrollbar-thumb {
+  background: rgba(0, 243, 255, 0.2);
+  border-radius: 3px;
+}
+
+.panel-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 243, 255, 0.3);
+}
+
+/* 心画像样式补充 */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.tag {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--primary-light);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tag.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 20px;
+  padding: 15px 0;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 80px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--primary-light) 0%,
+    var(--primary-color) 100%
+  );
+  opacity: 0.3;
+}
+
+/* 心扮演样式补充 */
+.active-role {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  border: 1px solid var(--card-border);
+  border-radius: 15px;
+}
+
+.role-avatar {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.role-status {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  border: 2px solid white;
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+/* 心缘分样式补充 */
+.match-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.match-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  border: 1px solid var(--card-border);
+  border-radius: 15px;
+}
+
+.interest-bubbles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+}
+
+.interest-bubble {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+}
+
+.join-btn, .connect-btn {
+  background: var(--theme-primary);
+  color: var(--bg-primary);
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.join-btn:hover, .connect-btn:hover {
+  background: var(--theme-secondary);
+  box-shadow: 
+    0 0 20px rgba(0, 243, 255, 0.3),
+    0 0 40px rgba(0, 243, 255, 0.1);
+}
+
+/* 文本样式 */
+p, .description {
+  color: var(--text-secondary);
+}
+
+/* 标题样式 */
+.panel-card h3,
+.circle-map h3,
+.relationship-categories h3,
+.interaction-history h3 {
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(100, 181, 246, 0.2);
+}
+
+/* 内容文字样式 */
+.panel-card p,
+.circle-map p,
+.relationship-categories p,
+.interaction-history p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* 关系分类项样式 */
+.relationship-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.relationship-item:hover {
+  background: var(--card-bg);
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+/* 互动记录项样式 */
+.interaction-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.interaction-item:hover {
+  background: var(--card-bg);
+  border-color: var(--primary-light);
+}
+
+/* 移除阳光射线相关样式，添加雨滴容器 */
+.rain-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* 雨滴样式调整 */
+.raindrop {
+  position: absolute;
+  width: 2px;  /* 增加宽度 */
+  height: 25px; /* 增加长度 */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.8)  /* 增加不透明度 */
+  );
+  box-shadow: 
+    0 0 4px rgba(255, 255, 255, 0.6),  /* 添加发光效果 */
+    0 0 8px rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  animation: rainfall 1s linear infinite;
+}
+
+/* 添加不同大小的雨滴 */
+.raindrop.small {
+  width: 1px;
+  height: 20px;
+  opacity: 0.6;
+}
+
+.raindrop.medium {
+  width: 2px;
+  height: 25px;
+  opacity: 0.8;
+}
+
+.raindrop.large {
+  width: 3px;
+  height: 30px;
+  opacity: 1;
+}
+
+/* 雨滴下落动画 */
+@keyframes rainfall {
+  0% {
+    transform: translateY(-100vh) rotate(2deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(2deg);
+    opacity: 0;
+  }
 } 

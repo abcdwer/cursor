@@ -17,10 +17,26 @@ const AddFriendModal = ({ onClose, setFriendsData }) => {
     }
   };
 
+  const handleOverlayClick = (e) => {
+    // 只有当点击的是遮罩层本身时才关闭
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-content">
+        <button className="modal-close" onClick={onClose}>×</button>
         <h2>添加好友</h2>
+        <div className="search-container">
+          <input 
+            type="text" 
+            placeholder="输入用户名或ID搜索" 
+            className="search-input"
+          />
+          <button className="search-btn">搜索</button>
+        </div>
         <input
           type="text"
           value={friendName}
@@ -28,7 +44,6 @@ const AddFriendModal = ({ onClose, setFriendsData }) => {
           placeholder="输入好友名称"
         />
         <button onClick={handleAddFriend}>添加</button>
-        <button onClick={onClose}>关闭</button>
       </div>
     </div>
   );

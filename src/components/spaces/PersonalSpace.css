@@ -440,6 +440,7 @@ html, body {
   min-height: 100vh;
   overflow-x: hidden;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
 /* 添加滚动渐变遮罩 */
@@ -519,143 +520,321 @@ html, body {
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* 收藏分类标签容器调整 */
+.collections-tabs {
+  position: fixed;
+  top: 160px; /* 增加顶部距离，与左侧收藏位置对齐 */
+  left: 300px;
+  width: calc(100% - 332px);
+  padding: 12px 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  margin: 0 16px;
+  height: 45px;
+  z-index: 100;
+}
+
+/* 调整内容区域布局 */
+.content-collections {
+  padding-top: 100px; /* 增加顶部内边距 */
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+/* 收藏墙网格基础样式 */
+.collections-grid {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* 文章类型 - 单行大卡片布局 */
+.collections-grid[data-type="articles"] {
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 180px;
+}
+
+/* 影视类型 - 两行网格布局 */
+.collections-grid[data-type="movies"] {
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 280px;
+}
+
+/* 游戏类型 - 大图展示 */
+.collections-grid[data-type="games"] {
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 320px;
+}
+
+/* 小说类型 - 紧凑多列布局 */
+.collections-grid[data-type="novels"] {
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 240px;
+}
+
+/* 音乐类型 - 单行小卡片布局 */
+.collections-grid[data-type="music"] {
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 160px;
+}
+
+/* 根据内容类型调整卡片样式 */
+.collection-item {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* 文章卡片样式 */
+.collections-grid[data-type="articles"] .collection-item {
+  display: flex;
+  height: 100%;
+}
+
+.collections-grid[data-type="articles"] .collection-cover {
+  width: 35%;
+  height: 100%;
+}
+
+.collections-grid[data-type="articles"] .collection-info {
+  width: 65%;
+  padding: 15px;
+}
+
+/* 影视卡片样式 */
+.collections-grid[data-type="movies"] .collection-item {
+  height: 100%;
+}
+
+.collections-grid[data-type="movies"] .collection-cover {
+  height: 70%;
+}
+
+/* 游戏卡片样式 */
+.collections-grid[data-type="games"] .collection-item {
+  height: 100%;
+}
+
+.collections-grid[data-type="games"] .collection-cover {
+  height: 75%;
+}
+
+/* 小说卡片样式 */
+.collections-grid[data-type="novels"] .collection-item {
+  height: 100%;
+}
+
+.collections-grid[data-type="novels"] .collection-cover {
+  height: 65%;
+}
+
+/* 音乐卡片样式 */
+.collections-grid[data-type="music"] .collection-item {
+  height: 100%;
+  text-align: center;
+}
+
+.collections-grid[data-type="music"] .collection-cover {
+  height: 60%;
+  border-radius: 50%;
+  margin: 10px auto;
+  width: 60%;
+}
+
+.collection-cover {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.collection-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.collection-info {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.collection-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.collection-desc {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.collection-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #999;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 悬停效果 */
+.collection-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.collection-item:hover .collection-cover img {
+  transform: scale(1.05);
+}
+
+/* 夜间模式适配 */
+.night .collection-item {
+  background: rgba(30, 30, 60, 0.8);
+}
+
+.night .collection-info {
+  background: rgba(30, 30, 60, 0.9);
+}
+
+.night .collection-title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.night .collection-desc {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.night .collection-meta {
+  color: rgba(255, 255, 255, 0.5);
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
 /* 响应式调整 */
 @media (max-width: 1440px) {
   .collections-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    column-count: 3;
   }
 }
 
 @media (max-width: 1024px) {
-  .main-content {
-    width: calc(100% - 240px);
-    margin-left: 240px;
-  }
-  
-  .collections-tabs {
-    left: 240px;
-    width: calc(100% - 240px);
-  }
-  
   .collections-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-    padding: 16px;
+    column-count: 2;
   }
 }
 
 @media (max-width: 768px) {
   .collections-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    column-count: 1;
+  }
+  
+  .collection-cover {
+    height: 180px;
   }
 }
 
-/* 收藏墙网格调整 */
-.collections-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-  width: 100%;
-  padding: 24px;
-  box-sizing: border-box;
-}
-
-/* 收藏项目样式调整 */
-.collection-item {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* 收藏分类标签容器调整 */
-.collections-tabs {
-  position: fixed;
-  top: 0;
-  left: 300px;
-  width: calc(100% - 300px);
-  padding: 100px 24px 24px;
-  box-sizing: border-box;
+/* 分类标签组样式 */
+.collection-tabs-group {
   display: flex;
-  overflow-x: auto;
-  scrollbar-width: none;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 4px;
 }
 
 /* 分类标签项样式 */
 .collection-tab {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 16px 24px;
-  margin-right: 16px;
+  background: transparent;
+  border: none;
+  padding: 8px 20px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.tab-icon {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
   transition: all 0.3s ease;
-}
-
-.tab-label {
-  font-size: 14px;
+  position: relative;
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  letter-spacing: 0.5px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* 悬停效果 */
-.collection-tab:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-.collection-tab:hover .tab-icon {
-  background: rgba(255, 255, 255, 0.12);
-  transform: scale(1.1);
+/* 标签图标 */
+.tab-icon {
+  font-size: 18px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
 }
 
 /* 激活状态 */
 .collection-tab.active {
   background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.08),
-    0 0 15px rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .collection-tab.active .tab-icon {
-  background: rgba(255, 255, 255, 0.15);
+  opacity: 1;
+  transform: scale(1.1);
 }
 
-.collection-tab.active .tab-label {
-  color: #fff;
+/* 悬停效果 */
+.collection-tab:hover:not(.active) {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
 }
 
-/* 内容区域调整 */
+.collection-tab:hover .tab-icon {
+  opacity: 1;
+}
+
+/* 分隔线 */
+.collection-tab:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 调整收藏墙的上边距 */
 .collections-wall {
-  margin-top: 80px; /* 为固定定位的标签腾出空间 */
-  padding: 24px;
+  margin-top: 20px;
 }
 
 /* 夜间模式适配 */
-.night .collection-tab {
+.night .collections-tabs {
   background: rgba(20, 20, 40, 0.2);
 }
 
-.night .collection-tab:hover,
-.night .collection-tab.active {
-  background: rgba(30, 30, 60, 0.25);
+.night .collection-tabs-group {
+  background: rgba(30, 30, 60, 0.3);
 }
 
 /* 移除树相关的样式 */
@@ -946,28 +1125,83 @@ nav a.active {
   display: flex;
   align-items: center;
   z-index: 10;
+  transition: all 0.3s ease;
+}
+
+/* 添加收缩状态 */
+.side-modules.collapsed {
+  width: 80px;
+  padding: 100px 10px 20px;
+}
+
+/* 收缩按钮 */
+.collapse-btn {
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 11;
+}
+
+.collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 模块卡片收缩状态 */
+.side-modules.collapsed .module-card {
+  padding: 12px;
+  justify-content: center;
+}
+
+.side-modules.collapsed .module-text {
+  display: none;
+}
+
+.side-modules.collapsed .module-icon {
+  margin: 0;
+}
+
+/* 调整主内容区域 */
+.main-content {
+  transition: all 0.3s ease;
+}
+
+.side-modules.collapsed + .main-content {
+  width: calc(100% - 80px);
+  margin-left: 80px;
 }
 
 /* 模块卡片容器 */
 .module-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
 }
 
 /* 模块卡片样式调整 */
 .module-card {
-  background: rgba(255, 255, 255, 0.05); /* 降低默认透明度 */
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  padding: 16px 20px;
+  padding: 14px 16px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   transform: translateX(-100%);
   animation: slideIn 0.5s forwards;
   animation-delay: calc(var(--index) * 0.1s);
@@ -994,13 +1228,13 @@ nav a.active {
 
 /* 模块图标容器调整 */
 .module-icon {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  background: rgba(255, 255, 255, 0.08); /* 降低图标背景透明度 */
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   transition: all 0.3s ease;
 }
@@ -1027,7 +1261,7 @@ nav a.active {
 /* 悬停效果调整 */
 .module-card:hover {
   transform: translateX(-20px);
-  background: rgba(255, 255, 255, 0.08); /* 降低悬停时的透明度 */
+  background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -1043,7 +1277,7 @@ nav a.active {
 /* 激活状态调整 */
 .module-card.active {
   transform: translateX(-10px);
-  background: rgba(255, 255, 255, 0.1); /* 降低激活状态的透明度 */
+  background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.08),
@@ -1060,7 +1294,7 @@ nav a.active {
 
 /* 夜间模式适配调整 */
 .night .module-card {
-  background: rgba(20, 20, 40, 0.2); /* 降低夜间模式的透明度 */
+  background: rgba(20, 20, 40, 0.2);
 }
 
 .night .module-card:hover,
@@ -1072,7 +1306,7 @@ nav a.active {
 .side-modules {
   background: linear-gradient(
     to right,
-    rgba(10, 10, 42, 0.2), /* 降低渐变背景起始透明度 */
+    rgba(10, 10, 42, 0.2),
     transparent
   );
 }
@@ -1105,4 +1339,256 @@ nav a.active {
     height: 40px;
     font-size: 20px;
   }
+}
+
+/* 响应式调整放在最后 */
+@media (max-width: 1440px) {
+  .collections-grid {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 1024px) {
+  .collections-grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .collections-grid {
+    column-count: 1;
+  }
+  
+  .collection-cover {
+    height: 180px;
+  }
+}
+
+/* 相册容器样式 */
+.photo-album-container {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+/* 展示模式选择器 */
+.display-mode-selector {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.mode-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mode-btn i {
+  font-size: 16px;
+}
+
+.mode-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.mode-btn.active {
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 轮播图样式 */
+.carousel-container {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.carousel-wrapper {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  position: relative;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  color: white;
+}
+
+/* 魔方样式 */
+.cube-container {
+  perspective: 1000px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cube-wrapper {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotate 20s infinite linear;
+}
+
+.cube-face {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.cube-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.face-1 { transform: translateZ(100px); }
+.face-2 { transform: rotateY(180deg) translateZ(100px); }
+.face-3 { transform: rotateY(90deg) translateZ(100px); }
+.face-4 { transform: rotateY(-90deg) translateZ(100px); }
+.face-5 { transform: rotateX(90deg) translateZ(100px); }
+.face-6 { transform: rotateX(-90deg) translateZ(100px); }
+
+@keyframes rotate {
+  from { transform: rotateX(0) rotateY(0); }
+  to { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* 瀑布流样式 */
+.waterfall-container {
+  column-count: 3;
+  column-gap: 20px;
+  padding: 20px;
+}
+
+.waterfall-item {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.waterfall-item:hover {
+  transform: translateY(-5px);
+}
+
+.waterfall-item img {
+  width: 100%;
+  display: block;
+}
+
+/* 网格展示样式 */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.grid-item {
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.grid-item:hover {
+  transform: scale(1.05);
+}
+
+.photo-info {
+  padding: 15px;
+  color: white;
+}
+
+.photo-info h4 {
+  margin: 0 0 5px;
+  font-size: 16px;
+}
+
+.photo-info span {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* 加载状态样式 */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: rgba(255, 255, 255, 0.8);
+  gap: 15px;
+}
+
+.loading-spinner i {
+  font-size: 32px;
+}
+
+/* 无照片状态样式 */
+.no-photos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: rgba(255, 255, 255, 0.6);
+  gap: 15px;
+}
+
+.no-photos i {
+  font-size: 48px;
+}
+
+/* 调整月亮和收藏分类的布局 */
+.moon-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px; /* 增加与收藏分类的间距 */
+}
+
+/* 收藏分类容器样式 */
+.collection-categories {
+  width: 100%;
+  margin-top: 20px; /* 与月亮的间距 */
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
 }

@@ -820,6 +820,20 @@ const InterestSpace = () => {
 
   return (
     <div className="interest-space">
+      {/* 添加樱花飘落容器 */}
+      <div className="sakura-container">
+        {[...Array(30)].map((_, i) => (
+          <div
+            key={i}
+            className={`sakura ${['small', 'medium', 'large'][i % 3]}`}
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 10}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div className="category-tabs">
         {categories.map(category => (
           <button

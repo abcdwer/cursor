@@ -103,9 +103,15 @@ const VideoPlayer = ({ videos, currentVideoIndex, setCurrentVideoIndex, isPlayin
   );
 };
 
+// 添加 Emby 配置
+const EMBY_SERVER = 'http://192.168.3.100:8096';
+const EMBY_API_KEY = 'f879cbe6-8025-4526-8f1d-0cba84dfe8e7';
+const EMBY_TOKEN = ''; // 需要添加有效的访问令牌
+
 // 在组件顶部添加内容组件
 const ContentArea = ({ activeModule }) => {
   const [activeCollectionTab, setActiveCollectionTab] = useState('articles');
+  const [albumDisplayMode, setAlbumDisplayMode] = useState('carousel');
 
   const getCollectionItems = (type) => {
     const collections = {
@@ -115,28 +121,42 @@ const ContentArea = ({ activeModule }) => {
           description: '详细讲解JS原型链的工作原理和继承机制',
           date: '2024-03-15',
           rating: 4.8,
-          cover: '/images/articles/js-prototype.jpg'
+          cover: 'https://picsum.photos/200/300?random=1'
         },
         {
           title: 'React性能优化最佳实践',
           description: '全面的React应用性能优化指南和实践技巧',
           date: '2024-03-12',
           rating: 4.9,
-          cover: '/images/articles/react-performance.jpg'
+          cover: 'https://picsum.photos/200/300?random=2'
         },
         {
           title: '现代CSS布局技巧',
           description: '使用Grid和Flexbox创建响应式布局',
           date: '2024-03-10',
           rating: 4.7,
-          cover: '/images/articles/css-layout.jpg'
+          cover: 'https://picsum.photos/200/300?random=3'
         },
         {
           title: 'TypeScript高级特性详解',
           description: '探索TypeScript的高级类型和实用技巧',
           date: '2024-03-08',
           rating: 4.8,
-          cover: '/images/articles/typescript.jpg'
+          cover: 'https://picsum.photos/200/300?random=4'
+        },
+        {
+          title: 'Vue3组件设计模式',
+          description: '最新的Vue3组件开发技巧和设计思路',
+          date: '2024-03-06',
+          rating: 4.7,
+          cover: 'https://picsum.photos/200/300?random=5'
+        },
+        {
+          title: 'Node.js微服务架构',
+          description: '使用Node.js构建可扩展的微服务系统',
+          date: '2024-03-04',
+          rating: 4.8,
+          cover: 'https://picsum.photos/200/300?random=6'
         }
       ],
       movies: [
@@ -145,28 +165,56 @@ const ContentArea = ({ activeModule }) => {
           description: '关于爱、时间与人性的科幻杰作',
           date: '2024-02-20',
           rating: 4.9,
-          cover: '/images/movies/interstellar.jpg'
+          cover: 'https://picsum.photos/200/300?random=7'
         },
         {
           title: '盗梦空间',
           description: '扣人心弦的精彩梦境冒险',
           date: '2024-02-15',
           rating: 4.8,
-          cover: '/images/movies/inception.jpg'
+          cover: 'https://picsum.photos/200/300?random=8'
         },
         {
           title: '肖申克的救赎',
           description: '希望永远都在，自由不会死',
           date: '2024-02-10',
           rating: 4.9,
-          cover: '/images/movies/shawshank.jpg'
+          cover: 'https://picsum.photos/200/300?random=9'
         },
         {
           title: '千与千寻',
           description: '宫崎骏笔下的奇幻世界',
           date: '2024-02-05',
           rating: 4.9,
-          cover: '/images/movies/spirited-away.jpg'
+          cover: 'https://picsum.photos/200/300?random=10'
+        },
+        {
+          title: '泰坦尼克号',
+          description: '永恒的爱情传奇',
+          date: '2024-02-01',
+          rating: 4.8,
+          cover: 'https://picsum.photos/200/300?random=11'
+        },
+        {
+          title: '阿甘正传',
+          description: '生命如巧克力盒子般充满惊喜',
+          date: '2024-01-28',
+          rating: 4.9,
+          cover: 'https://picsum.photos/200/300?random=12'
+        },
+        {
+          title: '楚门的世界',
+          description: '关于真实与虚幻的思考',
+          date: '2024-01-25',
+          rating: 4.8,
+          cover: 'https://picsum.photos/200/300?random=13'
+        },
+        {
+          title: '大话西游',
+          description: '经典的中国式浪漫',
+          date: '2024-01-22',
+          rating: 4.9,
+          cover: 'https://picsum.photos/200/300?random=14'
         }
       ],
       games: [
@@ -175,28 +223,28 @@ const ContentArea = ({ activeModule }) => {
           description: '开放世界冒险游戏的巅峰之作',
           date: '2024-03-10',
           rating: 4.9,
-          cover: '/images/games/zelda-totk.jpg'
+          cover: 'https://picsum.photos/200/300?random=15'
         },
         {
           title: '艾尔登法环',
           description: '极具挑战性的黑暗奇幻RPG',
           date: '2024-03-05',
           rating: 4.8,
-          cover: '/images/games/elden-ring.jpg'
+          cover: 'https://picsum.photos/200/300?random=16'
         },
         {
           title: '死亡搁浅',
           description: '小岛秀夫的后启示录杰作',
           date: '2024-02-28',
           rating: 4.7,
-          cover: '/images/games/death-stranding.jpg'
+          cover: 'https://picsum.photos/200/300?random=17'
         },
         {
           title: '赛博朋克2077',
           description: '未来世界的沉浸式体验',
           date: '2024-02-20',
           rating: 4.6,
-          cover: '/images/games/cyberpunk.jpg'
+          cover: 'https://picsum.photos/200/300?random=18'
         }
       ],
       novels: [
@@ -205,28 +253,35 @@ const ContentArea = ({ activeModule }) => {
           description: '刘慈欣的科幻史诗巨著',
           date: '2024-01-15',
           rating: 4.9,
-          cover: '/images/novels/three-body.jpg'
+          cover: 'https://picsum.photos/200/300?random=19'
         },
         {
           title: '百年孤独',
           description: '魔幻现实主义的经典之作',
           date: '2024-01-10',
           rating: 4.8,
-          cover: '/images/novels/hundred-years.jpg'
+          cover: 'https://picsum.photos/200/300?random=20'
         },
         {
           title: '人类简史',
           description: '尤瓦尔·赫拉利的历史巨作',
           date: '2024-01-05',
           rating: 4.8,
-          cover: '/images/novels/sapiens.jpg'
+          cover: 'https://picsum.photos/200/300?random=21'
         },
         {
           title: '活着',
           description: '余华描绘的人生百态',
           date: '2024-01-01',
           rating: 4.9,
-          cover: '/images/novels/to-live.jpg'
+          cover: 'https://picsum.photos/200/300?random=22'
+        },
+        {
+          title: '围城',
+          description: '钱钟书的文学经典',
+          date: '2023-12-28',
+          rating: 4.8,
+          cover: 'https://picsum.photos/200/300?random=23'
         }
       ],
       music: [
@@ -235,33 +290,340 @@ const ContentArea = ({ activeModule }) => {
           description: 'Coldplay创作的经典情歌',
           date: '2024-03-01',
           rating: 4.7,
-          cover: '/images/music/the-scientist.jpg'
+          cover: 'https://picsum.photos/200/300?random=24'
         },
         {
           title: 'Bohemian Rhapsody',
           description: 'Queen乐队的不朽神作',
           date: '2024-02-25',
           rating: 4.9,
-          cover: '/images/music/bohemian-rhapsody.jpg'
+          cover: 'https://picsum.photos/200/300?random=25'
         },
         {
           title: 'Yesterday',
           description: '披头士的永恒经典',
           date: '2024-02-20',
           rating: 4.8,
-          cover: '/images/music/yesterday.jpg'
+          cover: 'https://picsum.photos/200/300?random=26'
         },
         {
           title: 'Shape of You',
           description: 'Ed Sheeran的流行金曲',
           date: '2024-02-15',
           rating: 4.6,
-          cover: '/images/music/shape-of-you.jpg'
+          cover: 'https://picsum.photos/200/300?random=27'
+        },
+        {
+          title: 'Rolling in the Deep',
+          description: 'Adele的标志性作品',
+          date: '2024-02-10',
+          rating: 4.8,
+          cover: 'https://picsum.photos/200/300?random=28'
+        },
+        {
+          title: 'Billie Jean',
+          description: 'Michael Jackson的经典舞曲',
+          date: '2024-02-05',
+          rating: 4.9,
+          cover: 'https://picsum.photos/200/300?random=29'
+        }
+      ],
+      'photo-album': [
+        {
+          id: 1,
+          title: '樱花季节',
+          description: '春日赏樱',
+          date: '2024-03-20',
+          cover: 'https://images.unsplash.com/photo-1522383225653-ed111181a951',
+          category: 'nature'
+        },
+        {
+          id: 2,
+          title: '海边日落',
+          description: '夕阳西下',
+          date: '2024-03-15',
+          cover: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
+          category: 'landscape'
+        },
+        {
+          id: 3,
+          title: '城市夜景',
+          description: '璀璨都市',
+          date: '2024-03-10',
+          cover: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05',
+          category: 'city'
+        },
+        {
+          id: 4,
+          title: '雪山之巅',
+          description: '冰雪世界',
+          date: '2024-03-05',
+          cover: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606',
+          category: 'nature'
+        },
+        {
+          id: 5,
+          title: '咖啡时光',
+          description: '午后时光',
+          date: '2024-03-01',
+          cover: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085',
+          category: 'life'
+        },
+        {
+          id: 6,
+          title: '古镇漫步',
+          description: '江南水乡',
+          date: '2024-02-25',
+          cover: 'https://images.unsplash.com/photo-1528164344705-47542687000d',
+          category: 'culture'
+        },
+        {
+          id: 7,
+          title: '森林探险',
+          description: '绿意盎然',
+          date: '2024-02-20',
+          cover: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e',
+          category: 'nature'
+        },
+        {
+          id: 8,
+          title: '极光之夜',
+          description: '北极光',
+          date: '2024-02-15',
+          cover: 'https://images.unsplash.com/photo-1483347756197-71ef80e95f73',
+          category: 'landscape'
+        },
+        {
+          id: 9,
+          title: '花田漫步',
+          description: '薰衣草田',
+          date: '2024-02-10',
+          cover: 'https://images.unsplash.com/photo-1468581264429-2548ef9eb732',
+          category: 'nature'
+        },
+        {
+          id: 10,
+          title: '雨后彩虹',
+          description: '七彩天空',
+          date: '2024-02-05',
+          cover: 'https://images.unsplash.com/photo-1501630834273-4b5604d2ee31',
+          category: 'landscape'
+        },
+        {
+          id: 11,
+          title: '街头艺术',
+          description: '城市涂鸦',
+          date: '2024-02-01',
+          cover: 'https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8',
+          category: 'city'
+        },
+        {
+          id: 12,
+          title: '美食记录',
+          description: '寿司拼盘',
+          date: '2024-01-28',
+          cover: 'https://images.unsplash.com/photo-1553621042-f6e147245754',
+          category: 'food'
         }
       ]
     };
     
     return collections[type] || [];
+  };
+
+  // 相册展示组件
+  const PhotoAlbum = () => {
+    const [displayMode, setDisplayMode] = useState('carousel');
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [photos, setPhotos] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // 获取 Emby 照片
+    const fetchEmbyPhotos = async () => {
+      try {
+        // 获取照片库内容
+        const response = await fetch(
+          `${EMBY_SERVER}/emby/Items?Recursive=true&IncludeItemTypes=Photo&Fields=PrimaryImageAspectRatio,Overview,DateCreated&api_key=${EMBY_API_KEY}`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `MediaBrowser Token="${EMBY_API_KEY}"`,
+              'Accept': 'application/json'
+            }
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('获取照片失败');
+        }
+
+        const data = await response.json();
+        console.log('Emby photos:', data); // 查看返回的数据
+
+        if (data.Items && data.Items.length > 0) {
+          const processedPhotos = data.Items.map(photo => ({
+            id: photo.Id,
+            title: photo.Name,
+            description: photo.Overview || '',
+            date: new Date(photo.DateCreated).toLocaleDateString(),
+            cover: `${EMBY_SERVER}/emby/Items/${photo.Id}/Images/Primary?api_key=${EMBY_API_KEY}`,
+            thumbnail: `${EMBY_SERVER}/emby/Items/${photo.Id}/Images/Primary?maxWidth=400&api_key=${EMBY_API_KEY}`,
+            aspectRatio: photo.PrimaryImageAspectRatio || 1.5
+          }));
+
+          setPhotos(processedPhotos);
+        } else {
+          throw new Error('未找到照片');
+        }
+      } catch (error) {
+        console.error('获取 Emby 照片失败:', error);
+        // 如果获取失败，使用本地 mock 数据作为备选
+        const mockPhotos = getCollectionItems('photo-album');
+        setPhotos(mockPhotos);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // 加载照片
+    useEffect(() => {
+      fetchEmbyPhotos();
+    }, []);
+
+    // 轮播图自动播放
+    useEffect(() => {
+      if (displayMode === 'carousel' && photos.length > 0) {
+        const timer = setInterval(() => {
+          setCurrentSlide((prev) => 
+            prev === photos.length - 1 ? 0 : prev + 1
+          );
+        }, 5000);
+        return () => clearInterval(timer);
+      }
+    }, [displayMode, photos.length]);
+
+    // 渲染加载状态
+    if (loading) {
+      return (
+        <div className="photo-album-container">
+          <div className="loading-spinner">
+            <i className="fas fa-spinner fa-spin"></i>
+            <span>正在加载照片...</span>
+          </div>
+        </div>
+      );
+    }
+
+    const displayModes = [
+      { id: 'carousel', icon: 'fas fa-images', label: '轮播展示' },
+      { id: 'cube', icon: 'fas fa-cube', label: '魔方旋转' },
+      { id: 'waterfall', icon: 'fas fa-water', label: '瀑布流' },
+      { id: 'grid', icon: 'fas fa-th', label: '网格展示' }
+    ];
+
+    const renderPhotoContent = () => {
+      switch (displayMode) {
+        case 'carousel':
+          return (
+            <div className="carousel-container">
+              <div 
+                className="carousel-wrapper"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {photos.map((photo, index) => (
+                  <div key={index} className="carousel-slide">
+                    <img src={photo.cover} alt={photo.title} loading="lazy" />
+                    <div className="slide-info">
+                      <h3>{photo.title}</h3>
+                      <p>{photo.description}</p>
+                      <span>{photo.date}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="carousel-controls">
+                <button onClick={() => setCurrentSlide(prev => prev === 0 ? photos.length - 1 : prev - 1)}>
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+                <button onClick={() => setCurrentSlide(prev => prev === photos.length - 1 ? 0 : prev + 1)}>
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          );
+
+        case 'cube':
+          return (
+            <div className="cube-container">
+              <div className="cube-wrapper">
+                {photos.slice(0, 6).map((photo, index) => (
+                  <div key={index} className={`cube-face face-${index + 1}`}>
+                    <img src={photo.cover} alt={photo.title} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+
+        case 'waterfall':
+          return (
+            <div className="waterfall-container">
+              {photos.map(photo => (
+                <div key={photo.id} className="waterfall-item">
+                  <img src={photo.cover} alt={photo.title} />
+                  <div className="photo-info">
+                    <h4>{photo.title}</h4>
+                    <p>{photo.description}</p>
+                    <span>{photo.date}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+
+        case 'grid':
+          return (
+            <div className="grid-container">
+              {photos.map(photo => (
+                <div key={photo.id} className="grid-item">
+                  <img src={photo.cover} alt={photo.title} />
+                  <div className="photo-info">
+                    <h4>{photo.title}</h4>
+                    <p>{photo.description}</p>
+                    <span>{photo.date}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+
+        default:
+          return null;
+      }
+    };
+
+    return (
+      <div className="photo-album-container">
+        <div className="display-mode-selector">
+          {displayModes.map(mode => (
+            <button
+              key={mode.id}
+              className={`mode-btn ${displayMode === mode.id ? 'active' : ''}`}
+              onClick={() => setDisplayMode(mode.id)}
+            >
+              <i className={mode.icon}></i>
+              {mode.label}
+            </button>
+          ))}
+        </div>
+        {photos.length > 0 ? renderPhotoContent() : (
+          <div className="no-photos">
+            <i className="fas fa-images"></i>
+            <p>暂无照片</p>
+          </div>
+        )}
+      </div>
+    );
   };
 
   switch (activeModule) {
@@ -290,7 +652,7 @@ const ContentArea = ({ activeModule }) => {
 
           {/* 收藏内容展示 */}
           <div className="collections-wall">
-            <div className="collections-grid">
+            <div className="collections-grid" data-type={activeCollectionTab}>
               {getCollectionItems(activeCollectionTab).map((item, i) => (
                 <div key={i} className="collection-item">
                   <div className="collection-cover">
@@ -312,24 +674,7 @@ const ContentArea = ({ activeModule }) => {
       );
     
     case 'photo-album':
-      return (
-        <div className="content-photos">
-          {/* 相册轮播图 */}
-          <div className="photo-carousel">
-            {/* 这里可以使用现有的VideoPlayer组件或新建轮播图组件 */}
-            <div className="timeline-photos">
-              <h3>2024年</h3>
-              <div className="photo-grid">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="photo-item">
-                    <img src={`photo${i}.jpg`} alt={`照片 ${i + 1}`} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      return <PhotoAlbum />;
     
     // 其他模块的内容...
     default:
@@ -344,6 +689,7 @@ const PersonalSpace = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [activeModule, setActiveModule] = useState('collections');
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   // 生成粒子效果
   const generateParticles = useCallback(() => {
@@ -464,6 +810,46 @@ const PersonalSpace = () => {
       title: '理想',
       description: '前进的方向',
       color: 'linear-gradient(45deg, #FFE1E1, #FFF48F)'
+    }
+  ];
+
+  // Mock数据
+  const albumPhotos = [
+    {
+      id: 1,
+      url: 'https://picsum.photos/800/600?random=1',
+      title: '春日野餐',
+      date: '2024-03-15'
+    },
+    {
+      id: 2,
+      url: 'https://picsum.photos/800/600?random=2',
+      title: '海边日落',
+      date: '2024-03-10'
+    },
+    {
+      id: 3,
+      url: 'https://picsum.photos/800/600?random=3',
+      title: '城市夜景',
+      date: '2024-03-05'
+    },
+    {
+      id: 4,
+      url: 'https://picsum.photos/800/600?random=4',
+      title: '山间徒步',
+      date: '2024-02-28'
+    },
+    {
+      id: 5,
+      url: 'https://picsum.photos/800/600?random=5',
+      title: '咖啡时光',
+      date: '2024-02-25'
+    },
+    {
+      id: 6,
+      url: 'https://picsum.photos/800/600?random=6',
+      title: '雨天街景',
+      date: '2024-02-20'
     }
   ];
 
@@ -595,7 +981,13 @@ const PersonalSpace = () => {
       {/* 内容层 */}
       <div className="content-layer">
         {/* 左侧模块导航 */}
-        <div className="side-modules">
+        <div className={`side-modules ${isCollapsed ? 'collapsed' : ''}`}>
+          <button 
+            className="collapse-btn"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+          >
+            {isCollapsed ? '→' : '←'}
+          </button>
           <div className="module-list">
             {[
               {
