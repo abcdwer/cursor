@@ -367,41 +367,51 @@ const PersonalSpace = () => {
 
       <div className="journals-stats">
         <div className="stat-item">
-          <span className="icon">��</span>
-          <span>共 {journals.length} 篇</span>
+          <span className="stat-number">{journals.length}</span>
+          <span className="stat-label">总日志</span>
         </div>
         <div className="stat-item">
-          <span className="icon">📅</span>
-          <span>本月 {journals.filter(j => 
-            new Date(j.date).getMonth() === new Date().getMonth()
-          ).length} 篇</span>
+          <span className="stat-number">
+            {journals.filter(j => new Date(j.date).getMonth() === new Date().getMonth()).length}
+          </span>
+          <span className="stat-label">本月日志</span>
         </div>
       </div>
       
       <div className="journals-grid">
         {journals.map(journal => (
           <div key={journal.id} className="journal-card">
-            <div className="journal-header">
-              <div className="journal-date">
-                <span className="date-day">{new Date(journal.date).getDate()}</span>
-                <span className="date-month">{new Date(journal.date).toLocaleString('zh-CN', { month: 'long' })}</span>
-              </div>
+            <div className="journal-date-badge">
+              <span className="date-day">{new Date(journal.date).getDate()}</span>
+              <span className="date-month">{new Date(journal.date).toLocaleString('zh-CN', { month: 'short' })}</span>
+            </div>
+            
+            <div className="journal-main">
               <div className="journal-meta">
                 <span className="journal-mood">{journal.mood}</span>
                 <span className="journal-weather">{journal.weather}</span>
-                <span className="journal-location">📍 {journal.location}</span>
+                <span className="journal-location">{journal.location}</span>
               </div>
-            </div>
-            
-            <h3 className="journal-title">{journal.title}</h3>
-            <p className="journal-excerpt">{journal.excerpt}</p>
-            
-            <div className="journal-footer">
-              <button className="read-more">继续阅读</button>
-              <div className="journal-stats">
-                <span>👁️ 123</span>
-                <span>💭 45</span>
-                <span>❤️ 67</span>
+              
+              <h3 className="journal-title">{journal.title}</h3>
+              <p className="journal-excerpt">{journal.excerpt}</p>
+              
+              <div className="journal-footer">
+                <div className="journal-interactions">
+                  <span className="interaction-item">
+                    <i className="far fa-eye"></i>
+                    <span>123</span>
+                  </span>
+                  <span className="interaction-item">
+                    <i className="far fa-comment"></i>
+                    <span>45</span>
+                  </span>
+                  <span className="interaction-item">
+                    <i className="far fa-heart"></i>
+                    <span>67</span>
+                  </span>
+                </div>
+                <button className="read-more-btn">阅读全文</button>
               </div>
             </div>
           </div>
@@ -415,48 +425,93 @@ const PersonalSpace = () => {
     <div className="creations-container">
       <div className="creations-header">
         <h2>我的创作</h2>
-        <div className="creation-filters">
-          <button className="active">全部</button>
-          <button>文字</button>
-          <button>图片</button>
-          <button>音乐</button>
-          <button>视频</button>
-        </div>
+        <button className="start-creation-btn">
+          <i className="fas fa-plus"></i>
+          <span>开始创作</span>
+        </button>
       </div>
-      
-      <div className="creations-showcase">
-        {creations.map(creation => (
-          <div key={creation.id} className={`creation-item ${creation.type}`}>
-            <div className="creation-content">
-              {creation.type === 'text' ? (
-                <div className="text-preview">
-                  <h3>{creation.title}</h3>
-                  <p>{creation.content}</p>
-                </div>
-              ) : (
-                <div className="media-preview">
-                  <img src={creation.url} alt={creation.title} />
-                  <div className="media-overlay">
+
+      <div className="creations-content">
+        <div className="creation-filters">
+          <button className="filter-btn active">全部</button>
+          <button className="filter-btn">文字</button>
+          <button className="filter-btn">图片</button>
+          <button className="filter-btn">音乐</button>
+          <button className="filter-btn">视频</button>
+        </div>
+        
+        <div className="creations-grid">
+          {creations.map(creation => (
+            <div key={creation.id} className={`creation-card ${creation.type}`}>
+              <div className="creation-preview">
+                {creation.type === 'text' ? (
+                  <div className="text-preview">
+                    <div className="text-icon">📝</div>
                     <h3>{creation.title}</h3>
-                    <p>{creation.description}</p>
+                    <p>{creation.excerpt}</p>
+                  </div>
+                ) : creation.type === 'image' ? (
+                  <div className="image-preview">
+                    <img src={creation.url} alt={creation.title} />
+                  </div>
+                ) : creation.type === 'video' ? (
+                  <div className="video-preview">
+                    <div className="video-thumbnail">
+                      <img src={creation.thumbnail} alt={creation.title} />
+                      <div className="play-icon">▶️</div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="music-preview">
+                    <div className="music-icon">🎵</div>
+                    <div className="music-info">
+                      <h3>{creation.title}</h3>
+                      <p>{creation.artist}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="creation-info">
+                <div className="creation-header">
+                  <h3 className="creation-title">{creation.title}</h3>
+                  <span className="creation-date">{creation.date}</span>
+                </div>
+                
+                <p className="creation-desc">{creation.description}</p>
+                
+                <div className="creation-footer">
+                  <div className="creation-stats">
+                    <span className="stat-item">
+                      <i className="far fa-eye"></i>
+                      <span>{creation.views}</span>
+                    </span>
+                    <span className="stat-item">
+                      <i className="far fa-heart"></i>
+                      <span>{creation.likes}</span>
+                    </span>
+                    <span className="stat-item">
+                      <i className="far fa-comment"></i>
+                      <span>{creation.comments}</span>
+                    </span>
+                  </div>
+                  
+                  <div className="creation-actions">
+                    <button className="action-btn edit">
+                      <i className="far fa-edit"></i>
+                    </button>
+                    <button className="action-btn share">
+                      <i className="far fa-share-square"></i>
+                    </button>
+                    <button className="action-btn more">
+                      <i className="fas fa-ellipsis-h"></i>
+                    </button>
                   </div>
                 </div>
-              )}
-            </div>
-            
-            <div className="creation-info">
-              <div className="creation-meta">
-                <span className="creation-date">{creation.date}</span>
-                <span className="creation-type">{creation.type}</span>
-              </div>
-              <div className="creation-actions">
-                <button className="action-btn edit">编辑</button>
-                <button className="action-btn share">分享</button>
-                <button className="action-btn more">•••</button>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -522,80 +577,79 @@ const PersonalSpace = () => {
       case 'collections':
         return (
           <div className="collections-container">
-            <div className="collection-types">
-              <button 
-                className={`collection-type ${selectedCollection === 'all' ? 'active' : ''}`}
-                onClick={() => setSelectedCollection('all')}
-              >
-                <span>📚</span>
-                全部
-              </button>
-              <button 
-                className={`collection-type ${selectedCollection === 'movie' ? 'active' : ''}`}
-                onClick={() => setSelectedCollection('movie')}
-              >
-                <span>🎬</span>
-                电影
-              </button>
-              <button 
-                className={`collection-type ${selectedCollection === 'book' ? 'active' : ''}`}
-                onClick={() => setSelectedCollection('book')}
-              >
-                <span>📖</span>
-                书籍
-              </button>
-              <button 
-                className={`collection-type ${selectedCollection === 'music' ? 'active' : ''}`}
-                onClick={() => setSelectedCollection('music')}
-              >
-                <span>🎵</span>
-                音乐
-              </button>
-              <button 
-                className={`collection-type ${selectedCollection === 'game' ? 'active' : ''}`}
-                onClick={() => setSelectedCollection('game')}
-              >
-                <span>🎮</span>
-                游戏
-              </button>
+            <div className="collections-header">
+              <h2>我的收藏</h2>
             </div>
 
-            <div className="collection-grid">
-              {collections.map(item => (
-                <div 
-                  key={item.id} 
-                  className={`collection-item ${item.type}`}
-                  onClick={() => handleCollectionClick(item)}
+            <div className="collections-content">
+              <div className="collection-types">
+                <button 
+                  className={`collection-type ${selectedCollection === 'all' ? 'active' : ''}`}
+                  onClick={() => setSelectedCollection('all')}
                 >
-                  <div className="collection-cover">
-                    <img src={item.cover} alt={item.title} />
-                  </div>
-                  <div className="collection-info">
-                    <h3 className="collection-title">{item.title}</h3>
-                    <p className="collection-desc">{item.description}</p>
-                    <div className="collection-tags">
-                      {item.tags.map(tag => (
-                        <span key={tag} className="collection-tag">#{tag}</span>
-                      ))}
+                  <span>📚</span>
+                  全部
+                </button>
+                <button 
+                  className={`collection-type ${selectedCollection === 'movie' ? 'active' : ''}`}
+                  onClick={() => setSelectedCollection('movie')}
+                >
+                  <span>🎬</span>
+                  电影
+                </button>
+                <button 
+                  className={`collection-type ${selectedCollection === 'book' ? 'active' : ''}`}
+                  onClick={() => setSelectedCollection('book')}
+                >
+                  <span>📖</span>
+                  书籍
+                </button>
+                <button 
+                  className={`collection-type ${selectedCollection === 'music' ? 'active' : ''}`}
+                  onClick={() => setSelectedCollection('music')}
+                >
+                  <span>🎵</span>
+                  音乐
+                </button>
+                <button 
+                  className={`collection-type ${selectedCollection === 'game' ? 'active' : ''}`}
+                  onClick={() => setSelectedCollection('game')}
+                >
+                  <span>🎮</span>
+                  游戏
+                </button>
+              </div>
+
+              <div className="collection-grid">
+                {collections.map(item => (
+                  <div 
+                    key={item.id} 
+                    className={`collection-item ${item.type}`}
+                    onClick={() => handleCollectionClick(item)}
+                  >
+                    <div className="collection-cover">
+                      <img src={item.cover} alt={item.title} />
                     </div>
-                    <div className="collection-meta">
-                      <span className="collection-date">{item.date}</span>
-                      <div className="collection-rating">
-                        <span>★</span>
-                        <span>{item.rating}</span>
+                    <div className="collection-info">
+                      <h3 className="collection-title">{item.title}</h3>
+                      <p className="collection-desc">{item.description}</p>
+                      <div className="collection-tags">
+                        {item.tags.map(tag => (
+                          <span key={tag} className="collection-tag">#{tag}</span>
+                        ))}
+                      </div>
+                      <div className="collection-meta">
+                        <span className="collection-date">{item.date}</span>
+                        <div className="collection-rating">
+                          <span>★</span>
+                          <span>{item.rating}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-
-            {collections.length === 0 && (
-              <div className="collection-empty">
-                <div className="collection-empty-icon">📦</div>
-                <p>还没有收藏任何内容</p>
+                ))}
               </div>
-            )}
+            </div>
           </div>
         );
         
@@ -639,11 +693,14 @@ const PersonalSpace = () => {
             <div className="memory-header">
               <h2>回忆墙</h2>
               <div className="memory-controls">
-                <button>添加回忆</button>
-                <select>
-                  <option>按时间排序</option>
-                  <option>按重要性排序</option>
-                </select>
+                <button className="add-memory-btn">
+                  <i className="fas fa-plus"></i>
+                  记录回忆
+                </button>
+                <button className="sort-btn">
+                  <i className="fas fa-sort-amount-down"></i>
+                  时间排序
+                </button>
               </div>
             </div>
             <div className="memory-grid">

@@ -49,16 +49,16 @@ const PhotoAlbum = React.memo(({
   useEffect(() => {
     const loadCategoryPhotos = async () => {
       try {
-        // 先加载其他分类的照片
-        const categories = ['portrait', 'landscape', 'life'];
+        // 加载所有分类的照片
+        const categories = ['all', 'portrait', 'landscape', 'life'];
         for (const category of categories) {
           setCategoryLoading(prev => ({ ...prev, [category]: true }));
           try {
             const response = await embyService.getPhotos(category);
-            if (response.photos.length > 0) {
+            if (response?.photos?.length > 0) {
               setCategoryPhotos(prev => ({
                 ...prev,
-                [category]: response.photos.slice(0, 10)
+                [category]: response.photos
               }));
             }
           } catch (error) {
@@ -89,10 +89,10 @@ const PhotoAlbum = React.memo(({
     try {
       setCategoryLoading(prev => ({ ...prev, [activeCategory]: true }));
       const response = await embyService.refreshCategoryPhotos(activeCategory);
-      if (response.photos.length > 0) {
+      if (response?.photos?.length > 0) {
         setCategoryPhotos(prev => ({
           ...prev,
-          [activeCategory]: response.photos.slice(0, 10)
+          [activeCategory]: response.photos
         }));
       }
     } catch (error) {
@@ -110,7 +110,10 @@ const PhotoAlbum = React.memo(({
   };
 
   // 获取当前分类的照片
-  const getCurrentPhotos = () => categoryPhotos[activeCategory] || [];
+  const getCurrentPhotos = () => {
+    const photos = categoryPhotos[activeCategory] || [];
+    return photos.length > 0 ? photos : categoryPhotos.all;
+  };
 
   // 检查当前分类是否正在加载
   const isCurrentCategoryLoading = () => categoryLoading[activeCategory];

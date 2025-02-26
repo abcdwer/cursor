@@ -70,44 +70,54 @@ class EmbyService {
   async fetchPhotos(category) {
     const categoryQueries = {
       portrait: {
-        // 人像照片查询
         searchQuery: {
           SearchTerm: 'person OR face OR portrait OR people',
           ImageTypes: 'Primary',
-          Filters: 'HasFace',  // 必须包含人脸
+          Filters: 'HasFace',
           MinWidth: 600,
           SortBy: 'DateCreated',
-          SortOrder: 'Descending'
+          SortOrder: 'Descending',
+          Limit: 8
         }
       },
       landscape: {
-        // 风景照片查询
         searchQuery: {
           SearchTerm: 'landscape OR nature OR scenery OR outdoor',
           ImageTypes: 'Primary',
-          MinWidth: 1200,  // 宽幅照片
+          MinWidth: 1200,
           MinHeight: 800,
-          SortBy: 'Random'
+          SortBy: 'DateCreated',
+          SortOrder: 'Descending',
+          Limit: 8
         }
       },
       life: {
-        // 生活照片查询
         searchQuery: {
           SearchTerm: 'life OR daily OR event OR activity',
           ExcludeSearchTerm: 'landscape nature portrait',
           ImageTypes: 'Primary',
-          SortBy: 'Random'
+          SortBy: 'DateCreated',
+          SortOrder: 'Descending',
+          Limit: 8
         }
       },
       all: {
-        // 全部照片查询
         searchQuery: {
-          SortBy: 'Random'
+          SortBy: 'DateCreated',
+          SortOrder: 'Descending',
+          Limit: 8
         }
       }
     };
 
     try {
+      if (this.categoryPhotos[category]?.length > 0) {
+        return {
+          photos: this.categoryPhotos[category],
+          totalCount: this.categoryPhotos[category].length
+        };
+      }
+
       if (!this.token) {
         await this.refreshToken();
       }
@@ -117,54 +127,23 @@ class EmbyService {
         Recursive: true,
         Fields: 'PrimaryImageAspectRatio,Overview,DateCreated,Width,Height',
         api_key: API_KEY,
-        Limit: 20,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary'
       };
 
-      // 合并查询参数
       const queryParams = {
         ...baseParams,
-        ...categoryQueries[category].searchQuery
+        ...(categoryQueries[category]?.searchQuery || categoryQueries.all.searchQuery)
       };
 
       const response = await this.client.get('/Items', { params: queryParams });
 
-      if (!response.data.Items?.length) {
+      if (!response?.data?.Items?.length) {
         console.warn(`No photos found for category: ${category}`);
         return { photos: [], totalCount: 0 };
       }
 
-      // 根据分类处理照片
-      let photos = response.data.Items;
-      
-      // 特殊处理不同分类的照片
-      switch (category) {
-        case 'portrait':
-          // 确保照片包含人脸
-          photos = photos.filter(photo => photo.HasFace);
-          break;
-        case 'landscape':
-          // 选择宽高比大于1.5的照片
-          photos = photos.filter(photo => 
-            photo.Width && photo.Height && (photo.Width / photo.Height > 1.5)
-          );
-          break;
-        case 'life':
-          // 排除明显的风景和人像照片
-          photos = photos.filter(photo => 
-            !photo.HasFace && !(photo.Width / photo.Height > 1.5)
-          );
-          break;
-      }
-
-      // 确保至少返回一些照片
-      if (photos.length === 0) {
-        return await this.fetchPhotos('all');
-      }
-
-      // 更新分类照片列表
-      this.categoryPhotos[category] = photos.map(photo => ({
+      const photos = response.data.Items.map(photo => ({
         id: photo.Id,
         title: photo.Name,
         description: photo.Overview || '',
@@ -175,8 +154,11 @@ class EmbyService {
         aspectRatio: photo.PrimaryImageAspectRatio || 1.5
       }));
 
+      // 更新缓存
+      this.categoryPhotos[category] = photos;
+
       return {
-        photos: this.categoryPhotos[category],
+        photos,
         totalCount: response.data.TotalRecordCount
       };
     } catch (error) {
@@ -185,11 +167,73 @@ class EmbyService {
     }
   }
 
-  // 修改刷新方法
+  // 修改刷新方法，使用随机排序获取新照片
   async refreshCategoryPhotos(category) {
-    // 清空该分类的照片列表
-    this.categoryPhotos[category] = [];
-    return this.getPhotos(category);
+    try {
+      if (!this.token) {
+        await this.refreshToken();
+      }
+
+      const queryParams = {
+        IncludeItemTypes: 'Photo',
+        Recursive: true,
+        Fields: 'PrimaryImageAspectRatio,Overview,DateCreated,Width,Height',
+        api_key: API_KEY,
+        ImageTypeLimit: 1,
+        EnableImageTypes: 'Primary',
+        Limit: 8,
+        SortBy: 'Random',
+        StartIndex: Math.floor(Math.random() * 100)
+      };
+
+      if (category === 'portrait') {
+        Object.assign(queryParams, {
+          SearchTerm: 'person OR face OR portrait OR people',
+          Filters: 'HasFace',
+          MinWidth: 600
+        });
+      } else if (category === 'landscape') {
+        Object.assign(queryParams, {
+          SearchTerm: 'landscape OR nature OR scenery OR outdoor',
+          MinWidth: 1200,
+          MinHeight: 800
+        });
+      } else if (category === 'life') {
+        Object.assign(queryParams, {
+          SearchTerm: 'life OR daily OR event OR activity',
+          ExcludeSearchTerm: 'landscape nature portrait'
+        });
+      }
+
+      const response = await this.client.get('/Items', { params: queryParams });
+
+      if (!response?.data?.Items?.length) {
+        console.warn(`No photos found for category: ${category}`);
+        return { photos: [], totalCount: 0 };
+      }
+
+      const photos = response.data.Items.map(photo => ({
+        id: photo.Id,
+        title: photo.Name,
+        description: photo.Overview || '',
+        date: new Date(photo.DateCreated).toLocaleDateString(),
+        cover: `${EMBY_BASE_URL}/emby/Items/${photo.Id}/Images/Primary?quality=90&fillWidth=800&fillHeight=600&api_key=${API_KEY}`,
+        thumbnail: `${EMBY_BASE_URL}/emby/Items/${photo.Id}/Images/Primary?quality=80&fillWidth=400&fillHeight=300&api_key=${API_KEY}`,
+        original: `${EMBY_BASE_URL}/emby/Items/${photo.Id}/Images/Primary?quality=90&api_key=${API_KEY}`,
+        aspectRatio: photo.PrimaryImageAspectRatio || 1.5
+      }));
+
+      // 更新缓存
+      this.categoryPhotos[category] = photos;
+
+      return {
+        photos,
+        totalCount: response.data.TotalRecordCount
+      };
+    } catch (error) {
+      console.error(`Error refreshing photos for category ${category}:`, error);
+      return { photos: [], totalCount: 0 };
+    }
   }
 
   // 修改刷新所有分类的方法
