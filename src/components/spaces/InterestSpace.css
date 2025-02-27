@@ -12,12 +12,8 @@
   max-width: 100vw;
   margin: 0;
   padding: 80px 24px 24px;
-  background: linear-gradient(135deg, 
-    var(--dark-gradient-start) 0%,
-    var(--dark-gradient-middle) 50%,
-    var(--dark-gradient-end) 100%
-  );
-  color: #ffffff;
+  background: #ffffff;
+  color: #333333;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -25,6 +21,9 @@
   overflow-x: hidden;
   box-sizing: border-box;
   border: none;
+  min-height: 100vh;
+  background: #fff;
+  padding-top: 60px;
 }
 
 /* 确保body和html没有多余的边距 */
@@ -37,22 +36,18 @@ html, body {
 
 /* 添加CSS变量用于背景渐变 */
 :root {
-  --interest-gradient-start: #e8f5e9;
-  --interest-gradient-middle: #f1f8e9;
-  --interest-gradient-end: #f9fbe7;
-  --dark-gradient-start: #1a1a1a;    /* 深邃黑 */
-  --dark-gradient-middle: #242424;   /* 石墨黑 */
-  --dark-gradient-end: #2c2c2c;      /* 星空黑 */
+  --interest-gradient-start: #ffffff;
+  --interest-gradient-middle: #ffffff;
+  --interest-gradient-end: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: #e0e0e0;
+  --glass-shadow: rgba(0, 0, 0, 0.1);
   
   --neon-blue: #00f3ff;             /* 霓虹蓝 */
   --neon-purple: #bf00ff;           /* 霓虹紫 */
   --neon-pink: #ff00c8;             /* 霓虹粉 */
   --neon-green: #39ff14;            /* 霓虹绿 */
   --neon-yellow: #fff700;           /* 霓虹黄 */
-  
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.05);
-  --glass-shadow: rgba(0, 0, 0, 0.3);
 }
 
 /* 导航栏背景遮罩调整 */
@@ -79,10 +74,10 @@ html, body {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  border: 1px solid var(--glass-border);
+  border: 1px solid #e0e0e0;
   border-radius: 12px;
-  background: var(--glass-bg);
-  color: rgba(255, 255, 255, 0.7);
+  background: #ffffff;
+  color: #666666;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -98,12 +93,9 @@ html, body {
 
 /* 悬停效果 */
 .category-tab:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border-color: var(--neon-purple);
-  box-shadow: 
-    0 0 15px var(--neon-purple),
-    inset 0 0 5px var(--neon-purple);
+  background: #f5f5f5;
+  color: #333333;
+  border-color: #d0d0d0;
 }
 
 .category-tab:hover .category-icon {
@@ -113,12 +105,9 @@ html, body {
 
 /* 激活状态 */
 .category-tab.active {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  border-color: var(--neon-blue);
-  box-shadow: 
-    0 0 20px var(--neon-blue),
-    inset 0 0 10px var(--neon-blue);
+  background: #1890ff;
+  color: #ffffff;
+  border-color: #1890ff;
 }
 
 .category-tab.active .category-icon {
@@ -140,9 +129,9 @@ html, body {
   padding: 15px;
   border-radius: 16px;
   z-index: 100;
-  background: rgba(20, 20, 20, 0.8);
+  background: #ffffff;
   backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
+  border: 1px solid #e0e0e0;
   box-shadow: 
     0 4px 30px var(--glass-shadow),
     inset 0 0 20px rgba(0, 0, 0, 0.3);
@@ -185,18 +174,17 @@ html, body {
 }
 
 .category-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
+  background: #f5f5f5;
 }
 
 .category-content::-webkit-scrollbar-thumb {
-  background: var(--glass-bg);
+  background: #d0d0d0;
   border-radius: 4px;
-  border: 1px solid var(--glass-border);
+  border: 1px solid #e0e0e0;
 }
 
 .category-content::-webkit-scrollbar-thumb:hover {
-  background: var(--glass-bg);
-  box-shadow: 0 0 15px var(--neon-blue);
+  background: #b3b3b3;
 }
 
 /* 各个分类的通用样式 */
@@ -225,10 +213,10 @@ html, body {
 .recipes,
 .travel-map,
 .travel-plans {
-  background: rgba(30, 30, 30, 0.8);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 30px var(--glass-shadow);
-  color: #ffffff;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #333333;
   border-radius: 16px;
   padding: 24px;
   min-height: 200px;
@@ -256,7 +244,7 @@ html, body {
 
 /* 标题样式 */
 .category-content h3 {
-  color: #ffffff;
+  color: #333333;
   font-size: 20px;
   margin-bottom: 20px;
   font-weight: 500;
@@ -330,15 +318,15 @@ html, body {
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: 32px;
   height: 680px;
-  background: rgba(20, 20, 20, 0.95);
-  border: 1px solid var(--glass-border);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
 }
 
 .movie-main {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  background: #000;
+  background: #ffffff;
   border-radius: 20px;
   overflow: hidden;
   padding: 24px;
@@ -457,8 +445,8 @@ html, body {
 /* 排片列表样式优化 */
 .screening-schedule {
   flex: 1;
-  background: #1a1a1a;
-  color: white;
+  background: #ffffff;
+  color: #333333;
   border-radius: 20px;
   padding: 20px;
 }
@@ -467,7 +455,7 @@ html, body {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 16px;
-  color: #fff;
+  color: #333333;
 }
 
 .schedule-list {
@@ -484,11 +472,12 @@ html, body {
   display: flex;
   gap: 12px;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
   align-items: center;
+  border: 1px solid #e0e0e0;
 }
 
 .schedule-item img {
@@ -506,7 +495,7 @@ html, body {
 .schedule-info h5 {
   margin: 0 0 4px;
   font-size: 14px;
-  color: #fff;
+  color: #333333;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -514,7 +503,7 @@ html, body {
 }
 
 .schedule-info p {
-  color: #999;
+  color: #666666;
   font-size: 12px;
   margin: 0;
 }
@@ -535,7 +524,7 @@ html, body {
 }
 
 .schedule-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: #f5f5f5;
   border-radius: 2px;
 }
 
@@ -545,12 +534,12 @@ html, body {
 }
 
 .schedule-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: #f5f5f5;
 }
 
 .schedule-item.playing {
-  background: rgba(26, 115, 232, 0.15);
-  border-left: 3px solid #1a73e8;
+  background: rgba(24, 144, 255, 0.1);
+  border-color: #1890ff;
 }
 
 /* 响应式调整 */
@@ -583,7 +572,7 @@ html, body {
   width: 40px;
   height: 40px;
   border: 3px solid #f3f3f3;
-  border-top: 3px solid #1a73e8;
+  border-top: 3px solid #1890ff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -600,15 +589,16 @@ html, body {
   align-items: center;
   height: 200px;
   gap: 16px;
-  color: #666;
+  color: #ff4d4f;
   text-align: center;
   padding: 20px;
+  background: #ffffff;
 }
 
 .retry-button {
   padding: 8px 16px;
-  background: #1a73e8;
-  color: white;
+  background: #1890ff;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -626,10 +616,10 @@ html, body {
 
 /* 推荐影单区域样式 */
 .movie-recommendations-section {
-  background: rgba(30, 30, 30, 0.8);
+  background: #ffffff;
   border-radius: 20px;
   padding: 24px;
-  border: 1px solid var(--glass-border);
+  border: 1px solid #e0e0e0;
   box-shadow: 0 4px 30px var(--glass-shadow);
 }
 
@@ -648,8 +638,8 @@ html, body {
   overflow: hidden;
   transition: all 0.3s ease;
   aspect-ratio: 2/3;
-  background: rgba(20, 20, 20, 0.6);
-  border: 1px solid var(--glass-border);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   margin: 0 auto;
   width: 100%;
   max-width: 180px;
@@ -690,7 +680,7 @@ html, body {
 
 /* 电影标题 */
 .movie-title {
-  color: #fff;
+  color: #333333;
   font-size: 14px;
   margin-bottom: 8px;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -725,7 +715,7 @@ html, body {
 .refresh-button {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--glass-border);
-  color: #fff;
+  color: #333333;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -752,7 +742,7 @@ html, body {
 }
 
 .recommendations-header h3 {
-  color: #fff;
+  color: #333333;
   text-shadow: 0 0 10px var(--neon-blue);
 }
 
@@ -760,11 +750,12 @@ html, body {
 .movie-stats {
   margin-top: 16px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.05);
+  background: #f5f5f5;
   border-radius: 12px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  border: 1px solid #e0e0e0;
 }
 
 .stat-item {
@@ -775,6 +766,7 @@ html, body {
   padding: 8px;
   border-radius: 8px;
   transition: all 0.2s ease;
+  color: #333333;
 }
 
 .stat-item:hover {
@@ -789,12 +781,12 @@ html, body {
 .stat-value {
   font-size: 16px;
   font-weight: 500;
-  color: #fff;
+  color: #333333;
 }
 
 .stat-label {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #666666;
 }
 
 /* 调整排片列表高度以适应新增内容 */
@@ -834,8 +826,8 @@ html, body {
 
 /* 排行榜样式 */
 .movie-ranking-section {
-  background: rgba(30, 30, 30, 0.8);
-  color: #ffffff;
+  background: #ffffff;
+  color: #333333;
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
@@ -859,16 +851,16 @@ html, body {
   padding: 6px 16px;
   border: none;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.1);
+  background: #f5f5f5;
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #666666;
 }
 
 .ranking-tab.active {
-  background: var(--neon-blue);
+  background: #1890ff;
   color: #ffffff;
   font-weight: 500;
 }
@@ -936,8 +928,8 @@ html, body {
   gap: 16px;
   padding: 16px;
   border-radius: 16px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   transition: all 0.2s;
 }
 
@@ -955,6 +947,7 @@ html, body {
 
 .discussion-content {
   flex: 1;
+  color: #333333;
 }
 
 .discussion-header {
@@ -966,12 +959,12 @@ html, body {
 
 .user-name {
   font-weight: 500;
-  color: #ffffff;
+  color: #333333;
 }
 
 .post-time {
   font-size: 12px;
-  color: #999;
+  color: #666666;
 }
 
 .share-content {
@@ -980,16 +973,17 @@ html, body {
 
 .share-content > p {
   margin: 0 0 8px;
-  color: #ffffff;
+  color: #333333;
 }
 
 .share-movie {
   display: flex;
   gap: 12px;
   padding: 12px;
-  background: rgba(30, 30, 30, 0.8);
-  color: #ffffff;
+  background: #ffffff;
+  color: #333333;
   border-radius: 12px;
+  border: 1px solid #e0e0e0;
 }
 
 .share-movie img {
@@ -1009,7 +1003,7 @@ html, body {
 .share-movie-info h4 {
   margin: 0;
   font-size: 16px;
-  color: #ffffff;
+  color: #333333;
 }
 
 .share-comment {
@@ -1034,17 +1028,17 @@ html, body {
   gap: 6px;
   padding: 6px 12px;
   border: none;
-  background: var(--glass-bg);
-  color: #ffffff;
+  background: #ffffff;
+  color: #666666;
   font-size: 13px;
   cursor: pointer;
   border-radius: 20px;
   transition: all 0.2s;
-  border: 1px solid var(--glass-border);
+  border: 1px solid #e0e0e0;
 }
 
 .action-btn:hover {
-  background: var(--glass-bg);
+  background: #f5f5f5;
   box-shadow: 0 0 15px var(--neon-green);
   border-color: var(--neon-green);
   color: var(--neon-green);
@@ -1056,8 +1050,8 @@ html, body {
 
 /* 卡牌区域样式 */
 .movie-cards-section {
-  background: rgba(30, 30, 30, 0.8);
-  color: #ffffff;
+  background: #ffffff;
+  color: #333333;
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
@@ -1075,8 +1069,9 @@ html, body {
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.3s;
-  background: transparent;
+  background: #ffffff;
   padding: 3px; /* 减小内边距使边框更细 */
+  border: 1px solid #e0e0e0;
 }
 
 /* 彩色渐变边框效果 */
@@ -1140,8 +1135,8 @@ html, body {
   display: flex;
   justify-content: space-between;
   padding: 4px 8px;
-  background: rgba(30, 30, 30, 0.9);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333333;
   border-radius: 20px;
   font-size: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1174,7 +1169,7 @@ html, body {
 }
 
 .playlist-share {
-  background: rgba(30, 30, 30, 0.8);
+  background: #ffffff;
   border-radius: 12px;
   padding: 16px;
 }
@@ -1182,7 +1177,7 @@ html, body {
 .playlist-share h4 {
   margin: 0 0 8px;
   font-size: 16px;
-  color: #ffffff;
+  color: #333333;
 }
 
 .playlist-preview {
@@ -1229,7 +1224,7 @@ html, body {
 .movie-review h5 {
   margin: 8px 0;
   font-size: 14px;
-  color: #ffffff;
+  color: #333333;
 }
 
 .movie-feeling {
@@ -1254,10 +1249,11 @@ html, body {
 
 .tag {
   padding: 4px 12px;
-  background: #f0f2f5;
-  color: #666;
+  background: #f5f5f5;
+  color: #666666;
   border-radius: 20px;
   font-size: 12px;
+  border: 1px solid #e8e8e8;
 }
 
 /* 添加区域标题样式 */
@@ -1301,6 +1297,9 @@ html, body {
   box-sizing: border-box;
   overflow-x: hidden;
   min-height: calc(100vh - 60px); /* 减去导航栏高度 */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
 }
 
 /* 添加滚动渐变遮罩 */
@@ -1650,4 +1649,349 @@ html, body {
     transform: translateY(100vh) rotate(360deg) translateX(-100px);
     opacity: 0;
   }
+}
+
+/* 兴趣分类 */
+.interest-categories {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 30px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 10px;
+}
+
+.category-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  color: #6e8efb;
+}
+
+.category-btn.active {
+  background: #fff;
+  color: #6e8efb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 兴趣内容网格 */
+.interest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* 兴趣卡片 */
+.interest-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.interest-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.interest-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.interest-info {
+  padding: 20px;
+}
+
+.interest-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.interest-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* 参与者信息 */
+.participants {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.participant-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.participant-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  margin-left: -8px;
+}
+
+.participant-avatar:first-child {
+  margin-left: 0;
+}
+
+.participant-count {
+  font-size: 14px;
+  color: #666;
+  margin-left: 8px;
+}
+
+/* 兴趣空间基础样式 */
+.interest-space {
+  min-height: 100vh;
+  background: #fff;
+  padding-top: 60px;
+}
+
+/* 内容区域 */
+.interest-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+/* 兴趣分类导航 */
+.interest-nav {
+  margin-bottom: 30px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.nav-list {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-item {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  color: #6e8efb;
+}
+
+.nav-item.active {
+  background: rgba(110, 142, 251, 0.1);
+  color: #6e8efb;
+}
+
+/* 兴趣内容区 */
+.interest-section {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* 兴趣卡片网格 */
+.interest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* 兴趣卡片 */
+.interest-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.interest-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 创建兴趣按钮 */
+.create-interest-btn {
+  height: 40px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(110, 142, 251, 0.1);
+  color: #6e8efb;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.create-interest-btn:hover {
+  background: rgba(110, 142, 251, 0.15);
+}
+
+/* 活动列表 */
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activity-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 兴趣话题组件 */
+.interest-topics {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.topic-header {
+  margin-bottom: 16px;
+}
+
+.topic-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.topic-card {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.topic-card:hover {
+  background: rgba(110, 142, 251, 0.05);
+}
+
+/* 兴趣活动组件 */
+.interest-events {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.event-header {
+  margin-bottom: 16px;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.event-card {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.event-card:hover {
+  background: rgba(110, 142, 251, 0.05);
+}
+
+/* 成员列表组件 */
+.member-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.member-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.member-card:hover {
+  background: rgba(110, 142, 251, 0.05);
+}
+
+/* 讨论区组件 */
+.discussion-board {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.discussion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.discussion-item {
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.discussion-item:hover {
+  background: rgba(110, 142, 251, 0.05);
 } 

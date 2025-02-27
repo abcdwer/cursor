@@ -359,7 +359,6 @@ const PersonalSpace = () => {
   const renderJournals = () => (
     <div className="journals-container">
       <div className="journals-header">
-        <h2>我的日志</h2>
         <button className="new-journal-btn">
           <span>写日志</span>
         </button>
@@ -424,94 +423,103 @@ const PersonalSpace = () => {
   const renderCreations = () => (
     <div className="creations-container">
       <div className="creations-header">
-        <h2>我的创作</h2>
-        <button className="start-creation-btn">
-          <i className="fas fa-plus"></i>
-          <span>开始创作</span>
-        </button>
+        <div className="creation-controls">
+          <button className="new-creation-btn">
+            <i className="fas fa-plus"></i>
+            记录创作
+          </button>
+          <div className="creation-filters">
+            <button className="filter-btn active">
+              <i className="fas fa-border-all"></i>
+              全部
+            </button>
+            <button className="filter-btn">
+              <i className="fas fa-font"></i>
+              文字
+            </button>
+            <button className="filter-btn">
+              <i className="fas fa-image"></i>
+              图片
+            </button>
+            <button className="filter-btn">
+              <i className="fas fa-music"></i>
+              音频
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="creations-content">
-        <div className="creation-filters">
-          <button className="filter-btn active">全部</button>
-          <button className="filter-btn">文字</button>
-          <button className="filter-btn">图片</button>
-          <button className="filter-btn">音乐</button>
-          <button className="filter-btn">视频</button>
-        </div>
-        
-        <div className="creations-grid">
-          {creations.map(creation => (
-            <div key={creation.id} className={`creation-card ${creation.type}`}>
-              <div className="creation-preview">
-                {creation.type === 'text' ? (
-                  <div className="text-preview">
-                    <div className="text-icon">📝</div>
+      <div className="creations-grid">
+        {creations.map(creation => (
+          <div key={creation.id} className={`creation-card ${creation.type}`}>
+            <div className="creation-preview">
+              {creation.type === 'text' ? (
+                <div className="text-preview">
+                  <div className="text-icon">📝</div>
+                  <h3>{creation.title}</h3>
+                  <p>{creation.excerpt}</p>
+                </div>
+              ) : creation.type === 'image' ? (
+                <div className="image-preview">
+                  <img src={creation.url} alt={creation.title} />
+                </div>
+              ) : creation.type === 'video' ? (
+                <div className="video-preview">
+                  <div className="video-thumbnail">
+                    <img src={creation.thumbnail} alt={creation.title} />
+                    <div className="play-icon">▶️</div>
+                  </div>
+                </div>
+              ) : (
+                <div className="music-preview">
+                  <div className="music-icon">🎵</div>
+                  <div className="music-info">
                     <h3>{creation.title}</h3>
-                    <p>{creation.excerpt}</p>
+                    <p>{creation.artist}</p>
                   </div>
-                ) : creation.type === 'image' ? (
-                  <div className="image-preview">
-                    <img src={creation.url} alt={creation.title} />
-                  </div>
-                ) : creation.type === 'video' ? (
-                  <div className="video-preview">
-                    <div className="video-thumbnail">
-                      <img src={creation.thumbnail} alt={creation.title} />
-                      <div className="play-icon">▶️</div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="music-preview">
-                    <div className="music-icon">🎵</div>
-                    <div className="music-info">
-                      <h3>{creation.title}</h3>
-                      <p>{creation.artist}</p>
-                    </div>
-                  </div>
-                )}
+                </div>
+              )}
+            </div>
+            
+            <div className="creation-info">
+              <div className="creation-header">
+                <h3 className="creation-title">{creation.title}</h3>
+                <span className="creation-date">{creation.date}</span>
               </div>
               
-              <div className="creation-info">
-                <div className="creation-header">
-                  <h3 className="creation-title">{creation.title}</h3>
-                  <span className="creation-date">{creation.date}</span>
+              <p className="creation-desc">{creation.description}</p>
+              
+              <div className="creation-footer">
+                <div className="creation-stats">
+                  <span className="stat-item">
+                    <i className="far fa-eye"></i>
+                    <span>{creation.views}</span>
+                  </span>
+                  <span className="stat-item">
+                    <i className="far fa-heart"></i>
+                    <span>{creation.likes}</span>
+                  </span>
+                  <span className="stat-item">
+                    <i className="far fa-comment"></i>
+                    <span>{creation.comments}</span>
+                  </span>
                 </div>
                 
-                <p className="creation-desc">{creation.description}</p>
-                
-                <div className="creation-footer">
-                  <div className="creation-stats">
-                    <span className="stat-item">
-                      <i className="far fa-eye"></i>
-                      <span>{creation.views}</span>
-                    </span>
-                    <span className="stat-item">
-                      <i className="far fa-heart"></i>
-                      <span>{creation.likes}</span>
-                    </span>
-                    <span className="stat-item">
-                      <i className="far fa-comment"></i>
-                      <span>{creation.comments}</span>
-                    </span>
-                  </div>
-                  
-                  <div className="creation-actions">
-                    <button className="action-btn edit">
-                      <i className="far fa-edit"></i>
-                    </button>
-                    <button className="action-btn share">
-                      <i className="far fa-share-square"></i>
-                    </button>
-                    <button className="action-btn more">
-                      <i className="fas fa-ellipsis-h"></i>
-                    </button>
-                  </div>
+                <div className="creation-actions">
+                  <button className="action-btn edit">
+                    <i className="far fa-edit"></i>
+                  </button>
+                  <button className="action-btn share">
+                    <i className="far fa-share-square"></i>
+                  </button>
+                  <button className="action-btn more">
+                    <i className="fas fa-ellipsis-h"></i>
+                  </button>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -578,10 +586,6 @@ const PersonalSpace = () => {
         return (
           <div className="collections-container">
             <div className="collections-header">
-              <h2>我的收藏</h2>
-            </div>
-
-            <div className="collections-content">
               <div className="collection-types">
                 <button 
                   className={`collection-type ${selectedCollection === 'all' ? 'active' : ''}`}
@@ -619,36 +623,36 @@ const PersonalSpace = () => {
                   游戏
                 </button>
               </div>
+            </div>
 
-              <div className="collection-grid">
-                {collections.map(item => (
-                  <div 
-                    key={item.id} 
-                    className={`collection-item ${item.type}`}
-                    onClick={() => handleCollectionClick(item)}
-                  >
-                    <div className="collection-cover">
-                      <img src={item.cover} alt={item.title} />
+            <div className="collection-grid">
+              {collections.map(item => (
+                <div 
+                  key={item.id} 
+                  className={`collection-item ${item.type}`}
+                  onClick={() => handleCollectionClick(item)}
+                >
+                  <div className="collection-cover">
+                    <img src={item.cover} alt={item.title} />
+                  </div>
+                  <div className="collection-info">
+                    <h3 className="collection-title">{item.title}</h3>
+                    <p className="collection-desc">{item.description}</p>
+                    <div className="collection-tags">
+                      {item.tags.map(tag => (
+                        <span key={tag} className="collection-tag">#{tag}</span>
+                      ))}
                     </div>
-                    <div className="collection-info">
-                      <h3 className="collection-title">{item.title}</h3>
-                      <p className="collection-desc">{item.description}</p>
-                      <div className="collection-tags">
-                        {item.tags.map(tag => (
-                          <span key={tag} className="collection-tag">#{tag}</span>
-                        ))}
-                      </div>
-                      <div className="collection-meta">
-                        <span className="collection-date">{item.date}</span>
-                        <div className="collection-rating">
-                          <span>★</span>
-                          <span>{item.rating}</span>
-                        </div>
+                    <div className="collection-meta">
+                      <span className="collection-date">{item.date}</span>
+                      <div className="collection-rating">
+                        <span>★</span>
+                        <span>{item.rating}</span>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -735,36 +739,52 @@ const PersonalSpace = () => {
       case 'badges':
         return (
           <div className="badges-container">
-            <div className="badges-header">
-              <h2>成就徽章</h2>
-              <div className="badges-stats">
-                <span>已获得: {badges.filter(b => b.achieved).length}</span>
-                <span>总数: {badges.length}</span>
+            <div className="badges-stats">
+              <div className="stat-item">
+                <span className="stat-number">{badges.filter(b => b.achieved).length}</span>
+                <span className="stat-label">已获得</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">{badges.length}</span>
+                <span className="stat-label">总成就</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">{Math.round((badges.filter(b => b.achieved).length / badges.length) * 100)}%</span>
+                <span className="stat-label">完成度</span>
               </div>
             </div>
+            
             <div className="badges-grid">
               {badges.map(badge => (
-                <div 
-                  key={badge.id} 
-                  className={`badge-card ${badge.achieved ? 'achieved' : 'locked'}`}
-                >
-                  <div className="badge-icon">{badge.icon}</div>
-                  <div className="badge-info">
-                    <h3>{badge.title}</h3>
-                    <p>{badge.description}</p>
-                    {badge.achieved ? (
-                      <div className="achievement-date">
-                        获得于 {badge.achievedDate}
-                      </div>
-                    ) : (
+                <div key={badge.id} className={`badge-card ${badge.achieved ? 'achieved' : ''}`}>
+                  <div className="badge-content">
+                    <div className="badge-icon">{badge.icon}</div>
+                    <div className="badge-info">
+                      <h3>{badge.title}</h3>
+                      <p>{badge.description}</p>
+                    </div>
+                  </div>
+                  
+                  {!badge.achieved && (
+                    <div className="badge-progress">
                       <div className="progress-bar">
                         <div 
                           className="progress" 
                           style={{width: `${(badge.currentProgress / badge.requiredProgress) * 100}%`}}
-                        ></div>
+                        />
                       </div>
-                    )}
-                  </div>
+                      <span className="progress-text">
+                        {badge.currentProgress}/{badge.requiredProgress}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {badge.achieved && (
+                    <div className="achievement-info">
+                      <span className="achievement-icon">✓</span>
+                      <span className="achievement-date">{badge.achievedDate}</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

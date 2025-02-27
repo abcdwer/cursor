@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import './FriendsSpace.css';
 
 const FriendsSpace = () => {
-  const [activeTab, setActiveTab] = useState('relationships');
+  const [activeCategory, setActiveCategory] = useState('relationships');
+
+  const categories = [
+    { id: 'relationships', name: '关系圈', icon: '❤️' },
+    { id: 'moments', name: '心动态', icon: '📸' },
+    { id: 'portrait', name: '心画像', icon: '👤' },
+    { id: 'roleplay', name: '心扮演', icon: '🎭' },
+    { id: 'destiny', name: '心缘分', icon: '✨' }
+  ];
 
   return (
     <div className="friends-space">
@@ -19,45 +27,20 @@ const FriendsSpace = () => {
           />
         ))}
       </div>
-      <div className="tab-container">
-        <button 
-          className={`tab-button ${activeTab === 'relationships' ? 'active' : ''}`}
-          onClick={() => setActiveTab('relationships')}
-        >
-          <i className="fas fa-heart"></i>
-          关系圈
-        </button>
-        <button 
-          className={`tab-button ${activeTab === 'moments' ? 'active' : ''}`}
-          onClick={() => setActiveTab('moments')}
-        >
-          <i className="fas fa-camera"></i>
-          心动态
-        </button>
-        <button 
-          className={`tab-button ${activeTab === 'portrait' ? 'active' : ''}`}
-          onClick={() => setActiveTab('portrait')}
-        >
-          <i className="fas fa-user-circle"></i>
-          心画像
-        </button>
-        <button 
-          className={`tab-button ${activeTab === 'roleplay' ? 'active' : ''}`}
-          onClick={() => setActiveTab('roleplay')}
-        >
-          <i className="fas fa-theater-masks"></i>
-          心扮演
-        </button>
-        <button 
-          className={`tab-button ${activeTab === 'destiny' ? 'active' : ''}`}
-          onClick={() => setActiveTab('destiny')}
-        >
-          <i className="fas fa-magic"></i>
-          心缘分
-        </button>
+      <div className="category-tabs">
+        {categories.map(category => (
+          <button
+            key={category.id}
+            className={`category-tab ${activeCategory === category.id ? 'active' : ''}`}
+            onClick={() => setActiveCategory(category.id)}
+          >
+            <span className="category-icon">{category.icon}</span>
+            <span className="category-name">{category.name}</span>
+          </button>
+        ))}
       </div>
       <div className="friends-content">
-        {activeTab === 'relationships' && (
+        {activeCategory === 'relationships' && (
           <div className="relationships-panel">
             <div className="circle-map panel-card">
               <h3>关系网络图</h3>
@@ -74,20 +57,125 @@ const FriendsSpace = () => {
           </div>
         )}
 
-        {activeTab === 'moments' && (
+        {activeCategory === 'moments' && (
           <div className="moments-panel">
-            <div className="moments-create panel-card">
-              <h3>发布动态</h3>
-              {/* 发布动态内容 */}
+            {/* 中间主内容区 */}
+            <div className="moments-content">
+              {/* 发布动态区域 */}
+              <div className="moments-create">
+                <h3>发布动态</h3>
+                <div className="create-form">
+                  <textarea placeholder="分享你的想法..." />
+                  <div className="create-actions">
+                    <div className="media-actions">
+                      <button><i className="fas fa-image"></i> 图片</button>
+                      <button><i className="fas fa-video"></i> 视频</button>
+                      <button><i className="fas fa-link"></i> 链接</button>
+                    </div>
+                    <button className="publish-btn">发布</button>
+                  </div>
+                </div>
+              </div>
+
+              {/* 动态筛选栏 */}
+              <div className="moments-filter">
+                <div className="filter-tabs">
+                  <button className="filter-tab active">最新</button>
+                  <button className="filter-tab">热门</button>
+                  <button className="filter-tab">关注</button>
+                </div>
+                <div className="filter-actions">
+                  <button><i className="fas fa-sort"></i> 排序</button>
+                  <button><i className="fas fa-filter"></i> 筛选</button>
+                </div>
+              </div>
+
+              {/* 动态列表 */}
+              <div className="moments-list">
+                {/* 动态卡片示例 */}
+                <div className="moment-card">
+                  <div className="moment-header">
+                    <img src="/avatar.jpg" alt="用户头像" className="moment-avatar" />
+                    <div className="moment-info">
+                      <div className="moment-name">张三</div>
+                      <div className="moment-meta">
+                        <span>2小时前</span>
+                        <span>来自 iPhone</span>
+                      </div>
+                    </div>
+                    <button className="moment-more"><i className="fas fa-ellipsis-h"></i></button>
+                  </div>
+                  <div className="moment-content">
+                    <p>今天天气真好，和朋友一起去公园野餐，度过了愉快的一天！</p>
+                    <div className="moment-images">
+                      <img src="/image1.jpg" alt="" />
+                      <img src="/image2.jpg" alt="" />
+                    </div>
+                    <div className="moment-tags">
+                      <span>#周末生活</span>
+                      <span>#野餐</span>
+                    </div>
+                  </div>
+                  <div className="moment-stats">
+                    <div className="stat-item">
+                      <i className="fas fa-heart"></i>
+                      <span>1,234</span>
+                    </div>
+                    <div className="stat-item">
+                      <i className="fas fa-comment"></i>
+                      <span>56</span>
+                    </div>
+                    <div className="stat-item">
+                      <i className="fas fa-share"></i>
+                      <span>23</span>
+                    </div>
+                  </div>
+                  <div className="moment-actions">
+                    <button><i className="fas fa-heart"></i> 点赞</button>
+                    <button><i className="fas fa-comment"></i> 评论</button>
+                    <button><i className="fas fa-share"></i> 分享</button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="moments-feed panel-card">
-              <h3>动态流</h3>
-              {/* 动态流内容 */}
+
+            {/* 右侧边栏 */}
+            <div className="moments-sidebar">
+              {/* 热门话题 */}
+              <div className="hot-topics">
+                <h3>热门话题</h3>
+                <div className="topic-list">
+                  <div className="topic-item">
+                    <span className="topic-rank">1</span>
+                    <div className="topic-info">
+                      <div className="topic-title">#周末去哪玩#</div>
+                      <div className="topic-stats">1.2万讨论 · 3.4万阅读</div>
+                    </div>
+                  </div>
+                  {/* 可以添加更多话题 */}
+                </div>
+              </div>
+
+              {/* 推荐关注 */}
+              <div className="recommended-follows">
+                <h3>推荐关注</h3>
+                <div className="follow-list">
+                  <div className="follow-item">
+                    <img src="/avatar.jpg" alt="用户头像" />
+                    <div className="follow-info">
+                      <div className="follow-name">李四</div>
+                      <div className="follow-desc">摄影爱好者</div>
+                    </div>
+                    <button className="follow-btn">关注</button>
+                  </div>
+                  {/* 可以添加更多推荐用户 */}
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        {activeTab === 'portrait' && (
+        {activeCategory === 'portrait' && (
           <div className="portrait-panel">
             <div className="personality-tags panel-card">
               <h3>性格画像</h3>
@@ -145,7 +233,7 @@ const FriendsSpace = () => {
           </div>
         )}
 
-        {activeTab === 'roleplay' && (
+        {activeCategory === 'roleplay' && (
           <div className="roleplay-panel">
             <div className="current-roles panel-card">
               <h3>当前角色</h3>
@@ -195,7 +283,7 @@ const FriendsSpace = () => {
           </div>
         )}
 
-        {activeTab === 'destiny' && (
+        {activeCategory === 'destiny' && (
           <div className="destiny-panel">
             <div className="destiny-match panel-card">
               <h3>缘分匹配</h3>

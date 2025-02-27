@@ -415,7 +415,6 @@ const PhotoAlbum = React.memo(({
     <div className="photo-album-container">
       <div className="photos-header">
         <div className="header-left">
-          <h2>我的相册</h2>
           <span className="photo-count">共 {totalCount} 张照片</span>
         </div>
         

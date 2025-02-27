@@ -243,1008 +243,134 @@ html, body {
 
 /* 个人空间整体布局调整 */
 .personal-space {
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-  width: 100%;
-  box-sizing: border-box;
+  background-color: #ffffff;
+  padding: 24px;
 }
 
-/* 背景层 */
-.background-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-/* 夜空样式优化 */
-.night-sky {
-  position: fixed;  /* 改为fixed以覆盖整个视口 */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(to bottom, 
-    #0a0a2a 0%,
-    #1a1a4a 50%,
-    #2a2a6a 100%
-  );
-  z-index: -1;  /* 确保在导航栏下方 */
-}
-
-/* 月亮样式 */
-.moon {
-  position: absolute;
-  top: 10%;
-  right: 10%;
-  width: 60px;
-  height: 60px;
-  background: #ffd68f;
-  border-radius: 50%;
-  box-shadow: 
-    0 0 20px #ffd68f,
-    0 0 40px #ffd68f,
-    0 0 60px rgba(255, 214, 143, 0.4);
-  overflow: hidden;
-}
-
-.moon-glow {
-  position: absolute;
-  top: -20%;
-  left: -20%;
-  width: 140%;
-  height: 140%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 255, 255, 0.8),
-    rgba(255, 214, 143, 0.2) 50%,
-    transparent 100%
-  );
-}
-
-.moon-crater {
-  position: absolute;
-  background: rgba(255, 214, 143, 0.8);
-  border-radius: 50%;
-  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* 星星样式优化 */
-.star {
-  position: fixed;  /* 改为fixed以保持位置固定 */
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 
-    0 0 2px #fff,
-    0 0 4px #fff;
-  transition: none;
-}
-
-/* 不同大小的星星 */
-.star:nth-child(3n) {
-  width: 1px;
-  height: 1px;
-  opacity: 0.6;
-}
-
-.star:nth-child(3n+1) {
-  width: 2px;
-  height: 2px;
-  opacity: 0.8;
-}
-
-.star:nth-child(3n+2) {
-  width: 3px;
-  height: 3px;
-  opacity: 1;
-}
-
-/* 移除星星相关动画 */
-@keyframes twinkle {
-  0%, 100% { 
-    opacity: 1;
-    transform: none;
-  }
-  50% { 
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* 城市层优化 */
-.city-layer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 60%;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.9) 100%
-  );
-}
-
-/* 建筑样式优化 */
-.building {
-  position: absolute;
-  bottom: 0;
-  background: #0a0a1a;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
-  padding: 4px;
-  border-radius: 4px 4px 0 0;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  transition: none;
-}
-
-/* 窗户样式优化 */
-.window {
-  width: 3px;
-  height: 4px;
-  margin: 2px;
-  background: #ffd68f;
-  border-radius: 1px;
-  box-shadow: 0 0 4px rgba(255, 214, 143, 0.6);
-  transition: none;
-}
-
-/* 移除所有动画和随机效果 */
-.building, .window {
-  animation: none;
-  transform: none;
-}
-
-/* 雨层 */
-.rain-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
+/* 移除所有天气和背景层 */
+.background-layer,
+.weather-layer,
+.buildings-layer,
+.stars-layer,
+.rain-layer,
+.star,
+.shooting-star,
+.building,
+.window,
 .raindrop {
-  position: absolute;
-  width: 1px;
-  height: 20px;
-  background: linear-gradient(to bottom,
-    transparent,
-    rgba(255, 255, 255, 0.5)
-  );
-  animation: rainFall linear infinite;
+  display: none;
 }
 
 /* 内容层调整 */
 .content-layer {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
+  display: flex;
+  min-height: calc(100vh - 60px);
   padding-top: 60px;
-  overflow-x: hidden;
-  box-sizing: border-box;
+  background: #fff;
 }
 
-/* 右侧主内容区域调整 */
-.main-content {
-  margin-left: 300px;
-  padding: 20px 20px 20px 40px;  /* 减小右侧内边距 */
-  width: calc(100% - 300px);
-  min-height: 100vh;
-  box-sizing: border-box;  /* 确保padding计入总宽度 */
-  overflow-x: hidden;  /* 防止水平滚动 */
-}
-
-/* 添加滚动渐变遮罩 */
-.main-content::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 300px; /* 与左侧导航宽度对应 */
-  height: 80px; /* 与导航栏高度对应 */
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 42, 1) 0%,
-    rgba(10, 10, 42, 0.8) 60%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 90;
-  transition: opacity 0.3s ease;
-}
-
-/* 夜间模式遮罩适配 */
-.night .main-content::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 42, 1) 0%,
-    rgba(10, 10, 42, 0.8) 60%,
-    transparent 100%
-  );
-}
-
-/* 白天模式遮罩适配 */
-.day .main-content::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(137, 247, 254, 1) 0%,
-    rgba(137, 247, 254, 0.8) 60%,
-    transparent 100%
-  );
-}
-
-/* 黎明模式遮罩适配 */
-.dawn .main-content::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(251, 194, 235, 1) 0%,
-    rgba(251, 194, 235, 0.8) 60%,
-    transparent 100%
-  );
-}
-
-/* 黄昏模式遮罩适配 */
-.dusk .main-content::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(161, 140, 209, 1) 0%,
-    rgba(161, 140, 209, 0.8) 60%,
-    transparent 100%
-  );
-}
-
-/* 自定义滚动条样式 */
-.main-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.main-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* 收藏分类标签容器调整 */
-.collections-tabs {
-  position: fixed;
-  top: 160px; /* 增加顶部距离，与左侧收藏位置对齐 */
-  left: 300px;
-  width: calc(100% - 332px);
-  padding: 12px 20px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
-  margin: 0 16px;
-  height: 45px;
-  z-index: 100;
-}
-
-/* 调整内容区域布局 */
-.content-collections {
-  padding-top: 100px; /* 增加顶部内边距 */
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-}
-
-/* 收藏墙网格基础样式 */
-.collections-grid {
-  display: grid;
-  gap: 20px;
+/* 左侧导航 */
+.side-modules {
+  width: 240px;
   padding: 20px;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  background: #fff;
+  transition: width 0.3s ease;
 }
 
-/* 文章类型 - 单行大卡片布局 */
-.collections-grid[data-type="articles"] {
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 180px;
+.side-modules.collapsed {
+  width: 60px;
 }
 
-/* 影视类型 - 两行网格布局 */
-.collections-grid[data-type="movies"] {
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 280px;
+/* 模块列表 */
+.module-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* 游戏类型 - 大图展示 */
-.collections-grid[data-type="games"] {
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 320px;
-}
-
-/* 小说类型 - 紧凑多列布局 */
-.collections-grid[data-type="novels"] {
-  grid-template-columns: repeat(5, 1fr);
-  grid-auto-rows: 240px;
-}
-
-/* 音乐类型 - 单行小卡片布局 */
-.collections-grid[data-type="music"] {
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: 160px;
-}
-
-/* 根据内容类型调整卡片样式 */
-.collection-item {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+.module-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* 文章卡片样式 */
-.collections-grid[data-type="articles"] .collection-item {
-  display: flex;
-  height: 100%;
+.module-card:hover {
+  background: rgba(110, 142, 251, 0.05);
 }
 
-.collections-grid[data-type="articles"] .collection-cover {
-  width: 35%;
-  height: 100%;
+.module-card.active {
+  background: rgba(110, 142, 251, 0.08);
+  color: #6e8efb;
 }
 
-.collections-grid[data-type="articles"] .collection-info {
-  width: 65%;
-  padding: 15px;
-}
-
-/* 影视卡片样式 */
-.collections-grid[data-type="movies"] .collection-item {
-  height: 100%;
-}
-
-.collections-grid[data-type="movies"] .collection-cover {
-  height: 70%;
-}
-
-/* 游戏卡片样式 */
-.collections-grid[data-type="games"] .collection-item {
-  height: 100%;
-}
-
-.collections-grid[data-type="games"] .collection-cover {
-  height: 75%;
-}
-
-/* 小说卡片样式 */
-.collections-grid[data-type="novels"] .collection-item {
-  height: 100%;
-}
-
-.collections-grid[data-type="novels"] .collection-cover {
-  height: 65%;
-}
-
-/* 音乐卡片样式 */
-.collections-grid[data-type="music"] .collection-item {
-  height: 100%;
-  text-align: center;
-}
-
-.collections-grid[data-type="music"] .collection-cover {
-  height: 60%;
-  border-radius: 50%;
-  margin: 10px auto;
-  width: 60%;
-}
-
-.collection-cover {
-  width: 100%;
-  height: 200px;
-  position: relative;
-  overflow: hidden;
-}
-
-.collection-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.collection-info {
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.collection-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 8px;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.collection-desc {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 12px;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.collection-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  color: #999;
-  padding-top: 8px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-/* 悬停效果 */
-.collection-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.collection-item:hover .collection-cover img {
-  transform: scale(1.05);
-}
-
-/* 夜间模式适配 */
-.night .collection-item {
-  background: rgba(30, 30, 60, 0.8);
-}
-
-.night .collection-info {
-  background: rgba(30, 30, 60, 0.9);
-}
-
-.night .collection-title {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.night .collection-desc {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.night .collection-meta {
-  color: rgba(255, 255, 255, 0.5);
-  border-top-color: rgba(255, 255, 255, 0.1);
-}
-
-/* 响应式调整 */
-@media (max-width: 1440px) {
-  .collections-grid {
-    column-count: 3;
-  }
-}
-
-@media (max-width: 1024px) {
-  .collections-grid {
-    column-count: 2;
-  }
-}
-
-@media (max-width: 768px) {
-  .collections-grid {
-    column-count: 1;
-  }
-  
-  .collection-cover {
-    height: 180px;
-  }
-}
-
-/* 分类标签组样式 */
-.collection-tabs-group {
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 4px;
-}
-
-/* 分类标签项样式 */
-.collection-tab {
-  background: transparent;
-  border: none;
-  padding: 8px 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* 标签图标 */
-.tab-icon {
+.module-icon {
   font-size: 18px;
   opacity: 0.8;
-  transition: all 0.3s ease;
 }
 
-/* 激活状态 */
-.collection-tab.active {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.collection-tab.active .tab-icon {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-/* 悬停效果 */
-.collection-tab:hover:not(.active) {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-}
-
-.collection-tab:hover .tab-icon {
-  opacity: 1;
-}
-
-/* 分隔线 */
-.collection-tab:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 20px;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* 调整收藏墙的上边距 */
-.collections-wall {
-  margin-top: 20px;
-}
-
-/* 夜间模式适配 */
-.night .collections-tabs {
-  background: rgba(20, 20, 40, 0.2);
-}
-
-.night .collection-tabs-group {
-  background: rgba(30, 30, 60, 0.3);
-}
-
-/* 移除树相关的样式 */
-.nature-scene {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60vh;
-}
-
-/* 移除魔法树容器相关样式 */
-.magical-tree-container,
-.tree-wrapper,
-.tree-trunk,
-.trunk-texture,
-.tree-crown,
-.leaves-cluster,
-.fruits-container,
-.feature-fruit,
-.fruit-inner,
-.fruit-glow,
-.fruit-content,
-.fruit-icon,
-.fruit-label {
-  display: none;
-}
-
-/* 移除果实位置相关样式 */
-.photo-album,
-.timeline,
-.collections,
-.creations,
-.knowledge {
-  display: none;
-}
-
-/* 移除草地相关样式 */
-.grass-field,
-.grass-svg,
-.grass-base,
-.grass-blade {
-  display: none;
-}
-
-/* 移除相关动画 */
-@keyframes gentleSwaying {
-  0%, 100% { transform: none; }
-  50% { transform: none; }
-}
-
-@keyframes fruitFloat {
-  0%, 100% { transform: none; }
-  50% { transform: none; }
-}
-
-@keyframes grassWave {
-  0%, 100% { transform: none; }
-  50% { transform: none; }
-}
-
-/* 功能泡泡样式优化 */
-.feature-icon {
-  font-size: 28px;
-  margin-bottom: 10px;
-}
-
-.feature-title {
-  font-size: 18px;
-  margin-bottom: 6px;
-}
-
-.feature-description {
-  font-size: 13px;
-  opacity: 0.9;
-}
-
-/* 时间相关背景 */
-.personal-space {
-  transition: background 1s ease;
-}
-
-.personal-space.day {
-  background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
-}
-
-.personal-space.dawn {
-  background: linear-gradient(120deg, #fbc2eb 0%, #a6c1ee 100%);
-}
-
-.personal-space.dusk {
-  background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
-}
-
-.personal-space.night {
-  background: linear-gradient(120deg, #0c2135 0%, #1a2980 100%);
-}
-
-/* 星空效果 */
-.stars-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.module-text {
+  flex: 1;
   overflow: hidden;
 }
 
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  animation: twinkle 2s infinite ease-in-out;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); }
-}
-
-/* 雨天效果 */
-.rain-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.raindrop {
-  position: absolute;
-  width: 1px;
-  height: 20px;
-  background: linear-gradient(transparent, rgba(255, 255, 255, 0.5));
-  animation: rain linear infinite;
-}
-
-@keyframes rain {
-  0% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(100vh);
-  }
-}
-
-/* 天气叠加效果 */
-.personal-space.rainy::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.2));
-  pointer-events: none;
-}
-
-/* 调整泡泡在不同背景下的样式 */
-.personal-space.night .bubble-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.personal-space.night .feature-title {
-  color: #fff;
-}
-
-.personal-space.night .feature-description {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* 雨天泡泡效果 */
-.personal-space.rainy .bubble-card {
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
-/* 强制覆盖所有可能的导航栏样式 */
-header,
-.ant-layout-header,
-nav,
-.nav-header,
-.header,
-div[class*="header"],
-div[class*="nav"] {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-/* 导航菜单 */
-.ant-menu,
-nav ul,
-.nav-menu,
-div[class*="menu"] {
-  background: transparent !important;
-  border: none !important;
-}
-
-/* 导航项 */
-.ant-menu-item,
-.nav-item,
-.menu-item,
-nav a,
-div[class*="menu-item"],
-div[class*="nav-item"] {
-  background: transparent !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-  border: none !important;
-}
-
-/* 导航项悬停和选中状态 */
-.ant-menu-item:hover,
-.nav-item:hover,
-.menu-item:hover,
-nav a:hover,
-.ant-menu-item-selected,
-.nav-item.active,
-.menu-item.active,
-nav a.active {
-  color: #fff !important;
-  background: transparent !important;
-  text-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.4),
-    0 0 20px rgba(255, 255, 255, 0.2) !important;
-}
-
-/* 导航栏样式优化 */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding: 16px 24px;
-}
-
-/* 导航链接样式优化 */
-nav a {
-  color: rgba(255, 255, 255, 0.8) !important;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-/* 导航链接悬停效果优化 */
-nav a:hover {
-  color: #fff !important;
-  text-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.5),
-    0 0 20px rgba(255, 255, 255, 0.3) !important;
-  transform: translateY(-1px);
-}
-
-/* 激活状态链接优化 */
-nav a.active {
-  color: #fff !important;
-  text-shadow: 
-    0 0 15px rgba(255, 255, 255, 0.6),
-    0 0 30px rgba(255, 255, 255, 0.4) !important;
-  font-weight: 600;
-}
-
-/* 夜间模式特别优化 */
-.night nav a {
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6) !important;
-}
-
-/* 左侧模块导航样式优化 */
-.side-modules {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 300px;
-  padding: 100px 20px 20px;
-  background: linear-gradient(
-    to right,
-    rgba(10, 10, 42, 0.2),
-    transparent
-  );
-  display: flex;
-  align-items: center;
-  z-index: 90;
-  transition: all 0.3s ease;
-}
-
-/* 添加收缩状态 */
-.side-modules.collapsed {
-  width: 80px;
-  padding: 100px 10px 20px;
-}
-
-/* 收缩按钮样式 */
-.collapse-btn {
-  position: absolute;
-  right: -15px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  color: white;
+.module-title {
   font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.module-desc {
+  font-size: 12px;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 右侧内容区 */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #fff;
+}
+
+/* 折叠按钮 */
+.collapse-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.04);
+  color: #666;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 3px rgba(255, 255, 255, 0.3);
-  z-index: 100;
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
 }
 
 .collapse-btn:hover {
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.3),
-    inset 0 1px 3px rgba(255, 255, 255, 0.4);
-  background: linear-gradient(135deg, #5a7af5, #9665d3);
+  background: rgba(0, 0, 0, 0.08);
 }
 
-.collapse-btn:active {
-  transform: translateY(-50%) scale(0.95);
-  box-shadow: 
-    0 2px 6px rgba(0, 0, 0, 0.2),
-    inset 0 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-/* 收缩状态下的按钮样式 */
-.side-modules.collapsed .collapse-btn {
-  right: -30px;
-  background: linear-gradient(135deg, #a777e3, #6e8efb);
-}
-
-/* 按钮内箭头图标 */
-.collapse-btn::before {
-  content: '';
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid white;
-  border-bottom: 2px solid white;
-  transform: rotate(135deg);
-  margin-left: 4px;
-  transition: transform 0.3s ease;
-}
-
-/* 收缩状态下的箭头方向 */
-.side-modules.collapsed .collapse-btn::before {
-  transform: rotate(-45deg);
-  margin-left: -4px;
-}
-
-/* 添加按钮悬浮提示 */
-.collapse-btn::after {
-  content: attr(title);
-  position: absolute;
-  right: 40px;
-  white-space: nowrap;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-}
-
-.collapse-btn:hover::after {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* 模块卡片收缩状态 */
-.side-modules.collapsed .module-card {
-  padding: 12px;
-  justify-content: center;
-}
-
+/* 收缩状态样式 */
 .side-modules.collapsed .module-text {
   display: none;
 }
 
+.side-modules.collapsed .module-card {
+  justify-content: center;
+  padding: 12px 0;
+}
+
 .side-modules.collapsed .module-icon {
   margin: 0;
-}
-
-/* 调整主内容区域 */
-.main-content {
-  margin-left: 300px;
-  padding: 20px 20px 20px 40px;  /* 减小右侧内边距 */
-  width: calc(100% - 300px);
-  min-height: 100vh;
-  box-sizing: border-box;  /* 确保padding计入总宽度 */
-  overflow-x: hidden;  /* 防止水平滚动 */
-}
-
-/* 收缩状态下的主内容区域 */
-.side-modules.collapsed + .main-content {
-  margin-left: 80px;
-  width: calc(100% - 80px);
-  padding-left: 40px;
 }
 
 /* 各个模块的容器样式统一调整 */
@@ -2101,630 +1227,13 @@ select:focus {
 
 /* 成就容器样式 */
 .badges-container {
-  padding: 20px;
+  padding: 20px 0;
 }
 
-/* 成就网格样式 */
-.badges-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 30px;
-  padding: 20px;
-}
-
-/* 成就卡片样式 */
-.badge-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 20px;
-  border-radius: 50%;
-  width: 180px;  /* 稍微调小一点 */
-  height: 180px;
-  margin: 0 auto;
-  /* 更真实的金属渐变 */
-  background: radial-gradient(circle at 30% 30%,
-    #ffd700 0%,
-    #ffdb4d 20%,
-    #ffd700 40%,
-    #ffb700 60%,
-    #ffa500 80%,
-    #ff9500 100%
-  );
-  /* 更精细的金属质感阴影 */
-  box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.2),
-    inset 0 -2px 6px rgba(139, 69, 19, 0.4),
-    inset 0 2px 8px rgba(255, 255, 255, 0.9),
-    inset 0 0 15px rgba(255, 215, 0, 0.5),
-    0 0 20px rgba(255, 215, 0, 0.2);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border: 2px solid rgba(255, 215, 0, 0.6);
-  /* 添加纹理效果 */
-  background-blend-mode: overlay;
-  backdrop-filter: blur(5px);
-}
-
-/* 未解锁的成就样式 */
-.badge-card.locked {
-  background: radial-gradient(circle at 30% 30%,
-    #e8e8e8 0%,
-    #d8d8d8 20%,
-    #cccccc 40%,
-    #c0c0c0 60%,
-    #b8b8b8 80%,
-    #a8a8a8 100%
-  );
-  box-shadow: 
-    0 8px 16px rgba(0, 0, 0, 0.15),
-    inset 0 -2px 6px rgba(0, 0, 0, 0.1),
-    inset 0 2px 8px rgba(255, 255, 255, 0.8),
-    inset 0 0 15px rgba(200, 200, 200, 0.3);
-  border: 2px solid rgba(200, 200, 200, 0.6);
-}
-
-.badge-card:hover {
-  transform: translateY(-8px) rotate(8deg);
-  box-shadow: 
-    0 15px 30px rgba(0, 0, 0, 0.25),
-    inset 0 -2px 6px rgba(139, 69, 19, 0.5),
-    inset 0 2px 8px rgba(255, 255, 255, 1),
-    inset 0 0 20px rgba(255, 215, 0, 0.6),
-    0 0 30px rgba(255, 215, 0, 0.3);
-}
-
-/* 成就图标样式 */
-.badge-icon {
-  font-size: 42px;
-  margin-bottom: 12px;
-  /* 更丰富的渐变色 */
-  background: linear-gradient(45deg, 
-    #ffd700,
-    #ffb700 30%,
-    #ffa500 60%,
-    #ff8c00
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  /* 更强的立体感 */
-  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3))
-         drop-shadow(-1px -1px 1px rgba(255, 255, 255, 0.7));
-}
-
-/* 成就信息样式 */
-.badge-info {
-  text-align: center;
-  width: 100%;
-}
-
-.badge-info h3 {
-  margin: 0 0 4px;
-  font-size: 14px;
-  color: #4a4a4a;
-  text-shadow: 
-    1px 1px 0 rgba(255, 255, 255, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.1);
-}
-
-.badge-info p {
-  margin: 0;
-  font-size: 11px;
-  color: #666;
-  text-shadow: 
-    1px 1px 0 rgba(255, 255, 255, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.1);
-}
-
-/* 进度条样式 */
-.progress-bar {
-  width: 70%;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
-  margin-top: 8px;
-  overflow: hidden;
-  box-shadow: 
-    inset 0 1px 3px rgba(0, 0, 0, 0.2),
-    0 1px 1px rgba(255, 255, 255, 0.5);
-}
-
-.progress {
-  height: 100%;
-  background: linear-gradient(90deg, 
-    #ffd700,
-    #ffb700,
-    #ff8c00
-  );
-  border-radius: 3px;
-  transition: width 0.3s ease;
-  box-shadow: 
-    0 0 8px rgba(255, 215, 0, 0.5),
-    inset 0 1px 2px rgba(255, 255, 255, 0.5);
-}
-
-/* 成就统计样式重设计 */
+/* 统计信息 */
 .badges-stats {
   display: flex;
-  gap: 20px;
-}
-
-.badges-stats span {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* 已获得成就统计 */
-.badges-stats span:first-child {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  box-shadow: 0 2px 8px rgba(110, 142, 251, 0.25);
-}
-
-.badges-stats span:first-child::before {
-  content: '🏆';
-  font-size: 16px;
-}
-
-/* 总数统计 */
-.badges-stats span:last-child {
-  background: #f5f7ff;
-  color: #666;
-  border: 1px solid #eef1f8;
-}
-
-.badges-stats span:last-child::before {
-  content: '🎯';
-  font-size: 16px;
-}
-
-/* 收藏容器样式 */
-.collections-container {
-  padding: 20px;
-  height: calc(100vh - 120px); /* 减去顶部和底部的空间 */
-  overflow-y: auto; /* 添加垂直滚动 */
-  position: relative;
-}
-
-/* 收藏类型选择器固定在顶部 */
-.collection-types {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  gap: 20px;
-  margin-bottom: 30px;
-  padding: 20px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* 收藏类型按钮样式 */
-.collection-type {
-  position: relative;
-  padding: 10px 24px;
-  border-radius: 16px;
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* 按钮图标样式 */
-.collection-type span {
-  font-size: 18px;
-}
-
-/* 按钮悬浮效果 */
-.collection-type:hover {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* 激活状态样式 */
-.collection-type.active {
-  color: #fff;
-  background: linear-gradient(135deg, 
-    rgba(110, 142, 251, 0.8), 
-    rgba(167, 119, 227, 0.8)
-  );
-  box-shadow: 
-    0 4px 15px rgba(110, 142, 251, 0.3),
-    inset 0 1px 2px rgba(255, 255, 255, 0.4);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* 添加动态下划线效果 */
-.collection-type::after {
-  content: '';
-  position: absolute;
-  bottom: 6px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #6e8efb, #a777e3);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-  opacity: 0;
-}
-
-.collection-type:hover::after {
-  width: 60%;
-  opacity: 1;
-}
-
-.collection-type.active::after {
-  width: 80%;
-  opacity: 1;
-}
-
-/* 添加点击波纹效果 */
-.collection-type::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-.collection-type:active::before {
-  transform: translate(-50%, -50%) scale(2);
-  opacity: 1;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-/* 收藏网格布局调整 */
-.collection-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
-/* 收藏项目卡片调整 */
-.collection-item {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* 收藏项目封面调整 */
-.collection-cover {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 比例 */
-  overflow: hidden;
-  background: #f0f0f0;
-}
-
-/* 收藏项目信息区域调整 */
-.collection-info {
-  flex: 1;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 收藏项目描述文本限制 */
-.collection-desc {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 12px;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
-}
-
-/* 自定义滚动条样式 */
-.collections-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.collections-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-}
-
-.collections-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.collections-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* 响应式布局调整 */
-@media (max-width: 1200px) {
-  .collection-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .collection-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-  
-  .collection-types {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-
-/* 日志样式优化 */
-.journals-header {
-  display: flex;
-  flex-direction: column;  /* 改为纵向排列 */
-  gap: 15px;  /* 标题和按钮之间的间距 */
-  margin-bottom: 20px;
-  position: relative;
-  padding-bottom: 15px;
-}
-
-.journals-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    rgba(110, 142, 251, 0.8), 
-    rgba(167, 119, 227, 0.8), 
-    rgba(110, 142, 251, 0.1)
-  );
-}
-
-.journals-header h2 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-  width: 100%;  /* 确保标题占满整行 */
-}
-
-/* 写日志按钮样式优化 */
-.new-journal-btn {
-  align-self: flex-start;  /* 按钮靠左对齐 */
-  min-width: 60px;  /* 减小最小宽度 */
-  height: 28px;  /* 固定高度 */
-  padding: 0 12px;  /* 减小内边距 */
-  border: none;
-  border-radius: 14px;  /* 圆角适应新高度 */
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  font-size: 12px;  /* 减小字体大小 */
-  font-weight: normal;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(110, 142, 251, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;  /* 图标和文字的间距 */
-}
-
-.new-journal-btn::before {
-  content: '✏️';  /* 添加笔的图标 */
-  font-size: 12px;
-}
-
-.new-journal-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(110, 142, 251, 0.25);
-}
-
-.new-journal-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(110, 142, 251, 0.15);
-}
-
-/* 统一模块样式 */
-.journals-container,
-.collections-container,
-.creations-container,
-.timeline-container,
-.memory-wall-container {
-  padding: 40px;  /* 统一内边距 */
-}
-
-/* 统一所有模块标题样式 */
-.journals-header,
-.collections-header,
-.creations-header,
-.timeline-header,
-.memory-header {
-  position: relative;
-  margin-bottom: 40px;  /* 标题与内容的统一间距 */
-}
-
-/* 统一标题样式 */
-.journals-header h2,
-.collections-header h2,
-.creations-header h2,
-.timeline-header h2,
-.memory-header h2 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 20px 0;  /* 主标题与副标题/按钮的间距 */
-  width: 100%;
-}
-
-/* 统一标题下的分隔线 */
-.journals-header::after,
-.collections-header::after,
-.creations-header::after,
-.timeline-header::after,
-.memory-header::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;  /* 调整分隔线位置 */
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    rgba(110, 142, 251, 0.8), 
-    rgba(167, 119, 227, 0.8), 
-    rgba(110, 142, 251, 0.1)
-  );
-}
-
-/* 统一内容区域样式 */
-.journals-content,
-.collections-content,
-.creations-content,
-.timeline-content,
-.memory-content {
-  margin-top: 30px;  /* 分隔线与内容的间距 */
-}
-
-/* 写日志按钮样式优化 */
-.new-journal-btn {
-  align-self: flex-start;
-  min-width: 60px;
-  height: 28px;
-  padding: 0 12px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  font-size: 12px;
-  font-weight: normal;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(110, 142, 251, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  margin-top: 10px;  /* 增加与标题的间距 */
-}
-
-.new-journal-btn::before {
-  content: '✏️';
-  font-size: 12px;
-}
-
-.new-journal-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(110, 142, 251, 0.25);
-}
-
-.new-journal-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(110, 142, 251, 0.15);
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .journals-container,
-  .collections-container,
-  .creations-container,
-  .timeline-container,
-  .memory-wall-container {
-    padding: 20px;  /* 移动端减小内边距 */
-  }
-
-  .journals-header h2,
-  .collections-header h2,
-  .creations-header h2,
-  .timeline-header h2,
-  .memory-header h2 {
-    font-size: 24px;  /* 移动端减小标题字体 */
-  }
-}
-
-/* 收藏模块样式调整 */
-.collections-container {
-  padding: 40px;
-}
-
-.collections-header {
-  position: relative;
-  margin-bottom: 40px;
-}
-
-.collections-header h2 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.collections-header::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    rgba(110, 142, 251, 0.8), 
-    rgba(167, 119, 227, 0.8), 
-    rgba(110, 142, 251, 0.1)
-  );
-}
-
-.collections-content {
-  margin-top: 30px;
-}
-
-/* 调整分类按钮组的位置 */
-.collection-types {
-  margin-bottom: 30px;  /* 与网格内容保持适当间距 */
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .collections-container {
-    padding: 20px;
-  }
-
-  .collections-header h2 {
-    font-size: 24px;
-  }
-}
-
-/* 日志模块样式重设计 */
-.journals-container {
-  padding: 40px;
-}
-
-.journals-stats {
-  display: flex;
-  gap: 30px;
+  gap: 40px;
   margin-bottom: 40px;
 }
 
@@ -2732,17 +1241,14 @@ select:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px 25px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  gap: 8px;
 }
 
 .stat-number {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
-  color: #6e8efb;
-  margin-bottom: 5px;
+  color: #333;
+  line-height: 1;
 }
 
 .stat-label {
@@ -2750,1101 +1256,582 @@ select:focus {
   color: #666;
 }
 
+/* 成就卡片网格 */
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* 成就卡片 */
+.badge-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.badge-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 卡片内容布局 */
+.badge-content {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.badge-icon {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f7ff;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.badge-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 6px;
+}
+
+.badge-info p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 进度条样式 */
+.badge-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #6e8efb, #a777e3);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 13px;
+  color: #666;
+  min-width: 45px;
+  text-align: right;
+}
+
+/* 已获得成就样式 */
+.achievement-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #52c41a;
+  font-size: 14px;
+}
+
+.achievement-icon {
+  font-size: 16px;
+}
+
+.achievement-date {
+  color: #666;
+}
+
+/* 未获得成就样式 */
+.badge-card:not(.achieved) {
+  opacity: 0.8;
+}
+
+.badge-card:not(.achieved) .badge-icon {
+  background: #f5f5f5;
+  opacity: 0.7;
+}
+
+/* 通用模块容器样式 */
+.collections-container,
+.journals-container,
+.creations-container,
+.timeline-container {
+  padding: 20px 0;
+}
+
+/* 通用头部控制区样式 */
+.module-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+/* 主操作按钮样式 */
+.primary-btn {
+  height: 36px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(110, 142, 251, 0.08);
+  color: #6e8efb;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.primary-btn:hover {
+  background: rgba(110, 142, 251, 0.12);
+}
+
+/* 分类筛选按钮组 */
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.filter-btn {
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  opacity: 0.85;
+}
+
+.filter-btn:hover {
+  opacity: 1;
+  color: #6e8efb;
+}
+
+.filter-btn.active {
+  opacity: 1;
+  color: #6e8efb;
+}
+
+/* 收藏模块 */
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.collection-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.collection-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.collection-cover {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.collection-info {
+  padding: 16px;
+}
+
+.collection-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #333;
+}
+
+.collection-desc {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 日志模块 */
 .journals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
 }
 
 .journal-card {
-  display: flex;
   background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .journal-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.journal-date-badge {
-  width: 80px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 15px 0;
-}
-
-.date-day {
-  font-size: 28px;
-  font-weight: bold;
-  line-height: 1;
-}
-
-.date-month {
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.journal-main {
-  flex: 1;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.journal-meta {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.journal-meta span {
-  font-size: 13px;
-  color: #666;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.journal-header {
+  margin-bottom: 12px;
 }
 
 .journal-title {
   font-size: 18px;
   font-weight: 600;
   color: #333;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
-.journal-excerpt {
+.journal-meta {
+  display: flex;
+  gap: 16px;
+  color: #888;
+  font-size: 13px;
+}
+
+.journal-content {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 时光轴模块 */
+.timeline-container {
+  padding: 20px 40px;
+}
+
+.timeline-event {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 40px;
+}
+
+.timeline-event::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: -40px;
+  width: 2px;
+  background: rgba(110, 142, 251, 0.1);
+}
+
+.timeline-event::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #6e8efb;
+}
+
+.timeline-date {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.timeline-content {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.timeline-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px;
+}
+
+.timeline-desc {
   font-size: 14px;
   color: #666;
   line-height: 1.6;
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
 }
 
-.journal-footer {
+.timeline-images {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+  gap: 12px;
+  margin-top: 16px;
 }
 
-.journal-interactions {
+.timeline-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* 通用模块样式 */
+.module-container {
+  padding: 20px 0;
+}
+
+/* 收藏模块 */
+.collections-container {
   display: flex;
-  gap: 15px;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.interaction-item {
+.collection-types {
   display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #666;
-  font-size: 13px;
+  gap: 12px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
 }
 
-.interaction-item i {
-  font-size: 16px;
-  color: #6e8efb;
-}
-
-.read-more-btn {
-  padding: 6px 12px;
+.collection-type {
+  padding: 8px 16px;
   border: none;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.read-more-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(110, 142, 251, 0.3);
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .journals-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .stat-item {
-    padding: 12px 20px;
-  }
-  
-  .journal-card {
-    flex-direction: column;
-  }
-  
-  .journal-date-badge {
-    width: 100%;
-    height: 60px;
-    flex-direction: row;
-    gap: 10px;
-  }
-}
-
-/* 创作模块样式重设计 */
-.creations-container {
-  padding: 40px;
-}
-
-.creations-content {
-  margin-top: 30px;
-}
-
-.creation-filters {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-.filter-btn {
-  padding: 8px 20px;
-  border: none;
-  border-radius: 20px;
-  background: #f5f5f5;
+  border-radius: 8px;
+  background: transparent;
   color: #666;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.collection-type:hover {
+  color: #6e8efb;
+}
+
+.collection-type.active {
+  background: white;
+  color: #6e8efb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.collection-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
   transition: all 0.3s ease;
 }
 
-.filter-btn:hover {
-  background: #eee;
+.collection-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.filter-btn.active {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  box-shadow: 0 2px 8px rgba(110, 142, 251, 0.25);
-}
-
-.creations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
-}
-
-.creation-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.creation-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-}
-
-.creation-preview {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-}
-
-/* 文字预览样式 */
-.text-preview {
-  height: 100%;
-  padding: 20px;
-  background: linear-gradient(135deg, #f6f8ff, #f0f3ff);
+/* 日志模块 */
+.journals-container {
   display: flex;
   flex-direction: column;
+  gap: 24px;
+}
+
+.journals-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
-.text-icon {
-  font-size: 32px;
-  margin-bottom: 15px;
-}
-
-/* 图片预览样式 */
-.image-preview {
-  height: 100%;
-}
-
-.image-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* 视频预览样式 */
-.video-preview {
-  height: 100%;
-  position: relative;
-}
-
-.video-thumbnail {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.video-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.play-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 40px;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* 音乐预览样式 */
-.music-preview {
-  height: 100%;
-  background: linear-gradient(135deg, #f6f8ff, #f0f3ff);
+.new-journal-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(110, 142, 251, 0.1);
+  color: #6e8efb;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
+  gap: 6px;
 }
 
-.music-icon {
-  font-size: 40px;
-  margin-right: 15px;
+.new-journal-btn:hover {
+  background: rgba(110, 142, 251, 0.15);
 }
 
-.creation-info {
+.journals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.journal-card {
+  background: white;
+  border-radius: 12px;
   padding: 20px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.journal-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* 创作模块 */
+.creations-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .creation-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-.creation-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
+.creation-types {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.creation-date {
-  font-size: 13px;
+.creation-type {
   color: #666;
-}
-
-.creation-desc {
   font-size: 14px;
-  color: #666;
-  line-height: 1.6;
-  margin: 0 0 15px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+  padding: 4px 0;
 }
 
-.creation-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
-}
-
-.creation-stats {
-  display: flex;
-  gap: 15px;
-}
-
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #666;
-  font-size: 13px;
-}
-
-.stat-item i {
-  font-size: 16px;
+.creation-type:hover {
+  opacity: 1;
   color: #6e8efb;
 }
 
-.creation-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.action-btn {
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 50%;
-  background: #f5f5f5;
-  color: #666;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.action-btn:hover {
-  background: #eee;
+.creation-type.active {
   color: #6e8efb;
+  opacity: 1;
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .creations-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .creation-filters {
-    overflow-x: auto;
-    padding-bottom: 10px;
-  }
-  
-  .filter-btn {
-    white-space: nowrap;
-  }
-}
-
-/* 创作模块标题栏样式调整 */
-.creations-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  margin-bottom: 40px;
-}
-
-/* 开始创作按钮样式 */
-.start-creation-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(110, 142, 251, 0.25);
-}
-
-.start-creation-btn i {
-  font-size: 14px;
-}
-
-.start-creation-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(110, 142, 251, 0.35);
-}
-
-.start-creation-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(110, 142, 251, 0.25);
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .start-creation-btn {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-}
-
-/* 时光轴样式重设计 */
+/* 时光轴模块 */
 .timeline-container {
-  padding: 40px;
+  padding: 20px 40px;
 }
 
-.timeline-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 50px;
-}
-
-.timeline-navigation {
-  display: flex;
-  gap: 10px;
-  padding: 5px;
-  background: #f5f5f5;
-  border-radius: 20px;
-}
-
-.year-btn {
-  padding: 8px 20px;
-  border: none;
-  border-radius: 16px;
-  background: transparent;
-  color: #666;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.year-btn.active {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  box-shadow: 0 2px 8px rgba(110, 142, 251, 0.25);
-}
-
-.timeline-content {
+.timeline-events {
   position: relative;
-  padding-left: 60px;
+  padding-left: 24px;
+}
+
+.timeline-events::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(110, 142, 251, 0.1);
 }
 
 .timeline-event {
   position: relative;
-  margin-bottom: 50px;
-  opacity: 0;
-  transform: translateX(-20px);
-  animation: slideIn 0.6s ease forwards;
+  margin-bottom: 40px;
+  padding-left: 20px;
 }
 
-.timeline-event:last-child .event-connector::after {
-  display: none;
-}
-
-.event-connector {
-  position: absolute;
-  left: -60px;
-  top: 0;
-  bottom: -50px;
-  width: 2px;
-  display: flex;
-  justify-content: center;
-}
-
-.event-connector::after {
+.timeline-event::before {
   content: '';
   position: absolute;
-  top: 50px;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    #6e8efb 0%,
-    rgba(110, 142, 251, 0.2) 100%
-  );
-}
-
-.connector-dot {
-  position: absolute;
+  left: -5px;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-    width: 40px;
-    height: 40px;
-  background: white;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 10px rgba(110, 142, 251, 0.2);
-  z-index: 1;
-}
-
-.event-icon {
-    font-size: 20px;
-}
-
-.event-time {
-  position: absolute;
-  left: -120px;
-  top: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.event-year {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-}
-
-.event-month {
-  font-size: 14px;
-  color: #666;
-  margin-top: 4px;
-}
-
-.event-card {
   background: white;
-  border-radius: 16px;
-  padding: 25px;
-  margin-left: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #6e8efb;
 }
 
-.event-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-}
-
-.event-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 15px;
-}
-
-.event-description {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.6;
-  margin: 0 0 20px;
-}
-
-.event-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 15px;
-  margin: 20px 0;
-}
-
-.event-image {
-  position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-  aspect-ratio: 1;
-}
-
-.event-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.event-image:hover img {
-  transform: scale(1.1);
-}
-
-.event-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-}
-
-.event-tags {
-  display: flex;
-  gap: 10px;
-}
-
-.tag {
-  font-size: 13px;
-  color: #6e8efb;
-  background: rgba(110, 142, 251, 0.1);
-  padding: 4px 10px;
+.timeline-content {
+  background: white;
   border-radius: 12px;
-}
-
-.event-details-btn {
-  padding: 6px 16px;
-  border: none;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.event-details-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(110, 142, 251, 0.3);
-}
-
-@keyframes slideIn {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .timeline-container {
-    padding: 20px;
-  }
-
-  .timeline-content {
-    padding-left: 40px;
-  }
-
-  .event-connector {
-    left: -40px;
-  }
-
-  .event-time {
-    left: -100px;
-  }
-
-  .event-card {
-    margin-left: 20px;
-  }
-
-  .event-gallery {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 10px;
-  }
-}
-
-@media (max-width: 576px) {
-  .timeline-header {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .event-time {
-    position: relative;
-    left: 0;
-    flex-direction: row;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .event-card {
-    margin-left: 0;
-  }
-}
-
-/* 回忆墙样式优化 */
-.memory-wall-container {
-  padding: 40px;
-}
-
-.memory-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.memory-controls {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* 添加回忆按钮样式优化 */
-.memory-controls button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 16px;
-  border: none;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  font-size: 13px;
-  font-weight: normal;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(110, 142, 251, 0.25);
-}
-
-.memory-controls button::before {
-  content: '+';
-  font-size: 16px;
-}
-
-.memory-controls button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(110, 142, 251, 0.35);
-}
-
-.memory-controls select {
-  height: 32px;
-  padding: 0 12px;
-  border: 1px solid #eee;
-  border-radius: 16px;
-  background: white;
-  color: #666;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.memory-controls select:hover {
-  border-color: #6e8efb;
-}
-
-.memory-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 25px;
-  padding: 20px 0;
-}
-
-.memory-card {
-  position: relative;
   padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
-.memory-card:hover {
-  transform: translateY(-5px) rotate(0deg) !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-}
-
-.memory-content {
-  margin-bottom: 15px;
-}
-
-.memory-content h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 10px;
-}
-
-.memory-content p {
+.timeline-date {
   font-size: 14px;
-  color: #666;
-  line-height: 1.6;
-  margin: 0 0 15px;
+  color: #888;
+  margin-bottom: 8px;
 }
 
-.memory-content img {
-  width: 100%;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-.memory-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 15px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.memory-meta .date {
-  font-size: 13px;
-  color: #666;
-}
-
-.memory-meta .tags {
-  display: flex;
-  gap: 8px;
-}
-
-.memory-meta .tag {
-  font-size: 12px;
-  color: #6e8efb;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 3px 8px;
-  border-radius: 10px;
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .memory-wall-container {
-    padding: 20px;
-  }
-
-  .memory-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .memory-controls {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .memory-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-  }
-}
-
-/* 回忆墙控制区域样式优化 */
-.memory-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.memory-controls {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* 添加回忆按钮样式 */
-.memory-controls button {
-  height: 38px;
-  padding: 0 24px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 12px rgba(110, 142, 251, 0.2);
-}
-
-.memory-controls button i {
+.timeline-title {
   font-size: 16px;
-}
-
-.memory-controls button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 15px rgba(110, 142, 251, 0.3);
-}
-
-.memory-controls button:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(110, 142, 251, 0.2);
-}
-
-/* 排序下拉框样式 */
-.memory-controls select {
-  height: 38px;
-  padding: 0 20px;
-  border: 2px solid #eef1f8;
-  border-radius: 12px;
-  background: #f8faff;
-  color: #555;
-  font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236e8efb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 44px;
-  min-width: 140px;
+  color: #333;
+  margin-bottom: 12px;
 }
 
-.memory-controls select:hover {
-  border-color: #6e8efb;
-  background-color: #fff;
-}
-
-.memory-controls select:focus {
-  outline: none;
-  border-color: #6e8efb;
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.1);
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .memory-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding-bottom: 15px;
-  }
-
-  .memory-controls {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .memory-controls select {
-    min-width: 120px;
-  }
-}
-
-/* 回忆墙控制区域样式重设计 */
-.memory-header {
+.timeline-images {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.memory-controls {
-  display: flex;
-  align-items: center;
-  background: #f8faff;
-  padding: 4px;
-  border-radius: 12px;
-  border: 1px solid #eef1f8;
-  gap: 8px;
-}
-
-/* 添加回忆按钮样式 */
-.memory-controls button {
-  height: 34px;
-  padding: 0 20px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.memory-controls button i {
-  font-size: 14px;
-}
-
-.memory-controls button:hover {
-  filter: brightness(1.05);
-}
-
-/* 排序下拉框样式 */
-.memory-controls select {
-  height: 34px;
-  padding: 0 16px;
-  border: none;
-  border-radius: 10px;
-  background: transparent;
-  color: #555;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236e8efb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
-  min-width: 120px;
-}
-
-.memory-controls select:hover {
-  background-color: rgba(110, 142, 251, 0.05);
-}
-
-.memory-controls select:focus {
-  outline: none;
-  background-color: rgba(110, 142, 251, 0.08);
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .memory-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .memory-controls {
-    width: 100%;
-  }
-}
-
-/* 回忆墙控制区域样式重设计 */
-.memory-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.memory-controls {
-  display: flex;
-  align-items: center;
   gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
 }
 
-/* 按钮基础样式 */
-.memory-controls button {
-  height: 32px;
-  padding: 0 16px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.timeline-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
-/* 记录回忆按钮样式 */
-.add-memory-btn {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
+.space-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
 }
 
-.add-memory-btn:hover {
-  opacity: 0.9;
-}
-
-/* 排序按钮样式 */
-.sort-btn {
-  color: #666;
-}
-
-.sort-btn:hover {
-  color: #6e8efb;
-}
-
-.memory-controls button i {
-  font-size: 14px;
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .memory-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .memory-controls {
-    width: 100%;
-    justify-content: flex-start;
-  }
+.space-button {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 16px;
+  color: #333333;
 }

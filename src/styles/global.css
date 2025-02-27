@@ -1,3 +1,96 @@
+/* 全局基础样式 */
+:root {
+  --bg-white: #fff;
+  --border-light: rgba(0, 0, 0, 0.06);
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-light: #888;
+  --primary-color: #6e8efb;
+  --primary-light: rgba(110, 142, 251, 0.1);
+  --primary-lighter: rgba(110, 142, 251, 0.05);
+  --hover-bg: rgba(0, 0, 0, 0.02);
+}
+
+body {
+  background-color: #ffffff;
+  color: var(--text-primary);
+}
+
+/* 统一卡片样式 */
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+/* 统一按钮样式 */
+button, 
+.button {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 16px;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover,
+.button:hover {
+  background-color: #f5f5f5;
+  border-color: #d0d0d0;
+}
+
+/* 主要按钮样式 */
+.button-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+/* 通用按钮样式 */
+.btn {
+  height: 36px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background: rgba(110, 142, 251, 0.15);
+}
+
+/* 通用列表样式 */
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 通用网格样式 */
+.grid-container {
+  display: grid;
+  gap: 24px;
+}
+
 .error-message {
   color: #dc3545;
   font-size: 0.875rem;
@@ -1244,4 +1337,496 @@ main {
   align-items: center;
   padding: 0 8px;
   margin-bottom: 4px;
+}
+
+/* 统一空间容器样式 */
+.space-container {
+  background-color: #ffffff;
+  padding: 24px;
+  min-height: calc(100vh - 64px);
+}
+
+/* 统一空间卡片样式 */
+.space-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: transform 0.3s ease;
+}
+
+.space-card:hover {
+  transform: translateY(-2px);
+}
+
+/* 统一空间按钮样式 */
+.space-button {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 16px;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.space-button:hover {
+  background-color: #f5f5f5;
+  border-color: #d0d0d0;
+}
+
+.space-button-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+  color: #ffffff;
+}
+
+.space-button-primary:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+/* 统一空间头部样式 */
+.space-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* 统一空间内容区域样式 */
+.space-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 16px 0;
+}
+
+/* 统一空间列表样式 */
+.space-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 统一空间项目样式 */
+.space-item {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.space-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 统一空间标题样式 */
+.space-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 8px;
+}
+
+/* 统一空间描述文本样式 */
+.space-description {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* 统一空间标签样式 */
+.space-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666666;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+/* 统一空间图片样式 */
+.space-image {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* 统一空间操作区域样式 */
+.space-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* 统一空间分页样式 */
+.space-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  gap: 8px;
+}
+
+.space-pagination-item {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #333333;
+  cursor: pointer;
+}
+
+.space-pagination-item:hover,
+.space-pagination-item.active {
+  background: #1890ff;
+  border-color: #1890ff;
+  color: #ffffff;
+}
+
+/* 强制所有空间卡片使用白色主题 */
+.friend-card,
+.interest-card,
+.space-card,
+.card {
+  background: #ffffff !important;
+  color: #333333 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #f0f0f0 !important;
+}
+
+/* 卡片内文本颜色 */
+.card-title,
+.card-header,
+.card-content {
+  color: #333333 !important;
+}
+
+.card-description,
+.card-meta {
+  color: #666666 !important;
+}
+
+/* 确保所有按钮使用白色主题 */
+.btn,
+.button,
+button:not(.space-button-primary) {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  color: #333333 !important;
+}
+
+.btn:hover,
+.button:hover,
+button:not(.space-button-primary):hover {
+  background-color: #f5f5f5 !important;
+  border-color: #d0d0d0 !important;
+}
+
+/* 主要按钮样式例外 */
+.btn-primary,
+.button-primary,
+.space-button-primary {
+  background-color: #1890ff !important;
+  border-color: #1890ff !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.button-primary:hover,
+.space-button-primary:hover {
+  background-color: #40a9ff !important;
+  border-color: #40a9ff !important;
+}
+
+/* 好友空间样式调整 */
+.friend-space {
+  background-color: #ffffff;
+  min-height: calc(100vh - 64px);
+  padding: 24px;
+}
+
+.friend-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid #f0f0f0;
+}
+
+.friend-info {
+  color: #333333;
+}
+
+.friend-name {
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.friend-meta {
+  color: #666666;
+  font-size: 14px;
+}
+
+.friend-actions button {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  color: #333333;
+}
+
+/* 兴趣空间样式调整 */
+.interest-space {
+  background-color: #ffffff;
+  min-height: calc(100vh - 64px);
+  padding: 24px;
+}
+
+.interest-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid #f0f0f0;
+}
+
+.interest-header {
+  color: #333333;
+}
+
+.interest-title {
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.interest-description {
+  color: #666666;
+  font-size: 14px;
+}
+
+.interest-meta {
+  color: #666666;
+}
+
+.interest-tag {
+  background: #f5f5f5;
+  color: #666666;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+/* 通用列表样式调整 */
+.list-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.list-title {
+  color: #333333;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* 过滤器和搜索区域样式 */
+.filter-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  border: 1px solid #f0f0f0;
+}
+
+.search-input {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background: #ffffff;
+  color: #333333;
+}
+
+.filter-tag {
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  color: #666666;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-tag.active {
+  background: #1890ff;
+  border-color: #1890ff;
+  color: #ffffff;
+}
+
+/* 空状态样式 */
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: #666666;
+}
+
+.empty-state-icon {
+  color: #d9d9d9;
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+/* 加载状态样式 */
+.loading-state {
+  text-align: center;
+  padding: 40px 0;
+  color: #666666;
+}
+
+/* 错误状态样式 */
+.error-state {
+  text-align: center;
+  padding: 40px 0;
+  color: #ff4d4f;
+}
+
+/* 操作按钮样式 */
+.action-button {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 16px;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  background: #f5f5f5;
+  border-color: #d0d0d0;
+}
+
+.action-button-primary {
+  background: #1890ff;
+  border-color: #1890ff;
+  color: #ffffff;
+}
+
+.action-button-primary:hover {
+  background: #40a9ff;
+  border-color: #40a9ff;
+}
+
+/* 全局主题覆盖 */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 强制背景色 */
+body,
+.container,
+.page-container,
+.content-container,
+.card,
+.modal,
+.sidebar,
+.header,
+.footer {
+  background-color: #ffffff !important;
+}
+
+/* 强制文本颜色 */
+body,
+h1, h2, h3, h4, h5, h6,
+p,
+span,
+div,
+.text-content {
+  color: #333333 !important;
+}
+
+/* 强制卡片样式 */
+.card,
+[class*="-card"],
+.box,
+.container,
+.panel {
+  background: #ffffff !important;
+  color: #333333 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #f0f0f0 !important;
+}
+
+/* 强制按钮样式 */
+button,
+.button,
+[class*="-button"],
+.btn {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  color: #333333 !important;
+}
+
+/* 主要按钮样式例外 */
+.primary,
+[class*="-primary"],
+.btn-primary,
+.button-primary {
+  background-color: #1890ff !important;
+  border-color: #1890ff !important;
+  color: #ffffff !important;
+}
+
+/* 强制输入框样式 */
+input,
+textarea,
+select {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  color: #333333 !important;
+}
+
+/* 强制标签样式 */
+.tag,
+[class*="-tag"],
+.label {
+  background-color: #f5f5f5 !important;
+  color: #666666 !important;
+  border: 1px solid #e8e8e8 !important;
+}
+
+/* 强制链接颜色 */
+a {
+  color: #1890ff !important;
+}
+
+/* 强制分割线颜色 */
+hr,
+.divider,
+[class*="-divider"] {
+  border-color: #f0f0f0 !important;
+}
+
+/* 强制图标颜色 */
+i,
+.icon,
+[class*="-icon"] {
+  color: #666666 !important;
 } 
