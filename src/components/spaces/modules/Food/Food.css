@@ -1,0 +1,287 @@
+/* 美食模块样式 */
+.food-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* 统计卡片样式 */
+.food-stats {
+  padding: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--neon-blue);
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 最近探店样式 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.view-all-btn {
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  color: var(--neon-blue);
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.3s;
+}
+
+.view-all-btn:hover {
+  opacity: 0.8;
+}
+
+.visits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.visit-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.visit-card:hover {
+  transform: translateY(-5px);
+}
+
+.visit-images {
+  position: relative;
+}
+
+.main-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.sub-images {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.sub-images img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.more-images {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 2px solid white;
+}
+
+.visit-info {
+  padding: 20px;
+}
+
+.visit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.price-tag {
+  color: #ff4d4f;
+  font-size: 14px;
+}
+
+.visit-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.visit-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stars {
+  color: #ffd700;
+}
+
+.visit-comment {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.visit-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--neon-blue);
+}
+
+/* 地图样式 */
+.map-filters {
+  display: flex;
+  gap: 12px;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--neon-blue);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--neon-blue);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: var(--neon-blue);
+  color: white;
+}
+
+.map-container {
+  height: 400px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.map-placeholder {
+  text-align: center;
+  color: #666;
+}
+
+.map-placeholder p {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* 收藏夹样式 */
+.add-collection-btn {
+  padding: 6px 16px;
+  border: 1px dashed var(--neon-blue);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--neon-blue);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-collection-btn:hover {
+  background: var(--neon-blue);
+  color: white;
+}
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.collection-card {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.collection-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255,255,255,0.1);
+}
+
+.collection-icon {
+  font-size: 32px;
+}
+
+.collection-info {
+  flex: 1;
+}
+
+.collection-info h4 {
+  margin: 0 0 8px;
+  color: var(--neon-blue);
+}
+
+.collection-info p {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 8px;
+}
+
+.collection-count {
+  font-size: 12px;
+  color: #666;
+} 

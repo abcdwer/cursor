@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './InterestSpace.css';
+import Photography from './modules/Photography/Photography';
+import Sports from './modules/Sports/Sports';
+import Food from './modules/Food/Food';
 
 // 添加 Emby 配置
 const EMBY_SERVER = 'http://192.168.3.100:8096';
@@ -126,11 +129,13 @@ const InterestSpace = () => {
 
   const categories = [
     { id: 'photography', name: '摄影', icon: '📸' },
-    { id: 'movie', name: '影视', icon: '🎬' },
+    { id: 'fitness', name: '健身', icon: '💪' },
     { id: 'sports', name: '运动', icon: '⚽' },
-    { id: 'gaming', name: '游戏', icon: '🎮' },
     { id: 'food', name: '美食', icon: '🍜' },
-    { id: 'travel', name: '旅行', icon: '✈️' }
+    { id: 'travel', name: '旅行', icon: '✈️' },
+    { id: 'reading', name: '阅读', icon: '📚' },
+    { id: 'movie', name: '影视', icon: '🎬' },
+    { id: 'gaming', name: '游戏', icon: '🎮' }
   ];
 
   // 修改获取电影列表的函数
@@ -498,21 +503,134 @@ const InterestSpace = () => {
   const renderCategoryContent = () => {
     switch (activeCategory) {
       case 'photography':
+        return <Photography />;
+      case 'sports':
+        return <Sports />;
+      case 'food':
+        return <Food />;
+      case 'fitness':
         return (
           <div className="category-content">
-            <div className="photography-section">
-              <h3>我的作品集</h3>
-              <div className="photo-gallery">
-                {/* 照片展示区域 */}
+            <div className="fitness-section">
+              <div className="fitness-stats panel-card">
+                <h3>健身数据</h3>
+                <div className="stats-grid">
+                  <div className="stat-item">
+                    <span className="stat-icon">🏋️‍♂️</span>
+                    <span className="stat-value">12</span>
+                    <span className="stat-label">本周训练次数</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-icon">⏱️</span>
+                    <span className="stat-value">480</span>
+                    <span className="stat-label">总训练时长(分钟)</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-icon">🎯</span>
+                    <span className="stat-value">85%</span>
+                    <span className="stat-label">目标完成度</span>
+                  </div>
+                </div>
               </div>
-              <h3>摄影技巧</h3>
-              <div className="photography-tips">
-                {/* 摄影教程和技巧 */}
+
+              <div className="workout-plans panel-card">
+                <h3>训练计划</h3>
+                <div className="plans-grid">
+                  {['胸部训练', '背部训练', '腿部训练', '核心训练'].map((plan, index) => (
+                    <div key={index} className="plan-card">
+                      <div className="plan-header">
+                        <h4>{plan}</h4>
+                        <span className="plan-duration">45分钟</span>
+                      </div>
+                      <div className="plan-exercises">
+                        <div className="exercise-item">
+                          <span className="exercise-name">动作1</span>
+                          <span className="exercise-sets">3组x12次</span>
+                        </div>
+                        <div className="exercise-item">
+                          <span className="exercise-name">动作2</span>
+                          <span className="exercise-sets">4组x10次</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="fitness-progress panel-card">
+                <h3>进度追踪</h3>
+                <div className="progress-charts">
+                  {/* 这里可以添加健身进度图表 */}
+                </div>
               </div>
             </div>
           </div>
         );
+      case 'reading':
+        return (
+          <div className="category-content">
+            <div className="reading-section">
+              <div className="current-reading panel-card">
+                <h3>当前阅读</h3>
+                <div className="reading-progress">
+                  <div className="book-info">
+                    <img src="book-cover-placeholder.jpg" alt="书籍封面" className="book-cover" />
+                    <div className="book-details">
+                      <h4>深入理解计算机系统</h4>
+                      <div className="progress-bar">
+                        <div className="progress" style={{ width: '65%' }}></div>
+                      </div>
+                      <span className="progress-text">已读65%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
+              <div className="reading-stats panel-card">
+                <h3>阅读统计</h3>
+                <div className="stats-grid">
+                  <div className="stat-item">
+                    <span className="stat-icon">📚</span>
+                    <span className="stat-value">24</span>
+                    <span className="stat-label">本月已读页数</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-icon">⏱️</span>
+                    <span className="stat-value">12.5</span>
+                    <span className="stat-label">阅读时长(小时)</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-icon">📖</span>
+                    <span className="stat-value">3</span>
+                    <span className="stat-label">在读书籍</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="reading-list panel-card">
+                <h3>书架</h3>
+                <div className="books-grid">
+                  {['技术', '文学', '经管', '科普'].map((category, index) => (
+                    <div key={index} className="book-category">
+                      <h4>{category}</h4>
+                      <div className="book-items">
+                        {[1, 2, 3].map((book, bookIndex) => (
+                          <div key={bookIndex} className="book-item">
+                            <div className="book-cover"></div>
+                            <div className="book-info">
+                              <h5>书名示例{bookIndex + 1}</h5>
+                              <span className="book-author">作者名</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       case 'movie':
         return (
           <div className="category-content movie-content">
@@ -748,55 +866,6 @@ const InterestSpace = () => {
             </div>
           </div>
         );
-
-      case 'sports':
-        return (
-          <div className="category-content">
-            <div className="sports-section">
-              <h3>运动记录</h3>
-              <div className="workout-tracker">
-                {/* 运动数据统计 */}
-              </div>
-              <h3>训练计划</h3>
-              <div className="workout-plans">
-                {/* 训练计划列表 */}
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'gaming':
-        return (
-          <div className="category-content">
-            <div className="gaming-section">
-              <h3>游戏库</h3>
-              <div className="game-library">
-                {/* 游戏收藏列表 */}
-              </div>
-              <h3>游戏成就</h3>
-              <div className="achievements">
-                {/* 游戏成就展示 */}
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'food':
-        return (
-          <div className="category-content">
-            <div className="food-section">
-              <h3>美食地图</h3>
-              <div className="food-map">
-                {/* 美食探店记录 */}
-              </div>
-              <h3>私房菜谱</h3>
-              <div className="recipes">
-                {/* 收藏的菜谱 */}
-              </div>
-            </div>
-          </div>
-        );
-
       case 'travel':
         return (
           <div className="category-content">
@@ -812,7 +881,6 @@ const InterestSpace = () => {
             </div>
           </div>
         );
-
       default:
         return null;
     }
