@@ -1,0 +1,162 @@
+/* 阅读模块样式 */
+.reading-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* 统计卡片样式 */
+.reading-stats {
+  padding: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--neon-blue);
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 当前阅读样式 */
+.current-reading {
+  padding: 24px;
+}
+
+.book-info {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.book-cover {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+}
+
+.book-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: var(--neon-blue);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 书架样式 */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.book-category h4 {
+  margin-bottom: 16px;
+  color: var(--neon-blue);
+}
+
+.book-items {
+  display: grid;
+  gap: 16px;
+}
+
+.book-item {
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.book-item:hover {
+  transform: translateX(5px);
+  background: rgba(255,255,255,0.1);
+}
+
+.book-item .book-cover {
+  width: 60px;
+  height: 90px;
+  border-radius: 6px;
+}
+
+.book-item .book-info {
+  flex: 1;
+}
+
+.book-item h5 {
+  margin: 0 0 8px;
+}
+
+.book-author {
+  font-size: 14px;
+  color: #666;
+}
+
+.add-book-btn {
+  padding: 6px 16px;
+  border: 1px dashed var(--neon-blue);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--neon-blue);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-book-btn:hover {
+  background: var(--neon-blue);
+  color: white;
+} 

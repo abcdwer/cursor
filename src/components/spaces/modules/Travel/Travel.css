@@ -1,0 +1,122 @@
+/* 旅行模块样式 */
+.travel-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* 统计卡片样式 */
+.travel-stats {
+  padding: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--neon-blue);
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 最近旅行样式 */
+.travels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.trip-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.05);
+  transition: transform 0.3s ease;
+}
+
+.trip-card:hover {
+  transform: translateY(-5px);
+}
+
+.trip-cover {
+  height: 200px;
+  background: linear-gradient(45deg, #1a1a1a, #333);
+}
+
+.trip-info {
+  padding: 16px;
+}
+
+.trip-meta {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 地图样式 */
+.map-container {
+  height: 400px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.map-placeholder {
+  text-align: center;
+  color: #666;
+}
+
+.map-placeholder p {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.add-travel-btn {
+  padding: 6px 16px;
+  border: 1px dashed var(--neon-blue);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--neon-blue);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-travel-btn:hover {
+  background: var(--neon-blue);
+  color: white;
+} 
