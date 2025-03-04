@@ -18,6 +18,45 @@ class EmbyService {
       }
     });
     
+    // 定义分类查询参数
+    this.categoryQueries = {
+      portrait: {
+        searchQuery: {
+          SearchTerm: 'person OR face OR portrait OR people',
+          ImageTypes: 'Primary',
+          Filters: 'HasFace',
+          MinWidth: 600,
+          SortBy: 'DateCreated',
+          SortOrder: 'Descending'
+        }
+      },
+      landscape: {
+        searchQuery: {
+          SearchTerm: 'landscape OR nature OR scenery OR outdoor',
+          ImageTypes: 'Primary',
+          MinWidth: 1200,
+          MinHeight: 800,
+          SortBy: 'DateCreated',
+          SortOrder: 'Descending'
+        }
+      },
+      life: {
+        searchQuery: {
+          SearchTerm: 'life OR daily OR event OR activity',
+          ExcludeSearchTerm: 'landscape nature portrait',
+          ImageTypes: 'Primary',
+          SortBy: 'DateCreated',
+          SortOrder: 'Descending'
+        }
+      },
+      all: {
+        searchQuery: {
+          SortBy: 'DateCreated',
+          SortOrder: 'Descending'
+        }
+      }
+    };
+    
     // 为每个分类维护独立的照片列表
     this.categoryPhotos = {
       all: [],
@@ -54,15 +93,60 @@ class EmbyService {
     }
   }
 
-  async getPhotos(category = 'all') {
+  async getPhotos(category = 'all', page = 1, limit = 20, options = {}) {
     try {
-      const response = await this.fetchPhotos(category);
-      return response;
-    } catch (error) {
-      if (error.response?.status === 401) {
-        await this.refreshToken();
-        return this.getPhotos(category);
+      const startIndex = (page - 1) * limit;
+      const { sortOrder = 'desc' } = options;
+
+      const queryParams = {
+        IncludeItemTypes: 'Photo',
+        Recursive: true,
+        Fields: 'PrimaryImageAspectRatio,Overview,DateCreated,Width,Height',
+        api_key: API_KEY,
+        ImageTypeLimit: 1,
+        EnableImageTypes: 'Primary',
+        Limit: limit,
+        StartIndex: startIndex,
+        SortBy: 'DateCreated',
+        SortOrder: sortOrder === 'desc' ? 'Descending' : 'Ascending'
+      };
+
+      if (category !== 'all') {
+        // 添加分类特定的查询参数
+        Object.assign(queryParams, this.categoryQueries[category]?.searchQuery || {});
       }
+
+      const response = await this.client.get('/Items', { params: queryParams });
+
+      // 检查是否有更多照片
+      const totalCount = response.data.TotalRecordCount;
+      const hasMore = (startIndex + limit) < totalCount;
+      console.log(`Loaded photos ${startIndex + 1}-${startIndex + limit} of ${totalCount}`);
+
+      if (!response?.data?.Items?.length) {
+        console.warn(`No photos found for category: ${category}`);
+        return { photos: [], totalCount: 0, hasMore: false };
+      }
+
+      const photos = response.data.Items.map(photo => ({
+        id: photo.Id,
+        title: photo.Name,
+        description: photo.Overview || '',
+        date: new Date(photo.DateCreated).toLocaleDateString(),
+        url: `${EMBY_BASE_URL}/emby/Items/${photo.Id}/Images/Primary?quality=90&api_key=${API_KEY}`,
+        thumbnail: `${EMBY_BASE_URL}/emby/Items/${photo.Id}/Images/Primary?quality=80&fillWidth=400&fillHeight=300&api_key=${API_KEY}`,
+        aspectRatio: photo.PrimaryImageAspectRatio || 1.5
+      }));
+
+      return {
+        photos,
+        totalCount,
+        hasMore,
+        currentPage: page,
+        totalPages: Math.ceil(totalCount / limit)
+      };
+    } catch (error) {
+      console.error(`Error fetching photos for category ${category}:`, error);
       throw error;
     }
   }
@@ -248,4 +332,33 @@ class EmbyService {
   }
 }
 
-export const embyService = new EmbyService(); 
+export const embyService = new EmbyService();
+
+export const getPhotos = async (category = 'all', page = 1, limit = 20) => {
+  try {
+    const startIndex = (page - 1) * limit;
+    const response = await fetch(
+      `${EMBY_BASE_URL}/Items?api_key=${API_KEY}&IncludeItemTypes=Photo&Recursive=true&Fields=PrimaryImageAspectRatio&StartIndex=${startIndex}&Limit=${limit}`
+    );
+    
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    
+    return {
+      photos: data.Items.map(item => ({
+        id: item.Id,
+        title: item.Name,
+        url: `${EMBY_BASE_URL}/Items/${item.Id}/Images/Primary?api_key=${API_KEY}`,
+        thumbnail: `${EMBY_BASE_URL}/Items/${item.Id}/Images/Primary?api_key=${API_KEY}&width=400`,
+        date: new Date(item.DateCreated).toLocaleDateString(),
+        description: item.Overview || '',
+        location: item.ProductionLocations?.[0] || ''
+      })),
+      totalCount: data.TotalRecordCount,
+      hasMore: (startIndex + limit) < data.TotalRecordCount
+    };
+  } catch (error) {
+    console.error('Error fetching photos:', error);
+    throw error;
+  }
+}; 
