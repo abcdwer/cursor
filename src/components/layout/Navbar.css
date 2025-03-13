@@ -1,61 +1,62 @@
 /* 导航栏容器 */
 .navbar {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  height: 48px;
   position: fixed;
+  width: 100%;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   z-index: 1000;
 }
 
 /* 导航内容容器 */
 .nav-container {
-  max-width: 1440px;
   height: 100%;
-  margin: 0 auto;
-  padding: 0 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 0 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  gap: 60px;
 }
 
-/* Logo 样式 */
+/* Logo 区域样式 */
 .nav-logo {
-  display: flex;
-  align-items: center;
+  flex: 0 0 160px;
 }
 
 .social-space-title {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 600;
   color: #333;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
-/* 导航菜单 */
+/* 导航菜单样式 */
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 8px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: 24px;
+  margin-left: 0;
+}
+
+.nav-menu li {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .nav-menu li a,
 .nav-menu li .logout-btn {
+  padding: 0 12px;
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: #666;
+  color: #333;
   text-decoration: none;
   font-size: 14px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .nav-menu li a i,

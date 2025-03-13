@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import './InterestSpace.css';
 import Photography from './modules/Photography/Photography';
-import Sports from './modules/Sports/Sports';
 import Food from './modules/Food/Food';
-import Fitness from './modules/Fitness/Fitness';
 import Travel from './modules/Travel/Travel';
 import Reading from './modules/Reading/Reading';
+import Music from './modules/Music/Music';
 import Gaming from './modules/Gaming/Gaming';
 import Movie from './modules/Movie/Movie';
 
@@ -14,11 +13,10 @@ const InterestSpace = () => {
 
   const categories = [
     { id: 'photography', name: '摄影', icon: '📸' },
-    { id: 'fitness', name: '健身', icon: '💪' },
-    { id: 'sports', name: '运动', icon: '⚽' },
     { id: 'food', name: '美食', icon: '🍜' },
     { id: 'travel', name: '旅行', icon: '✈️' },
     { id: 'reading', name: '阅读', icon: '📚' },
+    { id: 'music', name: '音乐', icon: '🎵' },
     { id: 'movie', name: '影视', icon: '🎬' },
     { id: 'gaming', name: '游戏', icon: '🎮' }
   ];
@@ -27,20 +25,18 @@ const InterestSpace = () => {
     switch (activeCategory) {
       case 'photography':
         return <Photography />;
-      case 'fitness':
-        return <Fitness />;
-      case 'sports':
-        return <Sports />;
       case 'food':
         return <Food />;
       case 'travel':
         return <Travel />;
       case 'reading':
         return <Reading />;
-      case 'gaming':
-        return <Gaming />;
+      case 'music':
+        return <Music />;
       case 'movie':
         return <Movie />;
+      case 'gaming':
+        return <Gaming />;
       default:
         return null;
     }
